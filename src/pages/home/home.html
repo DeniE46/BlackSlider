@@ -1,0 +1,42 @@
+
+<ion-header >
+  <ion-toolbar >
+    <ion-row>
+      <ion-col>
+      <ion-title>Slidle</ion-title>
+      
+      </ion-col>
+    </ion-row>
+    
+    
+   
+  </ion-toolbar>
+</ion-header>
+
+
+
+
+
+
+<ion-content class="parentbackground">
+
+
+
+<ion-list >
+  <ion-searchbar [(ngModel)]="searchTerm" [formControl]="searchControl" (ionInput)="onSearchInput()" ></ion-searchbar>
+   <div *ngIf="searching" class="spinner-container">
+     <ion-spinner></ion-spinner>
+    </div>
+
+  <ion-item item-center class="parentbackground" *ngFor="let presentation of presentations; let i = index" (click)="checkPosition(i)">
+    <img [attr.src]="presentation.image">
+	<ion-item no-lines no-padding class="parentbackground">
+    <h1 class="namecolor">{{presentation.name}}</h1>
+	<button ion-button color="slidlegreen" item-right (click)='openDetail()'>View</button>
+	<h2 class="authorcolor">{{presentation.author}}</h2>
+	<p class="slidescolor">{{presentation.slides}} Slides</p>
+	</ion-item>
+  </ion-item>
+  
+</ion-list>
+</ion-content>

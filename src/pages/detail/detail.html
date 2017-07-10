@@ -1,0 +1,45 @@
+<!--
+  Generated template for the DetailPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>detail</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content class="parentbackground">
+  <ion-slides loop="true" speed="150" pager>
+    <ion-slide *ngFor="let slide of slides">
+
+      <div *ngIf="isLandscape">
+        <img src="{{site}}{{slide.imageLink}}"/>
+        <h1 style="color:#3EEC90;" >{{slide.name}}</h1>
+      </div>
+      <div *ngIf="!isLandscape">
+        <img style="width:50%; height:85%; margin-top: 2px;" src="{{site}}{{slide.imageLink}}"/>
+        <h1 style="color:#3EEC90; height:10%; margin-bottom: 35px;" >{{slide.name}}</h1>
+      </div>
+      
+    </ion-slide>
+  </ion-slides>
+</ion-content>
+
+<ion-footer >
+  <ion-toolbar>
+
+  <div align="center">
+  <img src="img/tile_button.png" ion-button clear item-right (click)='openTiles()'/>
+  <img src="img/note_button.png" ion-button clear item-right (click)='openNotes($event)'/>
+  </div>
+
+  <!--Basic: auto-select the icon based on the platform -->
+  <!--<div align="right">
+   <ion-icon name="arrow-dropright-circle"></ion-icon>
+  </div>-->
+  </ion-toolbar>
+</ion-footer>
