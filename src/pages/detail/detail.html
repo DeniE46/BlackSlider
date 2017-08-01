@@ -8,13 +8,14 @@
 
   <ion-navbar>
     <ion-title>detail</ion-title>
+    <h1>{{arrTest?.name}}</h1>
   </ion-navbar>
 
 </ion-header>
 
 <ion-content class="parentbackground">
-  <ion-slides loop="true" speed="150" pager>
-    <ion-slide *ngFor="let slide of slides">
+  <ion-slides #mySlider loop="true" speed="150" pager (ionSlideDidChange)="slideChanged()">
+    <ion-slide *ngFor="let slide of slidesArr">
 
       <div *ngIf="isLandscape">
         <img src="{{site}}{{slide.imageLink}}"/>
@@ -29,9 +30,9 @@
   </ion-slides>
 </ion-content>
 
+<div *ngIf="isLandscape">
 <ion-footer >
   <ion-toolbar>
-
   <div align="center">
   <img src="img/tile_button.png" ion-button clear item-right (click)='openTiles()'/>
   <img src="img/note_button.png" ion-button clear item-right (click)='openNotes($event)'/>
@@ -43,3 +44,4 @@
   </div>-->
   </ion-toolbar>
 </ion-footer>
+</div>

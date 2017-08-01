@@ -15,9 +15,26 @@ import { HomePage } from '../home/home';
   templateUrl: 'work-spaces.html',
 })
 export class WorkSpacesPage {
+
+  presentationIdObj:any;
+
   workspaces:any;
   constructor(public navCtrl: NavController, public navParams: NavParams, public workspacesProvider:WorkSpacesProvider) {
-    this.workspaces = workspacesProvider.workspaces;
+    this.loadProjects();
+    
+  }
+
+  checkPosition(i){
+		console.log('position is ' + i);
+	}
+
+  loadProjects(){
+    this.workspacesProvider.load()
+    .then(data => {
+        this.workspaces = data;
+      
+    });
+     // this.loadInitialObject(this.Initial_Slide_Index);
   }
 
   ionViewDidLoad() {

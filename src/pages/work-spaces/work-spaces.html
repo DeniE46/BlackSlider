@@ -12,12 +12,12 @@
 
 </ion-header>
 
-
+<!--(click)="openHomePage()"-->
 <ion-content padding>
 <ion-list>
-  <ion-item *ngFor="let workspace of workspaces" (click)="openHomePage()">
-    <h2>{{workspace.account}}</h2>
-    <p>{{workspace.title}}</p>
+  <ion-item *ngFor="let workspace of workspaces; let i = index" (click)="checkPosition(i)" >
+    <h2>{{workspace.name}}</h2>
+    <p>{{workspace.id}}</p>
   </ion-item>
 
 </ion-list>

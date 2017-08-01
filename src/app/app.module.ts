@@ -10,9 +10,11 @@ import { DetailPage } from '../pages/detail/detail';
 import { TilesPage } from '../pages/tiles/tiles';
 import { NotesPage } from '../pages/notes/notes';
 import { WorkSpacesPage } from '../pages/work-spaces/work-spaces';
+import { LogInPage } from '../pages/log-in/log-in';
 import { DetailsProvider } from '../providers/details-service/details-service';
 import { SearchProvider } from '../providers/search/search';
 import { WorkSpacesProvider } from '../providers/work-spaces-service/work-spaces-service';
+import { LogInServiceProvider } from '../providers/log-in-service/log-in-service';
 
 @NgModule({
   declarations: [
@@ -22,7 +24,7 @@ import { WorkSpacesProvider } from '../providers/work-spaces-service/work-spaces
 	TilesPage,
 	NotesPage,
   WorkSpacesPage,
-  
+  LogInPage
   ],
   imports: [
     BrowserModule,
@@ -37,6 +39,7 @@ import { WorkSpacesProvider } from '../providers/work-spaces-service/work-spaces
 	TilesPage,
 	NotesPage,
   WorkSpacesPage,
+  LogInPage
   ],
   providers: [
     StatusBar,
@@ -44,7 +47,8 @@ import { WorkSpacesProvider } from '../providers/work-spaces-service/work-spaces
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     DetailsProvider,
     SearchProvider,
-    WorkSpacesProvider
+    WorkSpacesProvider,
+    LogInServiceProvider
   ]
 })
 export class AppModule {}

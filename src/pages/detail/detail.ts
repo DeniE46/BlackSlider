@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams, Platform } from 'ionic-angular';
 import { PopoverController } from 'ionic-angular';
 import { TilesPage } from '../tiles/tiles';
 import { NotesPage } from '../notes/notes';
 import { DetailsProvider } from'../../providers/details-service/details-service';
 import { Http } from '@angular/http';
+import { Slides } from 'ionic-angular';
 import 'rxjs/add/operator/map';
 
 /**
@@ -19,19 +20,26 @@ import 'rxjs/add/operator/map';
   templateUrl: 'detail.html',
   providers: [DetailsProvider]
 })
-export class DetailPage {
 
-  public slides:any;
+export class DetailPage {
+  
+  @ViewChild('mySlider') slider: Slides;
+  public slidesArr:any;
   public site:string;
   public isLandscape:any = true;
+  public test;
+  public arrTest:any;
+  private Initial_Slide_Index = 2;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public popoverCtrl: PopoverController, public detailsProvider:DetailsProvider, public http:Http, public platform:Platform) {
     this.loadDetails();
     this.site = "http://slidle.com";
- 
+    this.test = 0;
+    
+    
 
 window.addEventListener('orientationchange', () => {
-      console.info('DEVICE ORIENTATION CHANGED!');
+      //console.info('DEVICE ORIENTATION CHANGED!');
       
       switch (window.orientation) {
         case -90:
@@ -53,14 +61,17 @@ window.addEventListener('orientationchange', () => {
   loadDetails(){
     this.detailsProvider.load()
     .then(data => {
-        this.slides = data;
+        this.slidesArr = data;
         //deleting first element because it is null
-        this.slides.splice(0,1);
+        this.slidesArr.splice(0,1);
     });
+     // this.loadInitialObject(this.Initial_Slide_Index);
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad DetailPage');
+    
+ 
   }
 
    openTiles(){
@@ -74,6 +85,18 @@ window.addEventListener('orientationchange', () => {
    
 	}
 
+ slideChanged(){
+   let currentIndex = this.slider.getActiveIndex();
+    console.log('Current index is', currentIndex);
+    this.test = currentIndex;
+    
+    console.log(this.arrTest);
+    this.loadInitialObject(currentIndex);
+ }
+    
+ loadInitialObject(index:any){
+   this.arrTest = this.slidesArr[index];
+ }
  
   
 }
