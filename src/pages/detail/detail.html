@@ -8,14 +8,14 @@
 
   <ion-navbar>
     <ion-title>detail</ion-title>
-    <h1>{{arrTest?.name}}</h1>
+    <h1>{{slideName?.name}}</h1>
   </ion-navbar>
 
 </ion-header>
 
 <ion-content class="parentbackground">
   <ion-slides #mySlider loop="true" speed="150" pager (ionSlideDidChange)="slideChanged()">
-    <ion-slide *ngFor="let slide of slidesArr">
+    <ion-slide *ngFor="let slide of slides">
 
       <div *ngIf="isLandscape">
         <img src="{{site}}{{slide.imageLink}}"/>

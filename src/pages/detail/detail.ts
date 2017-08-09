@@ -24,21 +24,21 @@ import 'rxjs/add/operator/map';
 export class DetailPage {
   
   @ViewChild('mySlider') slider: Slides;
-  public slidesArr:any;
-  public site:string;
-  public isLandscape:any = true;
-  public test;
-  public arrTest:any;
-  private Initial_Slide_Index = 2;
+  site:string;
+  isLandscape:any = true;
+  currentPageName:String;
+
+  slideName:any; 
+
+  presentationId:any;
+  slides:any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public popoverCtrl: PopoverController, public detailsProvider:DetailsProvider, public http:Http, public platform:Platform) {
+    this.currentPageName = "[detail.ts]";
     this.loadDetails();
     this.site = "http://slidle.com";
-    this.test = 0;
-    
-    
-
-window.addEventListener('orientationchange', () => {
+     
+    window.addEventListener('orientationchange', () => {
       //console.info('DEVICE ORIENTATION CHANGED!');
       
       switch (window.orientation) {
@@ -54,24 +54,21 @@ window.addEventListener('orientationchange', () => {
              break;
       }      
     });
-
-
   }
 
   loadDetails(){
-    this.detailsProvider.load()
+    console.log(this.currentPageName + "received from [home.ts]: " + this.navParams.get('id'));
+		this.presentationId = this.navParams.get('id');
+    this.detailsProvider.load(this.presentationId)
     .then(data => {
-        this.slidesArr = data;
+        this.slides = data;
         //deleting first element because it is null
-        this.slidesArr.splice(0,1);
+        this.slides.splice(0,1);
     });
-     // this.loadInitialObject(this.Initial_Slide_Index);
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad DetailPage');
-    
- 
   }
 
    openTiles(){
@@ -87,17 +84,16 @@ window.addEventListener('orientationchange', () => {
 
  slideChanged(){
    let currentIndex = this.slider.getActiveIndex();
-    console.log('Current index is', currentIndex);
-    this.test = currentIndex;
-    
-    console.log(this.arrTest);
-    this.loadInitialObject(currentIndex);
+    console.log(this.currentPageName + "Current index is: " + currentIndex);
+    this.slideName = this.slides[currentIndex];
+    console.log(this.slideName);
  }
     
- loadInitialObject(index:any){
-   this.arrTest = this.slidesArr[index];
- }
  
+
+ ionViewWillLeave() {
+    //this.slidesArr = this.slidesArr.splice();
+  }
   
 }
 

@@ -16,6 +16,7 @@ import { SearchProvider } from '../providers/search/search';
 import { WorkSpacesProvider } from '../providers/work-spaces-service/work-spaces-service';
 import { LogInServiceProvider } from '../providers/log-in-service/log-in-service';
 
+
 @NgModule({
   declarations: [
     MyApp,
@@ -41,7 +42,7 @@ import { LogInServiceProvider } from '../providers/log-in-service/log-in-service
   WorkSpacesPage,
   LogInPage
   ],
-  providers: [
+  providers: [ 
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},

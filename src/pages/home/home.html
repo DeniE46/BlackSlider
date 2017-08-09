@@ -24,11 +24,11 @@
      <ion-spinner></ion-spinner>
     </div>
 
-  <ion-item item-center class="parentbackground" *ngFor="let presentation of presentations; let i = index" (click)="checkPosition(i)">
-    <img [attr.src]="presentation.image">
+  <ion-item item-center class="parentbackground" *ngFor="let presentation of presentations; let i = index" (click)="getPosition(i)">
+    <img src="{{site}}{{presentation.thumbnail}}"/>
 	<ion-item no-lines no-padding class="parentbackground">
-    <h1 class="namecolor">{{presentation.name}}</h1>
-	<button ion-button color="slidlegreen" item-right (click)='openDetail()'>View</button>
+    <h1 class="namecolor">{{presentation.title}}</h1>
+	<button ion-button color="slidlegreen" item-right>View</button>
 	<h2 class="authorcolor">{{presentation.author}}</h2>
 	<p class="slidescolor">{{presentation.slides}} Slides</p>
 	</ion-item>

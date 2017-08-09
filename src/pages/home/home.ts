@@ -1,9 +1,10 @@
 import { Component} from '@angular/core';
-import { NavController, Platform  } from 'ionic-angular';
+import { NavController, Platform, NavParams  } from 'ionic-angular';
 import { DetailPage } from '../detail/detail';
 import { FormControl } from '@angular/forms';
 import 'rxjs/add/operator/debounceTime';
 import { SearchProvider } from '../../providers/search/search';
+import { Http } from '@angular/http';
 
 
 @Component({
@@ -13,21 +14,31 @@ import { SearchProvider } from '../../providers/search/search';
 export class HomePage { 
 	searchTerm:string = '';
 	searchControl:FormControl;
-	presentations: any;
 	searching:any = false; 
-	
+	site:string;
+	currentPageName:String;
 
+	presentations: any;
+	workspaceId:any; 
+	slidesId:any;
 
-  constructor(public navCtrl: NavController, public searchProvider:SearchProvider, private platform: Platform) {
+  constructor(public navCtrl: NavController, public searchProvider:SearchProvider, private platform: Platform, private http:Http, private navParams:NavParams) {
+		this.site = "http://slidle.com";
+		this.currentPageName = "[home.ts]";
 		this.searchControl = new FormControl();
 	}
 	
-	checkPosition(i){
-		console.log('position is ' + i);
+	getPosition(i){
+		console.log(this.currentPageName + "position is: " + i);
+		this.slidesId = this.presentations[i];
+		console.log(this.currentPageName + "id passed to [details.ts]: " + this.slidesId.id);
+		this.openDetail();
 	}
 
 
 	ionViewDidLoad(){
+		console.log(this.currentPageName + "received from [work-spaces.ts]: " + this.navParams.get('id'));
+		this.workspaceId = this.navParams.get('id');
 		this.setFilteredItems();
 		this.searchControl.valueChanges.debounceTime(700).subscribe(search => {
 			this.searching = false;
@@ -36,7 +47,7 @@ export class HomePage {
 	}
 
 	setFilteredItems(){
-		this.presentations = this.searchProvider.filterWorkSpaces(this.searchTerm);
+		this.filterWorkSpaces(this.searchTerm);
 	}
 
 	onSearchInput(){
@@ -44,8 +55,29 @@ export class HomePage {
 	}
 
 	openDetail(){
-	  this.navCtrl.push(DetailPage);
+		let data = {id:this.slidesId.id};
+		console.log(this.slidesId.id);
+	  	this.navCtrl.push(DetailPage, data);
+    }
+
+
+	filterWorkSpaces(searchTerm){
+    this.http.get('http://slidle.com/content/getpages/' + this.workspaceId)
+      .map(res => res.json())
+      .subscribe(data => {
+        this.presentations = data;
+        console.log(this.currentPageName + "received presentations: " + this.presentations);
+   		this.presentations = this.presentations.filter((presentation) => {
+      return presentation.title.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1;
+    });
+
+ }); 
+
   }
+
+
+  
+
   }
   
   

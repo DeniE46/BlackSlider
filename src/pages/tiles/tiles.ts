@@ -23,11 +23,11 @@ public tiles:any;
 public site:string;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public detailsProvider:DetailsProvider, public http:Http) {
-    this.loadDetails();
+    //this.loadDetails();
     this.site = "http://slidle.com";
   }
 
-   loadDetails(){
+   /*loadDetails(){
     this.detailsProvider.load()
     .then(data => {
         this.tiles = data;
@@ -35,7 +35,7 @@ public site:string;
         this.tiles.splice(0,1);
     });
   }
-
+*/
   ionViewDidLoad() {
     console.log('ionViewDidLoad TilesPage');
   }
