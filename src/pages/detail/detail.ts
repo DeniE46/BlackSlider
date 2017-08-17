@@ -5,6 +5,7 @@ import { TilesPage } from '../tiles/tiles';
 import { NotesPage } from '../notes/notes';
 import { DetailsProvider } from'../../providers/details-service/details-service';
 import { Http } from '@angular/http';
+import { Events } from 'ionic-angular';
 import { Slides } from 'ionic-angular';
 import 'rxjs/add/operator/map';
 
@@ -28,14 +29,30 @@ export class DetailPage {
   isLandscape:any = true;
   currentPageName:String;
 
+
   slideName:any; 
 
   presentationId:any;
+  presentationTitle:any;
   slides:any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public popoverCtrl: PopoverController, public detailsProvider:DetailsProvider, public http:Http, public platform:Platform) {
+  singleTileSlide:any;
+  test:any;
+  rows:any;
+  
+
+  constructor(public navCtrl: NavController, public navParams: NavParams, public popoverCtrl: PopoverController, public detailsProvider:DetailsProvider, public http:Http, public platform:Platform, public events:Events) {
     this.currentPageName = "[detail.ts]";
     this.loadDetails();
+    
+    events.subscribe('tileID:set', (i) => {
+    // user and time are the same arguments passed in `events.publish(user, time)`
+    console.log(this.currentPageName + "got " + i + " as an index");
+    this.test=i;
+    this.goToSlide(i); 
+
+    });
+    
     this.site = "http://slidle.com";
      
     window.addEventListener('orientationchange', () => {
@@ -58,29 +75,28 @@ export class DetailPage {
 
   loadDetails(){
     console.log(this.currentPageName + "received from [home.ts]: " + this.navParams.get('id'));
-		this.presentationId = this.navParams.get('id');
+    this.presentationId = this.navParams.get('id');
+    this.presentationTitle = this.navParams.get('title');
     this.detailsProvider.load(this.presentationId)
     .then(data => {
         this.slides = data;
-        //deleting first element because it is null
+        this.rows = Array.from(Array(Math.ceil(data.length / 3)).keys());
+        // deleting first element because it is null
         this.slides.splice(0,1);
     });
   }
+
+  
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad DetailPage');
   }
 
    openTiles(){
-	  this.navCtrl.push(TilesPage);
+     let data = {tiles:this.slides, rows:this.rows} 
+	  this.navCtrl.push(TilesPage, data);
   }
 
-//passing argument to display the popover near the button that called it
-	openNotes(myEvent){
-		 let popover = this.popoverCtrl.create(NotesPage);
-    popover.present({ev:myEvent});
-   
-	}
 
  slideChanged(){
    let currentIndex = this.slider.getActiveIndex();
@@ -89,11 +105,11 @@ export class DetailPage {
     console.log(this.slideName);
  }
     
- 
-
- ionViewWillLeave() {
-    //this.slidesArr = this.slidesArr.splice();
+ goToSlide(i) { 
+    this.slider.slideTo(i, 500);  
   }
+
+ ionViewWillLeave() {}
   
 }
 

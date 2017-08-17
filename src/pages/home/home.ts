@@ -6,6 +6,7 @@ import 'rxjs/add/operator/debounceTime';
 import { SearchProvider } from '../../providers/search/search';
 import { Http } from '@angular/http';
 
+//example 
 
 @Component({
   selector: 'page-home',
@@ -20,7 +21,7 @@ export class HomePage {
 
 	presentations: any;
 	workspaceId:any; 
-	slidesId:any;
+	slidesObj:any;
 
   constructor(public navCtrl: NavController, public searchProvider:SearchProvider, private platform: Platform, private http:Http, private navParams:NavParams) {
 		this.site = "http://slidle.com";
@@ -30,13 +31,13 @@ export class HomePage {
 	
 	getPosition(i){
 		console.log(this.currentPageName + "position is: " + i);
-		this.slidesId = this.presentations[i];
-		console.log(this.currentPageName + "id passed to [details.ts]: " + this.slidesId.id);
+		this.slidesObj = this.presentations[i];
+		console.log(this.currentPageName + "id passed to [details.ts]: " + this.slidesObj.id);
 		this.openDetail();
 	}
 
 
-	ionViewDidLoad(){
+	ionViewDidLoad(){ 
 		console.log(this.currentPageName + "received from [work-spaces.ts]: " + this.navParams.get('id'));
 		this.workspaceId = this.navParams.get('id');
 		this.setFilteredItems();
@@ -55,8 +56,8 @@ export class HomePage {
 	}
 
 	openDetail(){
-		let data = {id:this.slidesId.id};
-		console.log(this.slidesId.id);
+		let data = {id:this.slidesObj.id, title:this.slidesObj.title};
+		console.log(this.slidesObj.id);
 	  	this.navCtrl.push(DetailPage, data);
     }
 

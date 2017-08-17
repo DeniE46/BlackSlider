@@ -15,11 +15,12 @@ import { DetailsProvider } from '../providers/details-service/details-service';
 import { SearchProvider } from '../providers/search/search';
 import { WorkSpacesProvider } from '../providers/work-spaces-service/work-spaces-service';
 import { LogInServiceProvider } from '../providers/log-in-service/log-in-service';
+import { Storage } from '@ionic/storage';
 
 
 @NgModule({
   declarations: [
-    MyApp,
+    MyApp, 
     HomePage,
 	DetailPage,
 	TilesPage,
@@ -49,7 +50,7 @@ import { LogInServiceProvider } from '../providers/log-in-service/log-in-service
     DetailsProvider,
     SearchProvider,
     WorkSpacesProvider,
-    LogInServiceProvider
+    LogInServiceProvider,
   ]
 })
 export class AppModule {}

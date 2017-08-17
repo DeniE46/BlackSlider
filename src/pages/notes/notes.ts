@@ -25,6 +25,10 @@ export class NotesPage {
     console.log('ionViewDidLoad NotesPage');
   }
 
+  closePopup(){
+    this.navCtrl.pop();
+  }
+
   
 
 }
