@@ -2,11 +2,11 @@ import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams, Platform } from 'ionic-angular';
 import { PopoverController } from 'ionic-angular';
 import { TilesPage } from '../tiles/tiles';
-import { NotesPage } from '../notes/notes';
 import { DetailsProvider } from'../../providers/details-service/details-service';
 import { Http } from '@angular/http';
 import { Events } from 'ionic-angular';
 import { Slides } from 'ionic-angular';
+import { AuthorPage } from '../author/author';
 import 'rxjs/add/operator/map';
 
 /**
@@ -25,10 +25,9 @@ import 'rxjs/add/operator/map';
 export class DetailPage {
   
   @ViewChild('mySlider') slider: Slides;
-  site:string;
+  site:string; 
   isLandscape:any = true;
   currentPageName:String;
-
 
   slideName:any; 
 
@@ -39,14 +38,13 @@ export class DetailPage {
   singleTileSlide:any;
   test:any;
   rows:any;
-  
+  workspaceId:any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public popoverCtrl: PopoverController, public detailsProvider:DetailsProvider, public http:Http, public platform:Platform, public events:Events) {
     this.currentPageName = "[detail.ts]";
     this.loadDetails();
     
     events.subscribe('tileID:set', (i) => {
-    // user and time are the same arguments passed in `events.publish(user, time)`
     console.log(this.currentPageName + "got " + i + " as an index");
     this.test=i;
     this.goToSlide(i); 
@@ -77,10 +75,11 @@ export class DetailPage {
     console.log(this.currentPageName + "received from [home.ts]: " + this.navParams.get('id'));
     this.presentationId = this.navParams.get('id');
     this.presentationTitle = this.navParams.get('title');
+    this.workspaceId = this.navParams.get('workspaceId');
     this.detailsProvider.load(this.presentationId)
     .then(data => {
         this.slides = data;
-        this.rows = Array.from(Array(Math.ceil(data.length / 3)).keys());
+        this.rows = Array.from(Array(Math.ceil(data.length / 2)).keys());
         // deleting first element because it is null
         this.slides.splice(0,1);
     });
@@ -105,8 +104,17 @@ export class DetailPage {
     console.log(this.slideName);
  }
     
+ return(){
+   this.navCtrl.pop();
+ }
+
  goToSlide(i) { 
     this.slider.slideTo(i, 500);  
+  }
+
+  openAuthor(){
+    //let data = {workspaceId: this.workspaceId};
+    this.navCtrl.push(AuthorPage);
   }
 
  ionViewWillLeave() {}

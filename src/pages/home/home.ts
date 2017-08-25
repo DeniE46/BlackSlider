@@ -3,8 +3,11 @@ import { NavController, Platform, NavParams  } from 'ionic-angular';
 import { DetailPage } from '../detail/detail';
 import { FormControl } from '@angular/forms';
 import 'rxjs/add/operator/debounceTime';
-import { SearchProvider } from '../../providers/search/search';
 import { Http } from '@angular/http';
+import { Events } from 'ionic-angular';
+import { WorkspaceIdProvider } from '../../providers/workspace-id/workspace-id';
+import { WorkSpacesProvider } from '../../providers/work-spaces-service/work-spaces-service';
+
 
 //example 
 
@@ -13,20 +16,28 @@ import { Http } from '@angular/http';
   templateUrl: 'home.html'
 })
 export class HomePage { 
-	searchTerm:string = '';
+	searchTerm:string;
 	searchControl:FormControl;
 	searching:any = false; 
 	site:string;
 	currentPageName:String;
-
+ 
 	presentations: any;
 	workspaceId:any; 
-	slidesObj:any;
+	slidesObj:any; 
+	workspaces:any;
+	tempArray:any;
+	
 
-  constructor(public navCtrl: NavController, public searchProvider:SearchProvider, private platform: Platform, private http:Http, private navParams:NavParams) {
+  constructor(public navCtrl: NavController, private platform: Platform, private http:Http, private navParams:NavParams, public events:Events, public workspaceIdProvider:WorkspaceIdProvider, public workspacesProvider:WorkSpacesProvider) {
+		this.searchTerm = '';
 		this.site = "http://slidle.com";
 		this.currentPageName = "[home.ts]";
 		this.searchControl = new FormControl();
+		//this.loadWorkspaces();
+		this.tempArray = [];
+		this.presentations = [];
+
 	}
 	
 	getPosition(i){
@@ -40,6 +51,7 @@ export class HomePage {
 	ionViewDidLoad(){ 
 		console.log(this.currentPageName + "received from [work-spaces.ts]: " + this.navParams.get('id'));
 		this.workspaceId = this.navParams.get('id');
+		this.workspaceIdProvider.setWorkspaceId(this.navParams.get('id'));
 		this.setFilteredItems();
 		this.searchControl.valueChanges.debounceTime(700).subscribe(search => {
 			this.searching = false;
@@ -48,7 +60,7 @@ export class HomePage {
 	}
 
 	setFilteredItems(){
-		this.filterWorkSpaces(this.searchTerm);
+		this.filterPresentations(this.searchTerm);
 	}
 
 	onSearchInput(){
@@ -56,25 +68,42 @@ export class HomePage {
 	}
 
 	openDetail(){
-		let data = {id:this.slidesObj.id, title:this.slidesObj.title};
-		console.log(this.slidesObj.id);
+		let data = {id:this.slidesObj.id, title:this.slidesObj.title, workspaceId:this.workspaceId};
+		console.log("id passed to Detail page: " + this.workspaceId);
 	  	this.navCtrl.push(DetailPage, data);
     }
+	  
+	filterPresentations(searchTerm){
+		this.workspacesProvider.load()
+    	.then(data => {
+			this.workspaces = data;
+			for (let i of this.workspaces) {
+				if(i.name != null){
+    				this.http.get('http://slidle.com/content/getpages/' + i.id)
+     				 .map(res => res.json())
+     				 .subscribe(data => {
+							this.tempArray = data;	  
+							for(let j of this.tempArray){
+								if(j.title != null){
+									this.presentations.push(j);
+								}
+							}
+							this.presentations = this.presentations.filter((presentation) => {
+							 			return presentation.title.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1;
+							});	
+							console.log("testArray:");
+							console.log(this.tempArray);
+							console.log("presentations:");
+							console.log(this.presentations);
+							this.tempArray = [];
+					 }); 
+				}	
+					else {console.log("it was null")}
 
-
-	filterWorkSpaces(searchTerm){
-    this.http.get('http://slidle.com/content/getpages/' + this.workspaceId)
-      .map(res => res.json())
-      .subscribe(data => {
-        this.presentations = data;
-        console.log(this.currentPageName + "received presentations: " + this.presentations);
-   		this.presentations = this.presentations.filter((presentation) => {
-      return presentation.title.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1;
-    });
-
- }); 
-
-  }
+			}
+		
+    	});
+  	}
 
 
   

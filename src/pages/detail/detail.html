@@ -6,30 +6,46 @@
 -->
 <ion-header>
 
-  <ion-navbar>
+  <ion-navbar hideBackButton>
+
+<button style="padding-right: 0.5em; background-color:#3EEC90;" item-right clear (click)='openAuthor()'>
     <ion-title>{{presentationTitle}}</ion-title>
+</button>
+
     <h6>{{slideName?.name}}</h6> 
+    <ion-buttons end>
+      <button style="padding-right: 0.5em; background-color:#3EEC90;" item-right clear (click)='return()'>
+<ion-icon name="close" style="font-size:40px; color:white;"></ion-icon>
+</button>
+</ion-buttons>
   </ion-navbar>
 
    
 </ion-header>  
 
+
 <ion-content class="parentbackground">
-  <ion-slides #mySlider loop="true" speed="150" pager (ionSlideDidChange)="slideChanged()">
+  <div class="row" style="padding-top:1.5em">
+  <ion-slides  #mySlider loop="true" speed="150" pager (ionSlideDidChange)="slideChanged()">
     <ion-slide *ngFor="let slide of slides">
 
       <div *ngIf="isLandscape">
+         
         <img src="{{site}}{{slide.imageLink}}"/> 
+         
+
         <h1 style="color:#3EEC90;" >{{slide.name}}</h1>
         <h5 style="color:#3EEC90; height:10%; margin-bottom: 35px;" >{{slide.text}}</h5>
+         
       </div>
       <div *ngIf="!isLandscape">
-        <img style="width:50%; height:85%; margin-top: 2px;" src="{{site}}{{slide.imageLink}}"/>
+        <img  style="width:50%; height:85%; margin-top: 2px;" src="{{site}}{{slide.imageLink}}"/>
         <h1 style="color:#3EEC90; height:10%; margin-bottom: 35px;" >{{slide.name}}</h1>
       </div> 
       
     </ion-slide>
   </ion-slides>
+  </div>
 </ion-content>
 
 <div *ngIf="isLandscape">

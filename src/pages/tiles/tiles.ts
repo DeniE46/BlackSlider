@@ -46,15 +46,12 @@ indexPos:any;
     console.log('ionViewDidLoad TilesPage');
   }
 
-  openDetails(){
-    let data = {tiles:this.tiles, id:this.tileId, caller:this.calledFromTiles}
-    
-  }
+
 
   calculatePos(i, j){
     console.log("col: " + i + "row:" + j);
     //this.indexPos = (j*3+i)+1;
-    this.indexPos = j*3+i;
+    this.indexPos = j*2+i;
     console.log("position is:" + this.indexPos);
     this.events.publish('tileID:set', this.indexPos);
     this.navCtrl.pop();

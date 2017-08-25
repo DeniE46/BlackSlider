@@ -9,9 +9,11 @@ import { LogInPage } from '../pages/log-in/log-in';
 import { WorkSpacesPage } from '../pages/work-spaces/work-spaces';
 import { LogInServiceProvider } from '../providers/log-in-service/log-in-service';
 import { LoadingController } from 'ionic-angular';
+import { WorkspaceIdProvider } from '../providers/workspace-id/workspace-id';
 
 @Component({
-  templateUrl: 'app.html'
+  templateUrl: 'app.html',
+  providers: [WorkspaceIdProvider]
 })
 export class MyApp {
   rootPage:any = WorkSpacesPage;

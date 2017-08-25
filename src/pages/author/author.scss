@@ -1,0 +1,13 @@
+page-author {
+   .home-container {
+         display: -webkit-flex;
+         -webkit-flex-direction: column;
+         height: 17%;
+    }
+    .home-container > .row {
+         -webkit-flex: 1;
+    }
+    .parentbackground{
+   background: #808080;
+ }
+}
