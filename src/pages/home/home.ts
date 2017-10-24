@@ -60,7 +60,7 @@ export class HomePage {
 	}
 
 	setFilteredItems(){
-		this.filterPresentations(this.searchTerm);
+		this.filterPerUserPresentations(this.searchTerm);
 	}
 
 	onSearchInput(){
@@ -73,7 +73,7 @@ export class HomePage {
 	  	this.navCtrl.push(DetailPage, data);
     }
 	  
-	filterPresentations(searchTerm){
+	/*filterPresentations(searchTerm){
 		this.workspacesProvider.load()
     	.then(data => {
 			this.workspaces = data;
@@ -103,8 +103,28 @@ export class HomePage {
 			}
 		
     	});
-  	}
+  	}*/
 
+	filterPerUserPresentations(searchTerm){
+			this.http.get('http://slidle.com/content/getpages/' + this.workspaceId)
+     				 .map(res => res.json())
+     				 .subscribe(data => {
+							this.tempArray = data;	  
+							for(let j of this.tempArray){
+								if(j.title != null){
+									this.presentations.push(j);
+								}
+							}
+							this.presentations = this.presentations.filter((presentation) => {
+							 			return presentation.title.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1;
+							});	
+							console.log("testArray:");
+							console.log(this.tempArray);
+							console.log("presentations:");
+							console.log(this.presentations);
+							this.tempArray = [];
+					 }); 
+	}
 
   
 

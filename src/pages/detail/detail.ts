@@ -31,10 +31,13 @@ export class DetailPage {
 
   slideName:any; 
 
+  //details
   presentationId:any;
   presentationTitle:any;
   slides:any;
+  childrenSlides:any;
 
+  //tiles
   singleTileSlide:any;
   test:any;
   rows:any;
@@ -42,6 +45,8 @@ export class DetailPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public popoverCtrl: PopoverController, public detailsProvider:DetailsProvider, public http:Http, public platform:Platform, public events:Events) {
     this.currentPageName = "[detail.ts]";
+    this.slides = [];
+    this.childrenSlides = [];
     this.loadDetails();
     
     events.subscribe('tileID:set', (i) => {
@@ -76,13 +81,33 @@ export class DetailPage {
     this.presentationId = this.navParams.get('id');
     this.presentationTitle = this.navParams.get('title');
     this.workspaceId = this.navParams.get('workspaceId');
+    //loading data
     this.detailsProvider.load(this.presentationId)
     .then(data => {
-        this.slides = data;
+        
+        for(let i of data){
+         if(i.type == "scene"){
+            this.slides.push(i);
+            this.childrenSlides = i.children;
+            //if(i.children != null/empty)
+            for(let j of this.childrenSlides){
+              if(j.type == "scene"){
+                this.slides.push(j);
+              }
+            }
+          }
+        }
+        
         this.rows = Array.from(Array(Math.ceil(data.length / 2)).keys());
         // deleting first element because it is null
-        this.slides.splice(0,1);
+        //this.slides.splice(0,1);
+        console.log("data in presentation:");
+        console.log(this.slides);
+        console.log("data in children:");
+        console.log(this.childrenSlides);
     });
+
+    
   }
 
   
@@ -91,7 +116,7 @@ export class DetailPage {
     console.log('ionViewDidLoad DetailPage');
   }
 
-   openTiles(){
+  openTiles(){
      let data = {tiles:this.slides, rows:this.rows} 
 	  this.navCtrl.push(TilesPage, data);
   }
