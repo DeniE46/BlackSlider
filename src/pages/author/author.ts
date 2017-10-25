@@ -37,14 +37,15 @@ export class AuthorPage {
     this.currentPageName = "[Author.ts]";
     this.searchControl = new FormControl();
 
+    //this.workspaceId = this.navParams.get('workspaceId');
+    //console.log(this.currentPageName + "received from [detail.ts]" + this.workspaceId);
+     //console.log(this.currentPageName + ": " + this.workspaceIdProvider.getWorkspaceId());
+     this.workspaceId = this.workspaceIdProvider.getWorkspaceId();
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad AuthorPage');
-    //this.workspaceId = this.navParams.get('workspaceId');
-    //console.log(this.currentPageName + "received from [detail.ts]" + this.workspaceId);
-     console.log(this.currentPageName + ": " + this.workspaceIdProvider.getWorkspaceId());
-     this.workspaceId = this.workspaceIdProvider.getWorkspaceId();
+    
    this.setFilteredItems();
 		this.searchControl.valueChanges.debounceTime(700).subscribe(search => {
 			this.searching = false;
@@ -54,7 +55,7 @@ export class AuthorPage {
     
   }
 
-setFilteredItems(){
+  setFilteredItems(){
 		this.filterPresentations(this.searchTerm);
 	}
 

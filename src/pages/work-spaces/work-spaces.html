@@ -9,12 +9,13 @@
   <ion-navbar>
     <ion-title>workSpaces</ion-title>
   </ion-navbar>
-
+<ion-searchbar [(ngModel)]="searchTerm" [formControl]="searchControl" (ionInput)="onSearchInput()" ></ion-searchbar> 
 </ion-header>
 
 
 <ion-content padding>
 <ion-list>
+  
   <ion-item *ngFor="let workspace of workspaces; let i = index" (click)="getPosition(i)"> 
     <h2>{{workspace.name}}</h2>
     <p>{{workspace.id}}</p>

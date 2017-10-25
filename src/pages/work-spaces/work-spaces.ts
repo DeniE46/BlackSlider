@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { WorkSpacesProvider } from '../../providers/work-spaces-service/work-spaces-service';
 import { HomePage } from '../home/home';
+import { FormControl } from '@angular/forms';
+import { Http } from '@angular/http';
 
 /**
  * Generated class for the WorkSpacesPage page.
@@ -17,14 +19,39 @@ import { HomePage } from '../home/home';
 })
 export class WorkSpacesPage {
 
+  searchTerm:string = '';
+  searchControl:FormControl;
+  searching:any = false; 
+  
   workspaceId:any;
   workspaces:any;
   currentPageName:String;
-
-  constructor(public navCtrl: NavController, public navParams: NavParams, public workspacesProvider:WorkSpacesProvider) {
-    this.loadProjects();
+ 
+  constructor(public navCtrl: NavController, public navParams: NavParams, public workspacesProvider:WorkSpacesProvider, public http:Http) {
+    this.searchControl = new FormControl();
+    
+    //this.loadProjects();
     this.currentPageName = "[work-spaces.ts]";
   }
+
+  ionViewDidLoad() {
+    console.log('ionViewDidLoad WorkSpacesPage');
+    this.setFilteredItems();
+		this.searchControl.valueChanges.debounceTime(700).subscribe(search => {
+			this.searching = false;
+			this.setFilteredItems();
+		})
+  }
+
+  setFilteredItems(){
+		this.loadProjects(this.searchTerm);
+  }
+  
+  onSearchInput(){
+		this.searching = true; 
+	}
+
+  
 
   getPosition(i){
     console.log(this.currentPageName + "position is: " + i);
@@ -33,16 +60,15 @@ export class WorkSpacesPage {
     this.openHomePage();
 	}
 
-  loadProjects(){
-    this.workspacesProvider.load()
-    .then(data => {
+  loadProjects(searchTerm){
+    this.http.get('http://slidle.com/content/getprojects')
+      .map(res => res.json())
+      .subscribe(data => {
         this.workspaces = data;
-    });
-    
-  }
-
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad WorkSpacesPage');
+        this.workspaces = this.workspaces.filter((workspace) => {
+						return workspace.name.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1;
+				});
+      });
   }
 
   openHomePage(){
