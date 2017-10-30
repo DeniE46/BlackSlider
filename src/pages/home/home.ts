@@ -27,6 +27,8 @@ export class HomePage {
 	slidesObj:any; 
 	workspaces:any;
 	tempArray:any;
+
+	shouldLoadAll;
 	
 
   constructor(public navCtrl: NavController, private platform: Platform, private http:Http, private navParams:NavParams, public events:Events, public workspaceIdProvider:WorkspaceIdProvider, public workspacesProvider:WorkSpacesProvider) {
@@ -50,17 +52,27 @@ export class HomePage {
 
 	ionViewDidLoad(){ 
 		console.log(this.currentPageName + "received from [work-spaces.ts]: " + this.navParams.get('id'));
-		this.workspaceId = this.navParams.get('id');
-		this.workspaceIdProvider.setWorkspaceId(this.navParams.get('id'));
+		if(this.navParams.get('id') != null){
+			this.workspaceId = this.navParams.get('id');
+		    this.workspaceIdProvider.setWorkspaceId(this.navParams.get('id'));
+		}
+		this.shouldLoadAll = this.navParams.get('display');
 		this.setFilteredItems();
 		this.searchControl.valueChanges.debounceTime(700).subscribe(search => {
 			this.searching = false;
 			this.setFilteredItems();
 		})
+		console.log("value passed:" + this.shouldLoadAll);
 	}
 
 	setFilteredItems(){
-		this.filterPerUserPresentations(this.searchTerm);
+		if(this.shouldLoadAll){
+			this.filterPresentations(this.searchTerm);
+			//this.shouldLoadAll = false;
+		}
+		else{
+			this.filterPerUserPresentations(this.searchTerm);
+		}
 		//this.testAsync(this.searchTerm);
 	}
 
@@ -74,7 +86,7 @@ export class HomePage {
 	  	this.navCtrl.push(DetailPage, data);
     }
 	  
-	/*filterPresentations(searchTerm){
+	filterPresentations(searchTerm){
 		this.workspacesProvider.load()
     	.then(data => {
 			this.workspaces = data;
@@ -83,28 +95,25 @@ export class HomePage {
     				this.http.get('http://slidle.com/content/getpages/' + i.id)
      				 .map(res => res.json())
      				 .subscribe(data => {
-							this.tempArray = data;	  
-							for(let j of this.tempArray){
+							//this.tempArray = data;	  
+							for(let j of data){
 								if(j.title != null){
 									this.presentations.push(j);
 								}
 							}
+							
 							this.presentations = this.presentations.filter((presentation) => {
-							 			return presentation.title.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1;
-							});	
-							console.log("testArray:");
-							console.log(this.tempArray);
-							console.log("presentations:");
-							console.log(this.presentations);
-							this.tempArray = [];
+				return presentation.title.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1;
+			});	
+							//this.tempArray = [];
 					 }); 
 				}	
 					else {console.log("it was null")}
-
 			}
-		
-    	});
-  	}*/
+	
+		});
+			
+  	}
 
 	filterPerUserPresentations(searchTerm){
 			this.http.get('http://slidle.com/content/getpages/' + this.workspaceId)

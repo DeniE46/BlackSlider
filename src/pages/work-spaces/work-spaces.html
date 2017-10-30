@@ -8,9 +8,13 @@
 
   <ion-navbar>
     <ion-title>workSpaces</ion-title>
+    <ion-buttons end>
+      <button ion-button (click)="openHomePage(true)">All presentations</button>
+    </ion-buttons>
+    
   </ion-navbar>
 <ion-searchbar [(ngModel)]="searchTerm" [formControl]="searchControl" (ionInput)="onSearchInput()" ></ion-searchbar> 
-</ion-header>
+</ion-header> 
 
 
 <ion-content padding>

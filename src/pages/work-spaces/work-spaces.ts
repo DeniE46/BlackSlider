@@ -57,7 +57,7 @@ export class WorkSpacesPage {
     console.log(this.currentPageName + "position is: " + i);
     this.workspaceId = this.workspaces[i];
     console.log(this.currentPageName + "id passed to [home.ts]: " + this.workspaceId.id);
-    this.openHomePage();
+    this.openHomePage(false);
 	}
 
   loadProjects(searchTerm){
@@ -71,10 +71,19 @@ export class WorkSpacesPage {
       });
   }
 
-  openHomePage(){
-    let data = { id:this.workspaceId.id };
-    console.log(this.workspaceId.id);
-    this.navCtrl.push(HomePage, data);
+  openHomePage(all){
+    if(all){
+      let data = { id:1, display:all};
+      this.navCtrl.push(HomePage, data);
+    }
+    else{
+      let data = { id:this.workspaceId.id, display:all};
+      this.navCtrl.push(HomePage, data);
+    }
+    //console.log(this.workspaceId.id);
+    
   }
+
+
 
 }
