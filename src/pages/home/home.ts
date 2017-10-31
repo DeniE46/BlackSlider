@@ -26,9 +26,11 @@ export class HomePage {
 	workspaceId:any; 
 	slidesObj:any; 
 	workspaces:any;
-	tempArray:any;
+	items:any;
 
 	shouldLoadAll;
+
+	testArr:any;
 	
 
   constructor(public navCtrl: NavController, private platform: Platform, private http:Http, private navParams:NavParams, public events:Events, public workspaceIdProvider:WorkspaceIdProvider, public workspacesProvider:WorkSpacesProvider) {
@@ -37,8 +39,10 @@ export class HomePage {
 		this.currentPageName = "[home.ts]";
 		this.searchControl = new FormControl();
 		//this.loadWorkspaces();
-		this.tempArray = [];
 		this.presentations = [];
+		//this.filterPerUserPresentations();
+		
+			
 
 	}
 	
@@ -51,29 +55,28 @@ export class HomePage {
 
 
 	ionViewDidLoad(){ 
-		console.log(this.currentPageName + "received from [work-spaces.ts]: " + this.navParams.get('id'));
-		if(this.navParams.get('id') != null){
-			this.workspaceId = this.navParams.get('id');
-		    this.workspaceIdProvider.setWorkspaceId(this.navParams.get('id'));
-		}
+		this.workspaceId = this.navParams.get('id');
+		this.workspaceIdProvider.setWorkspaceId(this.navParams.get('id'));
 		this.shouldLoadAll = this.navParams.get('display');
+		//filtering
 		this.setFilteredItems();
 		this.searchControl.valueChanges.debounceTime(700).subscribe(search => {
 			this.searching = false;
 			this.setFilteredItems();
 		})
-		console.log("value passed:" + this.shouldLoadAll);
+		
+		//
+		if(this.shouldLoadAll){
+			this.filterPresentations();
+		}
+		else{
+			this.filterPerUserPresentations();
+		}
+		//
 	}
 
 	setFilteredItems(){
-		if(this.shouldLoadAll){
-			this.filterPresentations(this.searchTerm);
-			//this.shouldLoadAll = false;
-		}
-		else{
-			this.filterPerUserPresentations(this.searchTerm);
-		}
-		//this.testAsync(this.searchTerm);
+		this.filterData(this.searchTerm);
 	}
 
 	onSearchInput(){
@@ -86,7 +89,7 @@ export class HomePage {
 	  	this.navCtrl.push(DetailPage, data);
     }
 	  
-	filterPresentations(searchTerm){
+	filterPresentations(){
 		this.workspacesProvider.load()
     	.then(data => {
 			this.workspaces = data;
@@ -94,52 +97,41 @@ export class HomePage {
 				if(i.name != null){
     				this.http.get('http://slidle.com/content/getpages/' + i.id)
      				 .map(res => res.json())
-     				 .subscribe(data => {
-							//this.tempArray = data;	  
+     				 .subscribe(data => {	  
 							for(let j of data){
 								if(j.title != null){
 									this.presentations.push(j);
 								}
 							}
-							
-							this.presentations = this.presentations.filter((presentation) => {
-				return presentation.title.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1;
-			});	
-							//this.tempArray = [];
 					 }); 
+					this.initializeItems();
 				}	
-					else {console.log("it was null")}
 			}
 	
 		});
 			
   	}
 
-	filterPerUserPresentations(searchTerm){
+	filterPerUserPresentations(){
 			this.http.get('http://slidle.com/content/getpages/' + this.workspaceId)
      				 .map(res => res.json())
      				 .subscribe(data => {
-							//this.tempArray = data;
-							this.presentations = data;	  
-							/*for(let j of this.tempArray){
-								if(j.title != null){
-									this.presentations.push(j);
-								}
-							}*/
-							//this.presentations = this.presentations.filter((presentation) => {
-							// 			return presentation.title.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1;
-							//});	
-							
-							this.presentations = this.presentations.filter((presentation) => {
-							 			return presentation.title.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1;
-							});
-							//this.tempArray = [];
+						this.presentations = data;
+						this.initializeItems();
 					 }); 
 	}
 
-	testAsync(searchTerm){
-		console.log("after async:");
-		console.log(this.presentations);
+	initializeItems(){
+		this.items = this.presentations;
+	}
+
+	filterData(searchTerm){
+		this.initializeItems();
+		if(searchTerm != ''){
+			this.items = this.items.filter((item) => {
+				return item.title.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1;
+			});
+		}
 	}
 
   }
