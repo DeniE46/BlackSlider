@@ -30,7 +30,10 @@ export class DetailsProvider {
       .subscribe(data => {
         this.data = data;
         resolve(this.data);
+        console.log(this.currentPageName + "received from URL");
+        console.log(this.data);
       });
+     
   });
 }
 

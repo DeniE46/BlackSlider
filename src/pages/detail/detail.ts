@@ -57,7 +57,8 @@ export class DetailPage {
     });
     
     this.site = "http://slidle.com";
-     
+    
+    //TODO: move it to separate method
     window.addEventListener('orientationchange', () => {
       //console.info('DEVICE ORIENTATION CHANGED!');
       
@@ -77,14 +78,17 @@ export class DetailPage {
   }
 
   loadDetails(){
-    console.log(this.currentPageName + "received from [home.ts]: " + this.navParams.get('id'));
+    //TODO: this:
+    //these should be moved to IonViewDidLoad()
     this.presentationId = this.navParams.get('id');
     this.presentationTitle = this.navParams.get('title');
     this.workspaceId = this.navParams.get('workspaceId');
+    console.log(this.currentPageName + "received from [home.ts]: " + this.presentationId);
+    //-//
+
     //loading data
     this.detailsProvider.load(this.presentationId)
     .then(data => {
-        
         for(let i of data){
          if(i.type == "scene"){
             this.slides.push(i);
@@ -99,12 +103,6 @@ export class DetailPage {
         }
         
         this.rows = Array.from(Array(Math.ceil(data.length / 2)).keys());
-        // deleting first element because it is null
-        //this.slides.splice(0,1);
-        console.log("data in presentation:");
-        console.log(this.slides);
-        console.log("data in children:");
-        console.log(this.childrenSlides);
     });
 
     
@@ -141,8 +139,6 @@ export class DetailPage {
     //let data = {workspaceId: this.workspaceId};
     this.navCtrl.push(AuthorPage);
   }
-
- ionViewWillLeave() {}
   
 }
 

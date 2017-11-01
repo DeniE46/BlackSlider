@@ -29,8 +29,6 @@ export class HomePage {
 	items:any;
 
 	shouldLoadAll;
-
-	testArr:any;
 	
 
   constructor(public navCtrl: NavController, private platform: Platform, private http:Http, private navParams:NavParams, public events:Events, public workspaceIdProvider:WorkspaceIdProvider, public workspacesProvider:WorkSpacesProvider) {
@@ -48,8 +46,9 @@ export class HomePage {
 	
 	getPosition(i){
 		console.log(this.currentPageName + "position is: " + i);
-		this.slidesObj = this.presentations[i];
+		this.slidesObj = this.items[i];
 		console.log(this.currentPageName + "id passed to [details.ts]: " + this.slidesObj.id);
+		this.publishCurrentWorkspace(this.slidesObj.owner);
 		this.openDetail();
 	}
 
@@ -104,10 +103,10 @@ export class HomePage {
 								}
 							}
 					 }); 
-					this.initializeItems();
+					
 				}	
 			}
-	
+			this.initializeItems();
 		});
 			
   	}
@@ -127,11 +126,16 @@ export class HomePage {
 
 	filterData(searchTerm){
 		this.initializeItems();
-		if(searchTerm != ''){
+		if(searchTerm != ''){//protects against 'filter of undefined' error
 			this.items = this.items.filter((item) => {
 				return item.title.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1;
 			});
 		}
+	}
+
+	publishCurrentWorkspace(currentWorkspace){
+		//rule is: if the data will be passed to more than one page use event emitter instead of push by page.
+		//doesn't apply when the newly-opened page needs the data to be passed by push()
 	}
 
   }

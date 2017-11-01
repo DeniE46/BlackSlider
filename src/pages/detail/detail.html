@@ -29,7 +29,7 @@
   <ion-slides  #mySlider loop="true" speed="150" pager (ionSlideDidChange)="slideChanged()">
     <ion-slide *ngFor="let slide of slides">
 
-      <div *ngIf="isLandscape">
+      <div *ngIf="isLandscape"><!--currently, the orientation is switched - this div is for portrait-->
          
         <img src="{{site}}{{slide.imageLink}}"/> 
          
