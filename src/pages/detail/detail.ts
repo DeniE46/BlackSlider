@@ -37,6 +37,8 @@ export class DetailPage {
   slides:any;
   childrenSlides:any;
 
+  optionBarIsVisible:boolean;
+
   //tiles
   singleTileSlide:any;
   test:any;
@@ -48,6 +50,7 @@ export class DetailPage {
     this.slides = [];
     this.childrenSlides = [];
     this.loadDetails();
+    
     
     events.subscribe('tileID:set', (i) => {
     console.log(this.currentPageName + "got " + i + " as an index");
@@ -138,6 +141,18 @@ export class DetailPage {
   openAuthor(){
     //let data = {workspaceId: this.workspaceId};
     this.navCtrl.push(AuthorPage);
+  }
+
+  showOptions(){
+    
+    if(this.optionBarIsVisible){
+        this.optionBarIsVisible = false;
+    }
+    else{
+        this.optionBarIsVisible = true;
+    }
+    console.log("called showOptions()");
+    console.log("value is: " + this.optionBarIsVisible);
   }
   
 }

@@ -109,7 +109,9 @@ export class HomePage {
 			this.initializeItems();
 		});
 			
-  	}
+	}
+	  
+	//TODO: put the filter methods in service and call them depending on shouldshowall logic
 
 	filterPerUserPresentations(){
 			this.http.get('http://slidle.com/content/getpages/' + this.workspaceId)
