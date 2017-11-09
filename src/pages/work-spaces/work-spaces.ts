@@ -26,6 +26,7 @@ export class WorkSpacesPage {
   workspaceId:any;
   workspaces:any;
   currentPageName:String;
+
  
   constructor(public navCtrl: NavController, public navParams: NavParams, public workspacesProvider:WorkSpacesProvider, public http:Http) {
     this.searchControl = new FormControl();
@@ -61,14 +62,13 @@ export class WorkSpacesPage {
 	}
 
   loadProjects(searchTerm){
-    this.http.get('http://slidle.com/content/getprojects')
-      .map(res => res.json())
-      .subscribe(data => {
-        this.workspaces = data;
-        this.workspaces = this.workspaces.filter((workspace) => {
-						return workspace.name.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1;
-				});
+    this.workspacesProvider.load()
+    .then(data=>{
+      this.workspaces = data;
+      this.workspaces = this.workspaces.filter((workspace) => {
+          return workspace.name.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1;
       });
+    });
   }
 
   openHomePage(all){

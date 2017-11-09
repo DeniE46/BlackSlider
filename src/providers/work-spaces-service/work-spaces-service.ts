@@ -24,6 +24,7 @@ export class WorkSpacesProvider {
 
 
    load() {
+     console.log('worksapces-service called');
   if (this.data) {
     // already loaded data
     return Promise.resolve(this.data);

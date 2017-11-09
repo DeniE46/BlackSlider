@@ -7,6 +7,7 @@ import { Http } from '@angular/http';
 import { Events } from 'ionic-angular';
 import { Slides } from 'ionic-angular';
 import { AuthorPage } from '../author/author';
+import { ScreenOrientation } from '@ionic-native/screen-orientation';
 import 'rxjs/add/operator/map';
 
 /**
@@ -19,14 +20,15 @@ import 'rxjs/add/operator/map';
 @Component({
   selector: 'page-detail',
   templateUrl: 'detail.html',
-  providers: [DetailsProvider]
+  providers: [DetailsProvider, ScreenOrientation]
 })
 
 export class DetailPage {
   
   @ViewChild('mySlider') slider: Slides;
+  
   site:string; 
-  isLandscape:any = true;
+  isPortrait:any;
   currentPageName:String;
 
   slideName:any; 
@@ -36,48 +38,37 @@ export class DetailPage {
   presentationTitle:any;
   slides:any;
   childrenSlides:any;
-
+  //styling
   optionBarIsVisible:boolean;
-
+  paddingTop:string;
   //tiles
-  singleTileSlide:any;
+  singleTileSlide:any; 
   test:any;
   rows:any;
   workspaceId:any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public popoverCtrl: PopoverController, public detailsProvider:DetailsProvider, public http:Http, public platform:Platform, public events:Events) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public popoverCtrl: PopoverController, public detailsProvider:DetailsProvider, public http:Http, public platform:Platform, public events:Events, public screenOrientation: ScreenOrientation) {
+    this.getDeviceOrientation();
     this.currentPageName = "[detail.ts]";
     this.slides = [];
     this.childrenSlides = [];
     this.loadDetails();
     
     
+    
+
     events.subscribe('tileID:set', (i) => {
     console.log(this.currentPageName + "got " + i + " as an index");
     this.test=i;
     this.goToSlide(i); 
-
     });
     
-    this.site = "http://slidle.com";
     
-    //TODO: move it to separate method
-    window.addEventListener('orientationchange', () => {
-      //console.info('DEVICE ORIENTATION CHANGED!');
-      
-      switch (window.orientation) {
-        case -90:
-          //landscape for when the device is tilted clockwise
-        case 90:
-              console.log("Landscape orientation");
-              this.isLandscape = false;
-              break;
-        case 0:
-             console.log("Portrait orientation");
-              this.isLandscape = true;
-             break;
-      }      
-    });
+    console.log(this.screenOrientation.type);
+    //console.log(this.isLandscape);
+    //console.log("new console test");
+    this.site = "http://slidle.com"; 
+    
   }
 
   loadDetails(){
@@ -115,6 +106,48 @@ export class DetailPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad DetailPage');
+    this.onOrientationChanged();
+  }
+
+
+  onOrientationChanged(){
+    this.screenOrientation.onChange().subscribe(
+      () => {
+          console.log("Orientation Changed");
+          
+          if((this.screenOrientation.type == "portrait-primary") || (this.screenOrientation.type == "portrait-secondary") || (this.screenOrientation.type == "portrait")){
+            this.isPortrait = true;
+            //this.paddingTop="1.5em";
+            console.log("listener value: " + this.screenOrientation.type);
+            console.log("listener value: " + this.isPortrait);
+          }
+          if((this.screenOrientation.type == "landscape-primary") || (this.screenOrientation.type == "landscape-secondary") || (this.screenOrientation.type == "landscape")){
+            this.isPortrait = false;
+            //this.paddingTop="0em";
+            console.log("listener value: " + this.screenOrientation.type);
+            console.log("listener value: " + this.isPortrait);
+        
+          }
+
+      }
+   );
+  }
+
+  getDeviceOrientation(){
+    console.log("getDeviceOrientation() called");
+         
+          if((this.screenOrientation.type == "portrait-primary") || (this.screenOrientation.type == "portrait-secondary") || (this.screenOrientation.type == "portrait")){
+            this.isPortrait = true;
+            console.log("got value: " + this.screenOrientation.type);
+            console.log("got value: " + this.isPortrait);
+          }
+          if((this.screenOrientation.type == "landscape-primary") || (this.screenOrientation.type == "landscape-secondary") || (this.screenOrientation.type == "landscape")){
+            this.isPortrait = false;
+            console.log("got value: " + this.screenOrientation.type);
+            console.log("got value: " + this.isPortrait);
+          }
+
+   
   }
 
   openTiles(){

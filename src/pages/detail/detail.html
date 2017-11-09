@@ -1,130 +1,66 @@
 <!--
   Generated template for the DetailPage page.
-
   See http://ionicframework.com/docs/components/#navigation for more info on
   Ionic pages and navigation
 -->
 
 
- <!--currently, the orientation is switched - this div is for portrait-->
- 
-<ion-header *ngIf="isLandscape">
-
-  <ion-navbar hideBackButton>
-
-<button style="padding-right: 0.5em; background-color:#3EEC90;" item-right clear (click)='openAuthor()'>
-    <ion-title>{{presentationTitle}}</ion-title>
-</button>
-
-    <h6>{{slideName?.name}}</h6> 
-    <ion-buttons end>
-      <button style="padding-right: 0.5em; background-color:#3EEC90;" item-right clear (click)='return()'>
-<ion-icon name="close" style="font-size:40px; color:white;"></ion-icon>
-</button>
-</ion-buttons>
-  </ion-navbar>
-
-   
-</ion-header>  
-
-
-
-<ion-content class="parentbackground" *ngIf="isLandscape">
-  <div class="row" style="padding-top:1.5em">
-
-
-  <ion-slides  #mySlider loop="true" speed="150" pager (ionSlideDidChange)="slideChanged()">
-    <ion-slide *ngFor="let slide of slides">
-
-      
-         
-        <img src="{{site}}{{slide.imageLink}}"/> 
-         
-
-        <h1 style="color:#3EEC90;" >{{slide.name}}</h1>
-        <h5 style="color:#3EEC90; height:10%; margin-bottom: 35px;" >{{slide.text}}</h5>
-         
-      
-      
-    </ion-slide>
-  </ion-slides>
-
-
-  
-  </div>
-</ion-content>
-
-
-
-  
-    <ion-footer *ngIf="isLandscape">
-      <ion-toolbar>
-      <div align="center">
-      <img src="img/tile_button.png" ion-button clear item-right (click)='openTiles()'/> 
-      </div>
-
-      <!--Basic: auto-select the icon based on the platform -->
-      <!--<div align="right">
-      <ion-icon name="arrow-dropright-circle"></ion-icon>
-      </div>-->
-      </ion-toolbar>
-    </ion-footer>
-  
-
-
-<!--ooooooooooooooooooooooooooooooooooooooooooooooooooooo-->
-
-
-
-
-
-
-  <!--<ion-header *ngIf="!isLandscape">
-    
-      <ion-navbar hideBackButton>
-    
-    <button style="padding-right: 0.5em; background-color:#3EEC90;" item-right clear (click)='openAuthor()'>
+  <div>
+  <ion-header [hidden]="!isPortrait">
+    <ion-navbar hideBackButton>
+      <button style="padding-right: 0.5em; background-color:#3EEC90;" item-right clear (click)='openAuthor()'>
         <ion-title>{{presentationTitle}}</ion-title>
-    </button>
+      </button>
+      <h6>{{slideName?.name}}</h6> 
+      <ion-buttons end>
+        <button style="padding-right: 0.5em; background-color:#3EEC90;" item-right clear (click)='return()'>
+          <ion-icon name="close" style="font-size:40px; color:white;"></ion-icon>
+        </button>
+      </ion-buttons>
+    </ion-navbar>   
+  </ion-header>  
+</div>
+
+    <!--style="padding-top:1.5em"--> 
+    <ion-content class="parentbackground" >
+      <div class="row" >
+      <ion-slides #mySlider loop="false" speed="150" pager (ionSlideDidChange)="slideChanged()" (click)="showOptions()">
+        <ion-slide *ngFor="let slide of slides">
     
-        <h6>{{slideName?.name}}Landscape</h6> 
-        <ion-buttons end>
-          <button style="padding-right: 0.5em; background-color:#3EEC90;" item-right clear (click)='return()'>
-    <ion-icon name="close" style="font-size:40px; color:white;"></ion-icon>
-    </button>
-    </ion-buttons>
-      </ion-navbar>
+          <div *ngIf="isPortrait" style="padding-top:75px">
+             
+            <img src="{{site}}{{slide.imageFullLink}}"/> 
+             
     
-       
-    </ion-header>  -->
-    
-    
-    <ion-content class="parentbackground" *ngIf="!isLandscape">
-      <div class="row">
-      <ion-slides  #mySlider loop="true" speed="150" pager (ionSlideDidChange)="slideChanged()" (click)="showOptions()">
-        <ion-slide *ngFor="let slide of slides" >
-          <img  style="margin-bottom: 20px;" src="{{site}}{{slide.imageLink}}"/>
+            <h1 style="color:#3EEC90;" >{{slide.name}}</h1>
+            <h5 style="color:#3EEC90; height:10%; margin-bottom: 35px;" >{{slide.text}}</h5>
+             
+          </div>
+          <div *ngIf="!isPortrait">
+            <img src="{{site}}{{slide.imageFullLink}}"/>
+          </div> 
+          
         </ion-slide>
       </ion-slides>
       </div>
     </ion-content>
     
-    
-    
-    <ion-footer *ngIf="optionBarIsVisible">
+    <div *ngIf="isPortrait">
+    <ion-footer >
       <ion-toolbar>
       <div align="center">
       <img src="img/tile_button.png" ion-button clear item-right (click)='openTiles()'/> 
       </div>
       </ion-toolbar>
     </ion-footer>
-   
-    
-    
+    </div>
 
-
-
-
-
-
-
+    <div *ngIf="!isPortrait && optionBarIsVisible">
+        <ion-footer >
+          <ion-toolbar>
+          <div align="center">
+          <img src="img/tile_button.png" ion-button clear item-right (click)='openTiles()'/> 
+          </div>
+          </ion-toolbar>
+        </ion-footer>
+        </div>
