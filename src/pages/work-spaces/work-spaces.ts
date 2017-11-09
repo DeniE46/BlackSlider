@@ -17,6 +17,7 @@ import { Http } from '@angular/http';
   templateUrl: 'work-spaces.html',
    providers: [WorkSpacesProvider]
 })
+
 export class WorkSpacesPage {
 
   searchTerm:string = '';
@@ -24,7 +25,8 @@ export class WorkSpacesPage {
   searching:any = false; 
   
   workspaceId:any;
-  workspaces:any;
+  workspacesArr:any;
+  items:any;
   currentPageName:String;
 
  
@@ -37,6 +39,7 @@ export class WorkSpacesPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad WorkSpacesPage');
+    this.loadProjects();
     this.setFilteredItems();
 		this.searchControl.valueChanges.debounceTime(700).subscribe(search => {
 			this.searching = false;
@@ -45,30 +48,39 @@ export class WorkSpacesPage {
   }
 
   setFilteredItems(){
-		this.loadProjects(this.searchTerm);
+		this.filterData(this.searchTerm);
   }
   
   onSearchInput(){
 		this.searching = true; 
 	}
 
-  
-
   getPosition(i){
     console.log(this.currentPageName + "position is: " + i);
-    this.workspaceId = this.workspaces[i];
+    this.workspaceId = this.items[i];
     console.log(this.currentPageName + "id passed to [home.ts]: " + this.workspaceId.id);
     this.openHomePage(false);
 	}
 
-  loadProjects(searchTerm){
+  loadProjects(){
     this.workspacesProvider.load()
     .then(data=>{
-      this.workspaces = data;
-      this.workspaces = this.workspaces.filter((workspace) => {
-          return workspace.name.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1;
-      });
+      this.workspacesArr = data;
+      this.initializeItems();
     });
+  }
+
+  initializeItems(){
+    this.items = this.workspacesArr;
+  }
+
+  filterData(searchTerm){
+    this.initializeItems();
+    if(searchTerm != ''){
+      this.items = this.items.filter((item) => {
+        return item.name.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1;
+      });
+    }
   }
 
   openHomePage(all){
