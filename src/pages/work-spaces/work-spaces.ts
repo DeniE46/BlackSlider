@@ -52,7 +52,7 @@ export class WorkSpacesPage {
   }
   
   onSearchInput(){
-		this.searching = true; 
+		this.searching = true;  
 	}
 
   getPosition(i){

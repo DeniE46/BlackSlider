@@ -98,7 +98,7 @@ export class HomePage {
      				 .map(res => res.json())
      				 .subscribe(data => {	  
 							for(let j of data){
-								if(j.title != null){
+								if(j.title != null){   
 									this.presentations.push(j);
 								}
 							}

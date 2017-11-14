@@ -6,7 +6,7 @@
 -->
 <ion-header>
 
-  <ion-navbar>
+  <ion-navbar> 
     <ion-title>workSpaces</ion-title>
     <ion-buttons end>
       <button ion-button (click)="openHomePage(true)">All presentations</button>
@@ -22,11 +22,12 @@
     <div *ngIf="searching" class="spinner-container">
         <ion-spinner></ion-spinner>
       </div>
-<ion-list>
+
+<ion-list [virtualScroll]="items">
   
-  <ion-item *ngFor="let item of items; let i = index" (click)="getPosition(i)"> 
-    <h2>{{item.name}}</h2>
-    <p>{{item.id}}</p>
+  <ion-item *virtualItem="let item; let i = index" (click)="getPosition(i)"> 
+    <h2>{{item?.name}}</h2>
+    <p>{{item?.id}}</p>
   </ion-item>
 
 </ion-list>

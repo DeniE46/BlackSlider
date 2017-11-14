@@ -24,7 +24,7 @@ export class WorkSpacesProvider {
 
 
    load() {
-     console.log('worksapces-service called');
+     console.log('workspaces-service called');
   if (this.data) {
     // already loaded data
     return Promise.resolve(this.data);
@@ -48,6 +48,27 @@ export class WorkSpacesProvider {
       });
   });
   
+}
+
+testLoad() {
+  console.log('worksapces-service called');
+  if (this.data) {
+  // already loaded data
+    return Promise.resolve(this.data);
+  }
+
+
+  return new Promise(resolve => {
+  this.http.get('http://slidle.com/content/getprojects')
+    .map(res => res.json())
+    .subscribe(data => {
+      console.log(data);
+      this.data = data;
+      resolve(this.data);
+      
+    });
+  });
+
 }
 
 }
