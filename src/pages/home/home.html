@@ -3,7 +3,7 @@
   <ion-navbar>
     <ion-row>
       <ion-col>
-      <ion-title>Slidle</ion-title>
+      <ion-title>{{workspaceName}}</ion-title>
       </ion-col>
     </ion-row>
   </ion-navbar>
@@ -28,7 +28,9 @@
 <div class="row">
   
   <div id="rowImage">
-    <ion-img style="min-width:140px; min-height:70px" [src]="site+item.thumbnail"></ion-img>
+    <!--<img style="min-width:140px; min-height:70px" src="img/presentations_default.png"/>-->
+    <img style="min-width:140px; min-height:70px" src="img/presentations_default.png" alt="" (load)="loaded = false" [hidden]="loaded">
+    <img *ngIf="item.thumbnail" (load)="loaded = true" style="min-width:140px; min-height:70px" src="{{site}}{{item.thumbnail}}"/>
   </div>
  
   

@@ -23,9 +23,9 @@
         <ion-spinner></ion-spinner>
       </div>
 
-<ion-list [virtualScroll]="items">
+<ion-list>
   
-  <ion-item *virtualItem="let item; let i = index" (click)="getPosition(i)"> 
+  <ion-item *ngFor="let item of items; let i = index" (click)="getPosition(i)"> 
     <h2>{{item?.name}}</h2>
     <p>{{item?.id}}</p>
   </ion-item>
@@ -34,3 +34,4 @@
 
   
 </ion-content>
+ 

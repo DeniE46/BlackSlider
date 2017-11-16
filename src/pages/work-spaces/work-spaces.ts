@@ -63,7 +63,7 @@ export class WorkSpacesPage {
 	}
 
   loadProjects(){
-    this.workspacesProvider.load()
+    this.workspacesProvider.load() 
     .then(data=>{
       this.workspacesArr = data;
       this.initializeItems();
@@ -77,6 +77,7 @@ export class WorkSpacesPage {
   filterData(searchTerm){
     this.initializeItems();
     if(searchTerm != ''){
+      console.log(searchTerm);
       this.items = this.items.filter((item) => {
         return item.name.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1;
       });
@@ -85,14 +86,14 @@ export class WorkSpacesPage {
 
   openHomePage(all){
     if(all){
-      let data = { id:1, display:all};
+      let data = { id:1, display:all, workspaceName:"All presentations"};
       this.navCtrl.push(HomePage, data);
     }
     else{
-      let data = { id:this.workspaceId.id, display:all};
+      let data = { id:this.workspaceId.id, display:all, workspaceName: this.workspaceId.name};
       this.navCtrl.push(HomePage, data);
     }
-    //console.log(this.workspaceId.id);
+   
     
   }
 

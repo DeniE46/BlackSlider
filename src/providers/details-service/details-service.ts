@@ -19,22 +19,23 @@ export class DetailsProvider {
     console.log('Hello DetailsProvider Provider');
   }
 
-  load(presentationId:any) {
-    console.log(this.currentPageName + "received from [detail.ts]: " + presentationId);
-  if (this.data) {
-    return Promise.resolve(this.data);
-  }
-  return new Promise(resolve => {
-    this.http.get('http://slidle.com/content/getareas/' + presentationId)
-      .map(res => res.json())
-      .subscribe(data => {
-        this.data = data;
-        resolve(this.data);
-        console.log(this.currentPageName + "received from URL");
-        console.log(this.data);
-      });
-     
-  });
+load(presentationId:any) { 
+  console.log("called loadTest()");
+  console.log(this.currentPageName + "received from [detail.ts]: " + presentationId);
+if (this.data) {
+  return Promise.resolve(this.data);
+}
+return new Promise(resolve => {
+  this.http.get('http://slidle.com/content/getscenes/' + presentationId + "?flat=true")
+    .map(res => res.json())
+    .subscribe(data => {
+      this.data = data;
+      resolve(this.data);
+      console.log(this.currentPageName + "received from URL");
+      console.log(this.data); 
+    }); 
+   
+});
 }
 
 }

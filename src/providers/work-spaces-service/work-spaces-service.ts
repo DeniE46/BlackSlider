@@ -13,6 +13,7 @@ export class WorkSpacesProvider {
 
   workspaces:any;
   data:any;
+ 
 
   constructor(public http: Http) {
     console.log('Hello WorkSpacesProvider Provider');
@@ -20,6 +21,8 @@ export class WorkSpacesProvider {
       {account: 'admin@abilitcis.com', title:'test Workspace'},
       {account: 'denislav@abilitcis.com', title:'my Workspace'}
     ]
+    
+    
   }
 
 
@@ -50,25 +53,6 @@ export class WorkSpacesProvider {
   
 }
 
-testLoad() {
-  console.log('worksapces-service called');
-  if (this.data) {
-  // already loaded data
-    return Promise.resolve(this.data);
-  }
 
-
-  return new Promise(resolve => {
-  this.http.get('http://slidle.com/content/getprojects')
-    .map(res => res.json())
-    .subscribe(data => {
-      console.log(data);
-      this.data = data;
-      resolve(this.data);
-      
-    });
-  });
-
-}
 
 }

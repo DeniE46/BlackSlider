@@ -9,7 +9,6 @@ import { WorkspaceIdProvider } from '../../providers/workspace-id/workspace-id';
 import { WorkSpacesProvider } from '../../providers/work-spaces-service/work-spaces-service';
 
 
-//example 
 
 @Component({
   selector: 'page-home',
@@ -27,8 +26,10 @@ export class HomePage {
 	slidesObj:any; 
 	workspaces:any;
 	items:any;
+	workspaceName:String;
 
 	shouldLoadAll;
+	getFlat:String;
 	
 
   constructor(public navCtrl: NavController, private platform: Platform, private http:Http, private navParams:NavParams, public events:Events, public workspaceIdProvider:WorkspaceIdProvider, public workspacesProvider:WorkSpacesProvider) {
@@ -38,7 +39,7 @@ export class HomePage {
 		this.searchControl = new FormControl();
 		//this.loadWorkspaces();
 		this.presentations = [];
-		//this.filterPerUserPresentations();
+		this.getFlat = "?flat=true";
 		
 			
 
@@ -57,6 +58,8 @@ export class HomePage {
 		this.workspaceId = this.navParams.get('id');
 		this.workspaceIdProvider.setWorkspaceId(this.navParams.get('id'));
 		this.shouldLoadAll = this.navParams.get('display');
+		this.workspaceName = this.navParams.get('workspaceName');
+		console.log('got' + this.workspaceName +"as a workspace name");
 		//filtering
 		this.setFilteredItems();
 		this.searchControl.valueChanges.debounceTime(700).subscribe(search => {
@@ -64,14 +67,14 @@ export class HomePage {
 			this.setFilteredItems();
 		})
 		
-		//
+		
 		if(this.shouldLoadAll){
 			this.filterPresentations();
 		}
 		else{
 			this.filterPerUserPresentations();
 		}
-		//
+		
 	}
 
 	setFilteredItems(){
@@ -94,7 +97,7 @@ export class HomePage {
 			this.workspaces = data;
 			for (let i of this.workspaces) {
 				if(i.name != null){
-    				this.http.get('http://slidle.com/content/getpages/' + i.id)
+    				this.http.get('http://slidle.com/content/getpages/' + i.id + this.getFlat)
      				 .map(res => res.json())
      				 .subscribe(data => {	  
 							for(let j of data){
@@ -114,7 +117,7 @@ export class HomePage {
 	//TODO: put the filter methods in service and call them depending on shouldshowall logic
 
 	filterPerUserPresentations(){
-			this.http.get('http://slidle.com/content/getpages/' + this.workspaceId)
+			this.http.get('http://slidle.com/content/getpages/' + this.workspaceId + this.getFlat)
      				 .map(res => res.json())
      				 .subscribe(data => {
 						this.presentations = data;

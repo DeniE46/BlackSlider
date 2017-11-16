@@ -24,7 +24,7 @@
     <!--style="padding-top:1.5em"--> 
     <ion-content class="parentbackground" >
       <div class="row" >
-      <ion-slides #mySlider loop="false" speed="150" pager (ionSlideDidChange)="slideChanged()" (click)="showOptions()">
+      <ion-slides #mySlider loop="false" speed="150" (ionSlideDidChange)="slideChanged()" (click)="showOptions()">
         <ion-slide *ngFor="let slide of slides">
     
           <div *ngIf="isPortrait" style="padding-top:75px">

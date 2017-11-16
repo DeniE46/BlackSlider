@@ -55,8 +55,6 @@ export class DetailPage {
     this.loadDetails();
     
     
-    
-
     events.subscribe('tileID:set', (i) => {
     console.log(this.currentPageName + "got " + i + " as an index");
     this.test=i;
@@ -65,15 +63,13 @@ export class DetailPage {
     
     
     console.log(this.screenOrientation.type);
-    //console.log(this.isLandscape);
-    //console.log("new console test");
     this.site = "http://slidle.com"; 
     
   }
 
+
   loadDetails(){
-    //TODO: this:
-    //these should be moved to IonViewDidLoad()
+    //TODO: these should be moved to IonViewDidLoad()
     this.presentationId = this.navParams.get('id');
     this.presentationTitle = this.navParams.get('title');
     this.workspaceId = this.navParams.get('workspaceId');
@@ -81,28 +77,12 @@ export class DetailPage {
     //-//
 
     //loading data
-    this.detailsProvider.load(this.presentationId)
+    this.detailsProvider.load(this.presentationId) 
     .then(data => {
-        for(let i of data){
-         if(i.type == "scene"){
-            this.slides.push(i);
-            this.childrenSlides = i.children;
-            //if(i.children != null/empty)
-            for(let j of this.childrenSlides){
-              if(j.type == "scene"){
-                this.slides.push(j);
-              }
-            }
-          }
-        }
-        
+      this.slides = data;
         this.rows = Array.from(Array(Math.ceil(data.length / 2)).keys());
     });
-
-    
-  }
-
-  
+  } 
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad DetailPage');
@@ -117,13 +97,11 @@ export class DetailPage {
           
           if((this.screenOrientation.type == "portrait-primary") || (this.screenOrientation.type == "portrait-secondary") || (this.screenOrientation.type == "portrait")){
             this.isPortrait = true;
-            //this.paddingTop="1.5em";
             console.log("listener value: " + this.screenOrientation.type);
             console.log("listener value: " + this.isPortrait);
           }
           if((this.screenOrientation.type == "landscape-primary") || (this.screenOrientation.type == "landscape-secondary") || (this.screenOrientation.type == "landscape")){
             this.isPortrait = false;
-            //this.paddingTop="0em";
             console.log("listener value: " + this.screenOrientation.type);
             console.log("listener value: " + this.isPortrait);
         
