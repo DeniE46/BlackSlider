@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {WorkSpacesPage} from '../work-spaces/work-spaces';
 
 /**
  * Generated class for the LogInPage page.
@@ -20,5 +21,9 @@ export class LogInPage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad LogInPage');
   }
+
+  login(){
+    this.navCtrl.push(WorkSpacesPage);
+    }
 
 }

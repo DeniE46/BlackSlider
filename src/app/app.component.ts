@@ -16,7 +16,7 @@ import { WorkspaceIdProvider } from '../providers/workspace-id/workspace-id';
   providers: [WorkspaceIdProvider]
 })
 export class MyApp {
-  rootPage:any = WorkSpacesPage;
+  rootPage:any = LogInPage;
   loader:any;
 
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, public logIn:LogInServiceProvider, public loadingCtrl:LoadingController) {
