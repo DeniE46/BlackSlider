@@ -22,7 +22,8 @@ export class WorkSpacesPage {
 
   searchTerm:string = '';
   searchControl:FormControl;
-  searching:any = false; 
+  searching:any = false;
+  isSearchBarVisible:boolean; 
   
   workspaceId:any;
   workspacesArr:any;
@@ -44,7 +45,8 @@ export class WorkSpacesPage {
 		this.searchControl.valueChanges.debounceTime(700).subscribe(search => {
 			this.searching = false;
 			this.setFilteredItems();
-		})
+    })
+    this.isSearchBarVisible = false;
   }
 
   setFilteredItems(){
@@ -95,6 +97,15 @@ export class WorkSpacesPage {
     }
    
     
+  }
+
+  showSearchBar(){
+    if(this.isSearchBarVisible){
+      this.isSearchBarVisible = false;
+    }
+    else{
+      this.isSearchBarVisible = true;
+    }
   }
 
 

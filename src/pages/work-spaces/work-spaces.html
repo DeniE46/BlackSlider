@@ -4,28 +4,49 @@
   See http://ionicframework.com/docs/components/#navigation for more info on
   Ionic pages and navigation.
 -->
-<ion-header>
+<ion-header  class="headerBackground">
 
-  <ion-navbar> 
-    <ion-title>workSpaces</ion-title>
-    <ion-buttons end>
-      <button ion-button (click)="openHomePage(true)">All presentations</button>
+  <ion-navbar>  
+    <img *ngIf="!isSearchBarVisible" class="logoSize" src="img/slidle_logo.png"/>
+    <ion-buttons *ngIf="isSearchBarVisible" left>
+    <button  ion-button clear (click)="showSearchBar()">
+        <ion-icon class="searchIcon" name="search"></ion-icon> 
+        
+      </button>
+      <div class="divider"></div>
     </ion-buttons>
     
-  </ion-navbar>
-<ion-searchbar [(ngModel)]="searchTerm" [formControl]="searchControl" (ionInput)="onSearchInput()" ></ion-searchbar> 
+      <ion-searchbar *ngIf="isSearchBarVisible" animated="true" placeholder="Search all Slidle Workspaces" class="activated" showCancelButton="true" [(ngModel)]="searchTerm" [formControl]="searchControl" (ionInput)="onSearchInput()" ></ion-searchbar>
+      
+        <ion-buttons end>
+
+        <button *ngIf="!isSearchBarVisible" ion-button clear (click)="showSearchBar()">
+            <ion-icon class="searchIcon" name="search"></ion-icon> 
+          </button>
+       
+    
+    
+      
+      <button ion-button item-right clear (click)="openHomePage(true)">
+        <ion-icon class="allIcon" name="menu"></ion-icon>
+      </button>
+     
+    </ion-buttons>
+    
   
+
+</ion-navbar>
 </ion-header> 
 
 
-<ion-content padding>
+<ion-content padding class="background">
     <div *ngIf="searching" class="spinner-container">
         <ion-spinner></ion-spinner>
       </div>
 
-<ion-list>
+<ion-list class="background">
   
-  <ion-item *ngFor="let item of items; let i = index" (click)="getPosition(i)"> 
+  <ion-item class="background" *ngFor="let item of items; let i = index" (click)="getPosition(i)"> 
     <h2>{{item?.name}}</h2>
     <p>{{item?.id}}</p>
   </ion-item>

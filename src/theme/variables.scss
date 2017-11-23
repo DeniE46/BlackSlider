@@ -29,12 +29,28 @@ $colors: (
   danger:     #f53d3d,
   light:      #f4f4f4,
   dark:       #222,
-  slidlegreen: #3EEC90 
+  slidlegreen: #3EEC90,
+  slidleOrange: #f1911f,
+  slidleRed: #e64f29,
+  slidleGrayBackground: #eaeaea,
+  slidleDarkerGrayBackground: #dadada,
+  slidleTextDark: #3c3c3b, 
 );
-$toolbar-background: #3EEC90;
+$toolbar-background: white;
 $popover-md-width: 80%;
 $popover-ios-width: 80%;
 $popover-wp-width: 80%;
+
+
+$searchbar-md-input-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0), 0 3px 1px -2px rgba(0, 0, 0, 0), 0 0px;
+$searchbar-md-input-clear-icon-color:	#5b5b5b;
+$searchbar-md-input-search-icon-color:	#5b5b5b;
+
+$searchbar-ios-input-search-icon-svg: "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 13 13'><path fill='fg-color' d='M427 234.625H167.296l119.702-119.702L256 85 85 256l171 171 29.922-29.924-118.626-119.7H427v-42.75z'/><line stroke='fg-color' stroke-miterlimit='10' x1='12.6' y1='12.6' x2='8.2' y2='8.2'/></svg>";
+$searchbar-md-input-search-icon-svg:  "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 13 13'><path fill='fg-color' d='M5 234.625H167.296l119.702-119.702L256, 85, 85, 256l171, 171, 29.922-29.924-118.626-119.7H427v-42.75z'/><line stroke='fg-color' stroke-miterlimit='10' x1='12.6' y1='12.6' x2='8.2' y2='8.2'/></svg>";
+$searchbar-wp-input-search-icon-svg:  "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 13 13'><path fill='fg-color' d='M5 234.625H167.296l119.702-119.702L256, 85, 85, 256l171, 171, 29.922-29.924-118.626-119.7H427v-42.75z'/><line stroke='fg-color' stroke-miterlimit='10' x1='12.6' y1='12.6' x2='8.2' y2='8.2'/></svg>";
+
+
 
 // App iOS Variables
 // --------------------------------------------------
