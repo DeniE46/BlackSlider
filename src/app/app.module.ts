@@ -15,7 +15,8 @@ import { WorkSpacesProvider } from '../providers/work-spaces-service/work-spaces
 import { LogInServiceProvider } from '../providers/log-in-service/log-in-service';
 import { AuthorPage } from'../pages/author/author';
 import { WorkspaceIdProvider } from '../providers/workspace-id/workspace-id';
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { trigger, state, style, transition, animate, keyframes } from '@angular/core'; 
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { WorkspaceIdProvider } from '../providers/workspace-id/workspace-id';
   imports: [
     BrowserModule,
     HttpModule,
-    IonicModule.forRoot(MyApp)
+    IonicModule.forRoot(MyApp),
+    BrowserAnimationsModule,
   ],
   bootstrap: [IonicApp],
   entryComponents: [

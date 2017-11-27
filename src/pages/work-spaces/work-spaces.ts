@@ -1,9 +1,9 @@
-import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { WorkSpacesProvider } from '../../providers/work-spaces-service/work-spaces-service';
 import { HomePage } from '../home/home';
 import { FormControl } from '@angular/forms';
 import { Http } from '@angular/http';
+import { Component, trigger, state, style, transition, animate, keyframes } from '@angular/core';
 
 /**
  * Generated class for the WorkSpacesPage page.
@@ -15,7 +15,29 @@ import { Http } from '@angular/http';
 @Component({
   selector: 'page-work-spaces',
   templateUrl: 'work-spaces.html',
-   providers: [WorkSpacesProvider]
+   providers: [WorkSpacesProvider],
+   animations:[
+    trigger('flyInOut', [
+      state('in', style({
+        transform: 'translate3d(0, 0, 0)'
+      })),
+      state('out', style({
+        transform: 'translate3d(150%, 0, 0)'
+      })),
+      transition('in => out', animate('100ms ease-in')),
+      transition('out => in', animate('100ms ease-out'))
+    ]),
+    trigger('flyOutIn', [
+      state('in', style({
+        transform: 'translate3d(0, 0, 0)'
+      })),
+      state('out', style({
+        transform: 'translate3d(-150%, 0, 0)'
+      })),
+      transition('in => out', animate('100ms ease-in')),
+      transition('out => in', animate('100ms ease-out'))
+    ]),
+   ]
 })
 
 export class WorkSpacesPage {
@@ -29,6 +51,8 @@ export class WorkSpacesPage {
   workspacesArr:any;
   items:any;
   currentPageName:String;
+  flyInOutState: String = 'in';
+  flyOutInState: String = 'out';
 
  
   constructor(public navCtrl: NavController, public navParams: NavParams, public workspacesProvider:WorkSpacesProvider, public http:Http) {
@@ -100,6 +124,7 @@ export class WorkSpacesPage {
   }
 
   showSearchBar(){
+    this.toggleFlyInOut();
     if(this.isSearchBarVisible){
       this.isSearchBarVisible = false;
     }
@@ -109,5 +134,24 @@ export class WorkSpacesPage {
   }
 
 
+  toggleFlyInOut(){
+    
+       this.flyInOutState = 'out';
+    
+       setInterval(() => {
+         this.flyInOutState = 'in';
+       }, 100);
+    
+     }
+
+toggleFlyOutIn(){
+    
+       this.flyOutInState = 'in';
+    
+       setInterval(() => {
+         this.flyOutInState = 'out';
+       }, 100);
+    
+     }
 
 }
