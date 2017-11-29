@@ -1,27 +1,120 @@
 page-home {
-.parentbackground{
-   background: #808080;
-}
-.namecolor{
-    color: #ffffff
-}
-.authorcolor{
-    color: #E8EAEB
-}
-.slidescolor{
-    color: #E8EAEB
-}
- .spinner-container {
-        width: 100%;
-        text-align: center;
-        padding: 10px;
+    .background{
+        background: map-get($colors, slidleGrayBackground);
+     }
+    .namecolor{
+        color: map-get($colors, slidleTextDark);
+        }
+    .authorcolor{
+        color: #E8EAEB
+        }
+    .slidescolor{
+        color: #E8EAEB
+        }
+    .spinner-container {
+            width: 100%;
+            text-align: center;
+            padding: 10px;
+        }
+
+    .card{
+        border-radius:5px;
+
+        }    
+
+    .listMargin {
+        margin-right: -16px;
+        }
+
+    .background{
+            background: map-get($colors, slidleGrayBackground);
+        }
+
+     .logoSize{
+         max-width: 150px;
+         max-height: 100px;
+     }
+     .searchIcon {
+        font-size: 32px;
+        color : black;
+        padding-right: 5px;
+      }
+      .allIcon {
+        font-size: 32px;
+        color: black;
+        padding-left: 5px;
+      }
+      .headerBackground{
+          background: white;  
+      } 
+      .divider{
+        position:absolute;
+        left:110%;
+        top:10%;
+        bottom:10%;
+        border-left:2px solid map-get($colors, slidleDarkerGrayBackground);
+    }   
+    
+    .secondaryText{
+        color: map-get($colors, slidleSecondaryTextDark);
     }
 
-    #rowImage{
-        max-width:150px;
-    }
-    #rowText{
-        padding-left:3%;
-    }
+    .secondaryText {
+    position: absolute;
+    width: 93.5%;  
+    height: 7.2%;
+    top: 74.9%;  
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(256,256,256, .8);
+    z-index: 2;
+    cursor: pointer;
+    margin-left: 10px;
+    padding-left: 20px;
+    border-bottom-left-radius:5px;
+    border-bottom-right-radius:5px;
+}
+.secondaryTextLand {
+    position: absolute; 
+    width: 96.1%;  
+    height: 5.2%;
+    top: 82%;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(256,256,256, .8);
+    z-index: 2;
+    cursor: pointer;
+    margin-left: 10px;
+    padding-left: 20px; 
+    border-bottom-left-radius:5px;
+    border-bottom-right-radius:5px;
+} 
 
+.buttonsPositioning{ 
+    min-width:31%;
+    border-radius: 10px;
+    height:2.6em;
+    margin-top: -4px;
+}
+
+.buttonsColumns{
+    background-color:map-get($colors, slidleDarkerGrayBackground);
+    margin-top:-3px;
+    margin-bottom:2px;
+    margin-left:2px;
+    margin-right:2px;
+    border-radius:10px; 
+}
+#leftButton{
+    margin-left:10px;
+}
+#rightButton{
+    margin-right:40px;
+}
+.buttonsColor{  
+    color: map-get($colors, slidleSecondaryTextDark);
+    background-color: map-get($colors, slidleDarkerGrayBackground);
+}
 }

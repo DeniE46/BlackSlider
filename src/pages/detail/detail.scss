@@ -1,10 +1,36 @@
 page-detail {
- .parentbackground{
-   background: #808080;
+ .parentBackground{
+   background-color: map-get($colors, slidleGrayBackground);
  }
 .swiper-pagination {
 				.swiper-pagination-bullet {
 					background: #3EEC90;
 				}
 			}
+.secondaryText{
+	color: map-get($colors, slidleTextDark);
+}
+
+#leftButton{
+    margin-left:10px;
+}
+#rightButton{
+    margin-right:40px;
+}
+.buttonsColor{  
+    color: map-get($colors, slidleSecondaryTextDark);
+    background-color: map-get($colors, slidleDarkerGrayBackground);
+}
+.buttonsPositioning{ 
+    min-width:31%;
+    border-radius: 10px;
+    height:2.6em;
+}
+	.toolbar-background {
+  background-color: map-get($colors, slidleGrayBackground);
+}
+
+#backButtonColor{
+	color: map-get($colors, slidleSecondaryTextDark);
+}
 }

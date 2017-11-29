@@ -5,47 +5,83 @@
 -->
 
 
-  <div>
-  <ion-header [hidden]="!isPortrait">
-    <ion-navbar hideBackButton>
-      <button style="padding-right: 0.5em; background-color:#3EEC90;" item-right clear (click)='openAuthor()'>
+   
+  <ion-header  [hidden]="!isPortrait">
+    <ion-navbar class="toolbar-background" hideBackButton>
+       <!-- <button style="padding-right: 0.5em; background-color:#3EEC90;" item-right clear (click)='openAuthor()'>
         <ion-title>{{presentationTitle}}</ion-title>
       </button>
-      <h6>{{slideName?.name}}</h6> 
+      <h6>{{slideName?.name}}</h6>   -->
       <ion-buttons end>
-        <button style="padding-right: 0.5em; background-color:#3EEC90;" item-right clear (click)='return()'>
-          <ion-icon name="close" style="font-size:40px; color:white;"></ion-icon>
+        <button style="padding-right: 0.5em;" class="parentBackground" item-right clear (click)='return()'>
+          <ion-icon name="close" style="font-size:40px;" id="backButtonColor"></ion-icon>
         </button>
       </ion-buttons>
     </ion-navbar>   
   </ion-header>  
-</div>
+  
+
 
     <!--style="padding-top:1.5em"--> 
-    <ion-content class="parentbackground" >
-      <div class="row" >
+    <ion-content class="parentBackground" >
+       
+      <div>
+        <ion-item no-lines class="parentBackground" *ngIf="isPortrait" style="margin-top: 20%; margin-bottom:5%;">
+    <ion-avatar item-start>
+      <img style="width:100px; height:100px;" src="img/icon.png">
+    </ion-avatar>
+    <h1 style="margin-bottom:5%;" >{{presentationTitle}}</h1>
+    <p>{{presentationOwner}}</p>
+  </ion-item>
+
       <ion-slides #mySlider loop="false" speed="150" (ionSlideDidChange)="slideChanged()" (click)="showOptions()">
-        <ion-slide *ngFor="let slide of slides">
+        <ion-slide style="padding:10px;" *ngFor="let slide of slides; let i = index">
     
-          <div *ngIf="isPortrait" style="padding-top:75px">
+          <div *ngIf="isPortrait">
              
             <img src="{{site}}{{slide.imageFullLink}}"/> 
              
-    
-            <h1 style="color:#3EEC90;" >{{slide.name}}</h1>
-            <h5 style="color:#3EEC90; height:10%; margin-bottom: 35px;" >{{slide.text}}</h5>
+            <ion-row style="margin-top: -15px;"> 
+              <ion-col>
+                <p class="secondaryText">{{slide.id}}</p>
+              </ion-col>
+              <ion-col>
+                <p class="secondaryText">{{slide.name}}</p>
+              </ion-col>
+              <ion-col>
+                <p class="secondaryText">{{i+1}}/{{slidesLength}}</p>
+              </ion-col>
+            </ion-row>
+            <!-- <h5 style="color:#3EEC90; height:10%; margin-bottom: 35px;" >{{slide.text}}</h5> -->
              
           </div>
           <div *ngIf="!isPortrait">
-            <img src="{{site}}{{slide.imageFullLink}}"/>
+            <img src="{{site}}{{slide.imageFullLink}}"/> 
           </div> 
           
         </ion-slide>
       </ion-slides>
+
+      <!-- buttons -->
+      <ion-item *ngIf="isPortrait" no-lines class="parentBackground">
+      <button id="leftButton" class="buttonsColor buttonsPositioning" ion-button icon-left clear large>
+              <ion-icon ios="ios-download-outline" md="ios-download-outline"></ion-icon>
+              Save
+      </button>
+      <button class="buttonsColor buttonsPositioning" ion-button icon-left clear large>
+            <ion-icon ios="md-share" md="md-share"></ion-icon>
+            Share
+      </button>
+      <button id="rightButton" class="buttonsColor buttonsPositioning" ion-button icon-left clear large>
+              <ion-icon ios="ios-heart-outline" md="md-heart-outline"></ion-icon>
+              Like
+      </button>
+      </ion-item>
+
       </div>
     </ion-content>
     
-    <div *ngIf="isPortrait">
+    <!-- <div *ngIf="isPortrait">
     <ion-footer >
       <ion-toolbar>
       <div align="center">
@@ -53,7 +89,7 @@
       </div>
       </ion-toolbar>
     </ion-footer>
-    </div>
+    </div> -->
 
     <div *ngIf="!isPortrait && optionBarIsVisible">
         <ion-footer >

@@ -51,6 +51,7 @@ export class WorkSpacesPage {
   workspacesArr:any;
   items:any;
   currentPageName:String;
+  //animations
   flyInOutState: String = 'in';
   flyOutInState: String = 'out';
 

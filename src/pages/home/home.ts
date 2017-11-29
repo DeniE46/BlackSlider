@@ -1,4 +1,4 @@
-import { Component} from '@angular/core';
+import { Component, trigger, state, style, transition, animate, keyframes } from '@angular/core';
 import { NavController, Platform, NavParams  } from 'ionic-angular';
 import { DetailPage } from '../detail/detail';
 import { FormControl } from '@angular/forms';
@@ -7,17 +7,42 @@ import { Http } from '@angular/http';
 import { Events } from 'ionic-angular';
 import { WorkspaceIdProvider } from '../../providers/workspace-id/workspace-id';
 import { WorkSpacesProvider } from '../../providers/work-spaces-service/work-spaces-service';
-
+import { ScreenOrientation } from '@ionic-native/screen-orientation';
 
 
 @Component({
   selector: 'page-home',
-  templateUrl: 'home.html'
+  templateUrl: 'home.html',
+  animations:[
+    trigger('flyInOut', [
+      state('in', style({
+        transform: 'translate3d(0, 0, 0)'
+      })),
+      state('out', style({
+        transform: 'translate3d(150%, 0, 0)'
+      })),
+      transition('in => out', animate('100ms ease-in')),
+      transition('out => in', animate('100ms ease-out'))
+    ]),
+    trigger('flyOutIn', [
+      state('in', style({
+        transform: 'translate3d(0, 0, 0)'
+      })),
+      state('out', style({
+        transform: 'translate3d(-150%, 0, 0)'
+      })),
+      transition('in => out', animate('100ms ease-in')),
+      transition('out => in', animate('100ms ease-out'))
+    ]),
+   ],
+providers: [ScreenOrientation]
 })
 export class HomePage { 
 	searchTerm:string;
 	searchControl:FormControl;
 	searching:any = false; 
+	isSearchBarVisible:boolean; 
+
 	site:string;
 	currentPageName:String;
  
@@ -30,10 +55,16 @@ export class HomePage {
 
 	shouldLoadAll;
 	getFlat:String;
+	//animations
+	flyInOutState: String = 'in';
+	flyOutInState: String = 'out';
+	  
+	isPortrait:any;
 	
 
-  constructor(public navCtrl: NavController, private platform: Platform, private http:Http, private navParams:NavParams, public events:Events, public workspaceIdProvider:WorkspaceIdProvider, public workspacesProvider:WorkSpacesProvider) {
-		this.searchTerm = '';
+  constructor(public navCtrl: NavController, private platform: Platform, private http:Http, private navParams:NavParams, public events:Events, public workspaceIdProvider:WorkspaceIdProvider, public workspacesProvider:WorkSpacesProvider, public screenOrientation: ScreenOrientation) {
+	this.getDeviceOrientation();	
+	this.searchTerm = '';
 		this.site = "http://slidle.com";
 		this.currentPageName = "[home.ts]";
 		this.searchControl = new FormControl();
@@ -55,6 +86,7 @@ export class HomePage {
 
 
 	ionViewDidLoad(){ 
+		this.onOrientationChanged();
 		this.workspaceId = this.navParams.get('id');
 		this.workspaceIdProvider.setWorkspaceId(this.navParams.get('id'));
 		this.shouldLoadAll = this.navParams.get('display');
@@ -86,8 +118,8 @@ export class HomePage {
 	}
 
 	openDetail(){
-		let data = {id:this.slidesObj.id, title:this.slidesObj.title, workspaceId:this.workspaceId};
-		console.log("id passed to Detail page: " + this.workspaceId);
+		let data = {id:this.slidesObj.id, title:this.slidesObj.title, workspaceId:this.workspaceId, owner:this.slidesObj.owner};
+		console.log("id passed to Detail page: " + this.slidesObj.owner);
 	  	this.navCtrl.push(DetailPage, data);
     }
 	  
@@ -142,6 +174,74 @@ export class HomePage {
 		//rule is: if the data will be passed to more than one page use event emitter instead of push by page.
 		//doesn't apply when the newly-opened page needs the data to be passed by push()
 	}
+
+	showSearchBar(){
+    this.toggleFlyInOut();
+    if(this.isSearchBarVisible){
+      this.isSearchBarVisible = false;
+    }
+    else{
+      this.isSearchBarVisible = true;
+    }
+  	}
+
+	 toggleFlyInOut(){
+    
+       this.flyInOutState = 'out';
+    
+       setInterval(() => {
+         this.flyInOutState = 'in';
+       }, 100);
+    
+     }
+
+	toggleFlyOutIn(){
+    
+       this.flyOutInState = 'in';
+    
+       setInterval(() => {
+         this.flyOutInState = 'out';
+       }, 100);
+    
+	 }
+	
+	 onOrientationChanged(){
+    this.screenOrientation.onChange().subscribe(
+      () => {
+          console.log("Orientation Changed");
+          
+          if((this.screenOrientation.type == "portrait-primary") || (this.screenOrientation.type == "portrait-secondary") || (this.screenOrientation.type == "portrait")){
+            this.isPortrait = true;
+            console.log("listener value: " + this.screenOrientation.type);
+            console.log("listener value: " + this.isPortrait);
+          }
+          if((this.screenOrientation.type == "landscape-primary") || (this.screenOrientation.type == "landscape-secondary") || (this.screenOrientation.type == "landscape")){
+            this.isPortrait = false;
+            console.log("listener value: " + this.screenOrientation.type);
+            console.log("listener value: " + this.isPortrait);
+        
+          }
+
+      }
+   );
+  }
+
+  getDeviceOrientation(){
+    console.log("getDeviceOrientation() called");
+         
+          if((this.screenOrientation.type == "portrait-primary") || (this.screenOrientation.type == "portrait-secondary") || (this.screenOrientation.type == "portrait")){
+            this.isPortrait = true;
+            console.log("got value: " + this.screenOrientation.type);
+            console.log("got value: " + this.isPortrait);
+          }
+          if((this.screenOrientation.type == "landscape-primary") || (this.screenOrientation.type == "landscape-secondary") || (this.screenOrientation.type == "landscape")){
+            this.isPortrait = false;
+            console.log("got value: " + this.screenOrientation.type);
+            console.log("got value: " + this.isPortrait);
+          }
+
+   
+  }
 
   }
   

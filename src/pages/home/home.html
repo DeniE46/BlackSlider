@@ -1,47 +1,76 @@
 
-<ion-header >
-  <ion-navbar>
-    <ion-row>
-      <ion-col>
-      <ion-title>{{workspaceName}}</ion-title>
-      </ion-col>
-    </ion-row>
+<ion-header  class="headerBackground">
+  <ion-navbar hideBackButton>  
+    <img [@flyOutIn]="flyInOutState" *ngIf="!isSearchBarVisible" class="logoSize" src="img/slidle_logo.png"/>
+    <ion-buttons [@flyInOut]="flyInOutState" *ngIf="isSearchBarVisible" left>
+      <button ion-button clear (click)="showSearchBar()">
+        <ion-icon class="searchIcon" name="search"></ion-icon> 
+      </button>  
+      <div [@flyInOut]="flyInOutState" class="divider"></div>
+    </ion-buttons>
+      <ion-searchbar [@flyInOut]="flyInOutState" *ngIf="isSearchBarVisible" animated="true" placeholder="Search all Slidle Workspaces" class="activated" showCancelButton="true" [(ngModel)]="searchTerm" [formControl]="searchControl" (ionInput)="onSearchInput()" ></ion-searchbar>
+    <ion-buttons end>
+      <button [@flyOutIn]="flyInOutState" *ngIf="!isSearchBarVisible" ion-button clear (click)="showSearchBar()">
+        <ion-icon class="searchIcon" name="search"></ion-icon> 
+      </button>
+      <button ion-button item-right clear (click)="openHomePage(true)">
+        <ion-icon class="allIcon" name="menu"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
-  <ion-searchbar [(ngModel)]="searchTerm" [formControl]="searchControl" (ionInput)="onSearchInput()" ></ion-searchbar>
-  <div *ngIf="searching" class="spinner-container">
-    <ion-spinner></ion-spinner>
-   </div>
-</ion-header>
+</ion-header> 
 
 
+<ion-content class="background">
+  <ion-list class="listMargin background" [virtualScroll]="items"> 
+    <ion-item no-lines style="padding-left:0px;" *virtualItem="let item; let i = index" class="background" (click)="getPosition(i)">
+      <ion-card class="card">
+        <!-- title -->
+        <ion-row>
+          <ion-col padding-top padding-left>
+            <h2><b>{{item.title}}</b></h2>
+          </ion-col>
+          <ion-col>
+            <ion-buttons end>
+              <button ion-button clear (click)="showSearchBar()">
+                <img style="max-width:32px; max-height:32px" src="img/eye.png">
+              </button>  
+            </ion-buttons>
+          </ion-col>
+        </ion-row>
+        <!-- image -->
+        <ion-card-content no-padding no-margin style="background-image:url(img/default_logo.png)">
+          <img style="min-width:522px; min-height:266px; max-width:522px; max-height:266px" src="{{site}}{{item.thumbnail}}">
+        </ion-card-content>
+        <!-- secondary text -->
+        <ion-row [ngClass]="{'secondaryText':(isPortrait), 'secondaryTextLand':(!isPortrait)}">
+         <ion-col>
+            <h2 class="secondaryTextDark">Published by {{item.owner}}</h2>
+         </ion-col>
+          <ion-col>
+            <h2 class="secondaryTextDark">237 views</h2>
+          </ion-col>
+          <ion-col>
+            <h2 class="secondaryTextDark">56 likes</h2>
+          </ion-col>
+        </ion-row>
+        
 
+      </ion-card>
 
-<!--test-->
-
-<ion-content class="parentbackground">
-
-
- 
-<ion-list [virtualScroll]="items"> 
- 
-  <ion-item *virtualItem="let item; let i = index" item-center class="parentbackground" (click)="getPosition(i)">
-<div class="row">
-  
-  <div id="rowImage">
-    <!--<img style="min-width:140px; min-height:70px" src="img/presentations_default.png"/>-->
-    <img style="min-width:140px; min-height:70px" src="img/presentations_default.png" alt="" (load)="loaded = false" [hidden]="loaded">
-    <img *ngIf="item.thumbnail" (load)="loaded = true" style="min-width:140px; min-height:70px" src="{{site}}{{item.thumbnail}}"/>
-  </div>
- 
-  
-	<div id="rowText" no-lines no-padding class="parentbackground">
-    <h1 class="namecolor">{{item.title}}</h1> 
-    <h2 class="authorcolor">{{item.owner}}</h2>
-    <h2 class="authorcolor">{{item.id}}</h2>
-  </div>
-  
-</div>
-  </ion-item>
-  
-</ion-list>
+      <!-- buttons -->
+      <button id="leftButton" class="buttonsColor buttonsPositioning" ion-button icon-left clear large>
+              <ion-icon ios="ios-download-outline" md="ios-download-outline"></ion-icon>
+              Save
+      </button>
+      <button class="buttonsColor buttonsPositioning" ion-button icon-left clear large>
+            <ion-icon ios="md-share" md="md-share"></ion-icon>
+            Share
+      </button>
+      <button id="rightButton" class="buttonsColor buttonsPositioning" ion-button icon-left clear large>
+              <ion-icon ios="ios-heart-outline" md="md-heart-outline"></ion-icon>
+              Like
+      </button>
+    </ion-item>
+  </ion-list>
 </ion-content>

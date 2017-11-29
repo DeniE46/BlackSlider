@@ -32,7 +32,7 @@ import { trigger, state, style, transition, animate, keyframes } from '@angular/
     BrowserModule,
     HttpModule,
     IonicModule.forRoot(MyApp),
-    BrowserAnimationsModule,
+    BrowserAnimationsModule, 
   ],
   bootstrap: [IonicApp],
   entryComponents: [

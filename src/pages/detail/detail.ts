@@ -36,7 +36,9 @@ export class DetailPage {
   //details
   presentationId:any;
   presentationTitle:any;
+  presentationOwner:any;
   slides:any;
+  slidesLength:any;
   childrenSlides:any;
   //styling
   optionBarIsVisible:boolean;
@@ -73,6 +75,8 @@ export class DetailPage {
     this.presentationId = this.navParams.get('id');
     this.presentationTitle = this.navParams.get('title');
     this.workspaceId = this.navParams.get('workspaceId');
+    this.presentationOwner = this.navParams.get('owner');
+    console.log("owner is:" + this.presentationOwner); 
     console.log(this.currentPageName + "received from [home.ts]: " + this.presentationId);
     //-//
 
@@ -81,6 +85,7 @@ export class DetailPage {
     .then(data => {
       this.slides = data;
         this.rows = Array.from(Array(Math.ceil(data.length / 2)).keys());
+    this.slidesLength = this.slides.length;    
     });
   } 
 
