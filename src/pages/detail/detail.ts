@@ -67,6 +67,7 @@ export class DetailPage {
     console.log(this.screenOrientation.type);
     this.site = "http://slidle.com"; 
     
+    
   }
 
 
@@ -92,6 +93,7 @@ export class DetailPage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad DetailPage');
     this.onOrientationChanged();
+    this.screenOrientation.unlock();
   }
 
 

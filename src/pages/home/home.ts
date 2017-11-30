@@ -71,7 +71,7 @@ export class HomePage {
 		//this.loadWorkspaces();
 		this.presentations = [];
 		this.getFlat = "?flat=true";
-		
+	
 			
 
 	}
@@ -106,7 +106,7 @@ export class HomePage {
 		else{
 			this.filterPerUserPresentations();
 		}
-		
+			
 	}
 
 	setFilteredItems(){
