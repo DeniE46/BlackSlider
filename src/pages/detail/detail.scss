@@ -8,7 +8,8 @@ page-detail {
 				}
 			}
 .secondaryText{
-	color: map-get($colors, slidleTextDark);
+    color: map-get($colors, slidleTextDark);
+    font-size: 1.3rem;
 }
 
 #leftButton{
@@ -33,4 +34,29 @@ page-detail {
 #backButtonColor{
 	color: map-get($colors, slidleSecondaryTextDark);
 }
+
+.buttonsColor{  
+    color: map-get($colors, slidleSecondaryTextDark);
+    background-color: map-get($colors, slidleDarkerGrayBackground);
+}
+
+.buttonsPositioning{ 
+    width:32%;
+    border-radius: 10px;
+    margin:auto;
+}
+
+.center {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    max-width: 100%;
+    max-height: 100%;
+    margin: auto;
+    overflow: auto;
+}
+
+.container-fs { position: relative; width: 100vw; height: 100vh; }
 }

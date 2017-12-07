@@ -16,7 +16,9 @@ import { LogInServiceProvider } from '../providers/log-in-service/log-in-service
 import { AuthorPage } from'../pages/author/author';
 import { WorkspaceIdProvider } from '../providers/workspace-id/workspace-id';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { trigger, state, style, transition, animate, keyframes } from '@angular/core'; 
+import { trigger, state, style, transition, animate, keyframes } from '@angular/core';
+import { PresentationIdProvider } from '../providers/presentation-id/presentation-id';
+import { AuthorProvider } from '../providers/author/author';
 
 @NgModule({
   declarations: [
@@ -26,7 +28,7 @@ import { trigger, state, style, transition, animate, keyframes } from '@angular/
 	TilesPage,
   WorkSpacesPage,
   LogInPage,
-  AuthorPage
+  AuthorPage,
   ],
   imports: [
     BrowserModule,
@@ -42,7 +44,7 @@ import { trigger, state, style, transition, animate, keyframes } from '@angular/
 	TilesPage,
   WorkSpacesPage,
   LogInPage,
-  AuthorPage
+  AuthorPage,
   ],
   providers: [ 
     StatusBar,
@@ -52,6 +54,8 @@ import { trigger, state, style, transition, animate, keyframes } from '@angular/
     WorkSpacesProvider,
     LogInServiceProvider,
     WorkspaceIdProvider,
+    PresentationIdProvider,
+    AuthorProvider,
   ]
 })
 export class AppModule {}

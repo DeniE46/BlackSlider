@@ -1,5 +1,5 @@
 page-tiles {
-     .parentbackground{
-   background: #808080;
- }
+  .parentBackground{
+    background-color: map-get($colors, slidleGrayBackground);
+  } 
 }

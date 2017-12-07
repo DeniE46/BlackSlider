@@ -1,4 +1,4 @@
-import { Component, trigger, state, style, transition, animate, keyframes } from '@angular/core';
+import { Component, trigger, state, style, transition, animate, keyframes, ViewChild } from '@angular/core';
 import { NavController, Platform, NavParams  } from 'ionic-angular';
 import { DetailPage } from '../detail/detail';
 import { FormControl } from '@angular/forms';
@@ -6,9 +6,11 @@ import 'rxjs/add/operator/debounceTime';
 import { Http } from '@angular/http';
 import { Events } from 'ionic-angular';
 import { WorkspaceIdProvider } from '../../providers/workspace-id/workspace-id';
+import { PresentationIdProvider } from '../../providers/presentation-id/presentation-id';
 import { WorkSpacesProvider } from '../../providers/work-spaces-service/work-spaces-service';
+import { WorkSpacesPage } from '../work-spaces/work-spaces';
 import { ScreenOrientation } from '@ionic-native/screen-orientation';
-
+import { AuthorPage } from '../author/author';
 
 @Component({
   selector: 'page-home',
@@ -62,7 +64,7 @@ export class HomePage {
 	isPortrait:any;
 	
 
-  constructor(public navCtrl: NavController, private platform: Platform, private http:Http, private navParams:NavParams, public events:Events, public workspaceIdProvider:WorkspaceIdProvider, public workspacesProvider:WorkSpacesProvider, public screenOrientation: ScreenOrientation) {
+  constructor(public navCtrl: NavController, private platform: Platform, private http:Http, private navParams:NavParams, public events:Events, public workspaceIdProvider:WorkspaceIdProvider, public workspacesProvider:WorkSpacesProvider, public screenOrientation: ScreenOrientation, public presentationIdProvider:PresentationIdProvider) {
 	this.getDeviceOrientation();	
 	this.searchTerm = '';
 		this.site = "http://slidle.com";
@@ -71,27 +73,29 @@ export class HomePage {
 		//this.loadWorkspaces();
 		this.presentations = [];
 		this.getFlat = "?flat=true";
-	
-			
-
 	}
 	
 	getPosition(i){
-		console.log(this.currentPageName + "position is: " + i);
 		this.slidesObj = this.items[i];
-		console.log(this.currentPageName + "id passed to [details.ts]: " + this.slidesObj.id);
-		this.publishCurrentWorkspace(this.slidesObj.owner);
-		this.openDetail();
+		this.workspaceIdProvider.setWorkspaceId(this.slidesObj.projectID);
+		//this.publishCurrentWorkspace(this.slidesObj.owner);
 	}
 
 
 	ionViewDidLoad(){ 
 		this.onOrientationChanged();
 		this.workspaceId = this.navParams.get('id');
+		if(this.navParams.get('id') != null){
 		this.workspaceIdProvider.setWorkspaceId(this.navParams.get('id'));
-		this.shouldLoadAll = this.navParams.get('display');
+		}
+	
+		if(this.navParams.get('display') != null){
+			this.shouldLoadAll = this.navParams.get('display');
+		}
+		else{
+			this.shouldLoadAll = true;
+		}
 		this.workspaceName = this.navParams.get('workspaceName');
-		console.log('got' + this.workspaceName +"as a workspace name");
 		//filtering
 		this.setFilteredItems();
 		this.searchControl.valueChanges.debounceTime(700).subscribe(search => {
@@ -99,7 +103,7 @@ export class HomePage {
 			this.setFilteredItems();
 		})
 		
-		
+		//this.filterPresentations();
 		if(this.shouldLoadAll){
 			this.filterPresentations();
 		}
@@ -118,9 +122,13 @@ export class HomePage {
 	}
 
 	openDetail(){
-		let data = {id:this.slidesObj.id, title:this.slidesObj.title, workspaceId:this.workspaceId, owner:this.slidesObj.owner};
-		console.log("id passed to Detail page: " + this.slidesObj.owner);
-	  	this.navCtrl.push(DetailPage, data);
+		//let data = {id:this.slidesObj.id, title:this.slidesObj.title, owner:this.slidesObj.owner, projectID:this.slidesObj.projectID};
+		// this.events.publish('presentationID:set', this.slidesObj.id);
+		// console.log("publishing id from Home:" + this.slidesObj.id);
+		this.presentationIdProvider.setPresentationName(this.slidesObj.title);
+		this.presentationIdProvider.setPresentationOwner(this.slidesObj.owner); 
+		this.presentationIdProvider.setPresentationId(this.slidesObj.id);
+	  	this.navCtrl.push(DetailPage);
     }
 	  
 	filterPresentations(){
@@ -163,7 +171,7 @@ export class HomePage {
 
 	filterData(searchTerm){
 		this.initializeItems();
-		if(searchTerm != ''){//protects against 'filter of undefined' error
+		if(searchTerm != ''){
 			this.items = this.items.filter((item) => {
 				return item.title.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1;
 			});
@@ -175,7 +183,11 @@ export class HomePage {
 		//doesn't apply when the newly-opened page needs the data to be passed by push()
 	}
 
-	showSearchBar(){
+	searchBar(clearSearchbar:boolean){
+		if(clearSearchbar){
+			this.searchTerm='';
+			
+		}
     this.toggleFlyInOut();
     if(this.isSearchBarVisible){
       this.isSearchBarVisible = false;
@@ -207,19 +219,12 @@ export class HomePage {
 	
 	 onOrientationChanged(){
     this.screenOrientation.onChange().subscribe(
-      () => {
-          console.log("Orientation Changed");
-          
+      () => {   
           if((this.screenOrientation.type == "portrait-primary") || (this.screenOrientation.type == "portrait-secondary") || (this.screenOrientation.type == "portrait")){
             this.isPortrait = true;
-            console.log("listener value: " + this.screenOrientation.type);
-            console.log("listener value: " + this.isPortrait);
           }
           if((this.screenOrientation.type == "landscape-primary") || (this.screenOrientation.type == "landscape-secondary") || (this.screenOrientation.type == "landscape")){
             this.isPortrait = false;
-            console.log("listener value: " + this.screenOrientation.type);
-            console.log("listener value: " + this.isPortrait);
-        
           }
 
       }
@@ -227,21 +232,27 @@ export class HomePage {
   }
 
   getDeviceOrientation(){
-    console.log("getDeviceOrientation() called");
          
           if((this.screenOrientation.type == "portrait-primary") || (this.screenOrientation.type == "portrait-secondary") || (this.screenOrientation.type == "portrait")){
             this.isPortrait = true;
-            console.log("got value: " + this.screenOrientation.type);
-            console.log("got value: " + this.isPortrait);
           }
           if((this.screenOrientation.type == "landscape-primary") || (this.screenOrientation.type == "landscape-secondary") || (this.screenOrientation.type == "landscape")){
             this.isPortrait = false;
-            console.log("got value: " + this.screenOrientation.type);
-            console.log("got value: " + this.isPortrait);
           }
 
    
-  }
+	}
+	
+	openWorkSpacesPage(){
+		this.navCtrl.push(WorkSpacesPage);
+	}
+
+	openAuthor(){
+		this.presentationIdProvider.setPresentationName(this.slidesObj.title);
+		this.presentationIdProvider.setPresentationOwner(this.slidesObj.owner);
+		this.presentationIdProvider.setPresentationId(this.slidesObj.id);
+		this.navCtrl.push(AuthorPage);
+	}
 
   }
   

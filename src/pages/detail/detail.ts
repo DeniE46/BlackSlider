@@ -9,6 +9,8 @@ import { Slides } from 'ionic-angular';
 import { AuthorPage } from '../author/author';
 import { ScreenOrientation } from '@ionic-native/screen-orientation';
 import 'rxjs/add/operator/map';
+import { PresentationIdProvider } from '../../providers/presentation-id/presentation-id';
+import { Subscription } from 'rxjs';
 
 /**
  * Generated class for the DetailPage page.
@@ -16,6 +18,7 @@ import 'rxjs/add/operator/map';
  * See http://ionicframework.com/docs/components/#navigation for more info
  * on Ionic pages and navigation.
  */
+
 @IonicPage()
 @Component({
   selector: 'page-detail',
@@ -24,7 +27,7 @@ import 'rxjs/add/operator/map';
 })
 
 export class DetailPage {
-  
+  private onResumeSubscription: Subscription;
   @ViewChild('mySlider') slider: Slides;
   
   site:string; 
@@ -47,89 +50,70 @@ export class DetailPage {
   singleTileSlide:any; 
   test:any;
   rows:any;
-  workspaceId:any;
+  projectID:any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public popoverCtrl: PopoverController, public detailsProvider:DetailsProvider, public http:Http, public platform:Platform, public events:Events, public screenOrientation: ScreenOrientation) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public popoverCtrl: PopoverController, public detailsProvider:DetailsProvider, public http:Http, public platform:Platform, public events:Events, public screenOrientation: ScreenOrientation, public presentationIdProvider:PresentationIdProvider) {
     this.getDeviceOrientation();
     this.currentPageName = "[detail.ts]";
     this.slides = [];
     this.childrenSlides = [];
-    this.loadDetails();
-    
-    
     events.subscribe('tileID:set', (i) => {
-    console.log(this.currentPageName + "got " + i + " as an index");
-    this.test=i;
-    this.goToSlide(i); 
-    });
-    
-    
-    console.log(this.screenOrientation.type);
-    this.site = "http://slidle.com"; 
-    
-    
+      this.test=i;
+      this.goToSlide(i); 
+      }); 
+    this.site = "http://slidle.com";    
+
   }
 
+  ionViewWillEnter(){
+    this.resetView();
+    this.loadDetails();
+  }
 
   loadDetails(){
-    //TODO: these should be moved to IonViewDidLoad()
-    this.presentationId = this.navParams.get('id');
-    this.presentationTitle = this.navParams.get('title');
-    this.workspaceId = this.navParams.get('workspaceId');
-    this.presentationOwner = this.navParams.get('owner');
-    console.log("owner is:" + this.presentationOwner); 
-    console.log(this.currentPageName + "received from [home.ts]: " + this.presentationId);
-    //-//
-
+ 
+    this.presentationTitle = this.presentationIdProvider.getPresentationName();
+    console.log(this.currentPageName + this.presentationTitle);
+    this.presentationId = this.presentationIdProvider.getPresentationId();
+    this.presentationOwner = this.presentationIdProvider.getPresentationOwner(); 
     //loading data
     this.detailsProvider.load(this.presentationId) 
     .then(data => {
+      console.log(this.currentPageName + "receiving:");
+      console.log(data);
       this.slides = data;
-        this.rows = Array.from(Array(Math.ceil(data.length / 2)).keys());
-    this.slidesLength = this.slides.length;    
+      this.rows = Array.from(Array(Math.ceil(this.slides.length / 2)).keys());
+      this.slidesLength = this.slides.length;
     });
+    
   } 
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad DetailPage');
     this.onOrientationChanged();
-    this.screenOrientation.unlock();
+    this.loadDetails();
   }
 
 
   onOrientationChanged(){
     this.screenOrientation.onChange().subscribe(
       () => {
-          console.log("Orientation Changed");
-          
           if((this.screenOrientation.type == "portrait-primary") || (this.screenOrientation.type == "portrait-secondary") || (this.screenOrientation.type == "portrait")){
             this.isPortrait = true;
-            console.log("listener value: " + this.screenOrientation.type);
-            console.log("listener value: " + this.isPortrait);
           }
           if((this.screenOrientation.type == "landscape-primary") || (this.screenOrientation.type == "landscape-secondary") || (this.screenOrientation.type == "landscape")){
             this.isPortrait = false;
-            console.log("listener value: " + this.screenOrientation.type);
-            console.log("listener value: " + this.isPortrait);
-        
           }
 
       }
    );
   }
 
-  getDeviceOrientation(){
-    console.log("getDeviceOrientation() called");
-         
+  getDeviceOrientation(){       
           if((this.screenOrientation.type == "portrait-primary") || (this.screenOrientation.type == "portrait-secondary") || (this.screenOrientation.type == "portrait")){
             this.isPortrait = true;
-            console.log("got value: " + this.screenOrientation.type);
-            console.log("got value: " + this.isPortrait);
           }
           if((this.screenOrientation.type == "landscape-primary") || (this.screenOrientation.type == "landscape-secondary") || (this.screenOrientation.type == "landscape")){
             this.isPortrait = false;
-            console.log("got value: " + this.screenOrientation.type);
-            console.log("got value: " + this.isPortrait);
           }
 
    
@@ -143,9 +127,7 @@ export class DetailPage {
 
  slideChanged(){
    let currentIndex = this.slider.getActiveIndex();
-    console.log(this.currentPageName + "Current index is: " + currentIndex);
     this.slideName = this.slides[currentIndex];
-    console.log(this.slideName);
  }
     
  return(){
@@ -157,7 +139,6 @@ export class DetailPage {
   }
 
   openAuthor(){
-    //let data = {workspaceId: this.workspaceId};
     this.navCtrl.push(AuthorPage);
   }
 
@@ -169,8 +150,12 @@ export class DetailPage {
     else{
         this.optionBarIsVisible = true;
     }
-    console.log("called showOptions()");
-    console.log("value is: " + this.optionBarIsVisible);
+  } 
+
+  resetView(){
+    this.presentationId = '';
+    this.slides=[];
+    this.slider.update();
   }
   
 }

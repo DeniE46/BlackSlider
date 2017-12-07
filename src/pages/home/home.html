@@ -3,17 +3,17 @@
   <ion-navbar hideBackButton>  
     <img [@flyOutIn]="flyInOutState" *ngIf="!isSearchBarVisible" class="logoSize" src="img/slidle_logo.png"/>
     <ion-buttons [@flyInOut]="flyInOutState" *ngIf="isSearchBarVisible" left>
-      <button ion-button clear (click)="showSearchBar()">
+      <button ion-button clear (click)="searchBar(false)">
         <ion-icon class="searchIcon" name="search"></ion-icon> 
       </button>  
       <div [@flyInOut]="flyInOutState" class="divider"></div>
     </ion-buttons>
       <ion-searchbar [@flyInOut]="flyInOutState" *ngIf="isSearchBarVisible" animated="true" placeholder="Search all Slidle Workspaces" class="activated" showCancelButton="true" [(ngModel)]="searchTerm" [formControl]="searchControl" (ionInput)="onSearchInput()" ></ion-searchbar>
     <ion-buttons end>
-      <button [@flyOutIn]="flyInOutState" *ngIf="!isSearchBarVisible" ion-button clear (click)="showSearchBar()">
+      <button [@flyOutIn]="flyInOutState" *ngIf="!isSearchBarVisible" ion-button clear (click)="searchBar(false)">
         <ion-icon class="searchIcon" name="search"></ion-icon> 
       </button>
-      <button ion-button item-right clear (click)="openHomePage(true)">
+      <button ion-button item-right clear (click)="openWorkSpacesPage()">
         <ion-icon class="allIcon" name="menu"></ion-icon>
       </button>
     </ion-buttons>
@@ -23,54 +23,54 @@
 
 <ion-content class="background">
   <ion-list class="listMargin background" [virtualScroll]="items"> 
-    <ion-item no-lines style="padding-left:0px;" *virtualItem="let item; let i = index" class="background" (click)="getPosition(i)">
+    <ion-item no-lines style="padding-left:0px;" *virtualItem="let item; let i = index" class="background">
       <ion-card class="card">
         <!-- title -->
-        <ion-row>
-          <ion-col padding-top padding-left>
-            <h2><b>{{item.title}}</b></h2>
-          </ion-col>
+        <ion-row style="max-height:2em;">
           <ion-col>
-            <ion-buttons end>
-              <button ion-button clear (click)="showSearchBar()">
-                <img style="max-width:48px; max-height:48px" src="img/eye.png">
+            <h5><b>{{item.title}}</b></h5> 
+          </ion-col>
+          <ion-col style="vertical-align:middle;"> 
+            <ion-buttons class="eyeIconPosition" end>
+              <button style="margin:auto;" ion-button clear (click)="showSearchBar()">
+                <img style="max-width:36px; max-height:36px" src="img/eye.png">
               </button>  
             </ion-buttons>
-          </ion-col>
+          </ion-col> 
         </ion-row>
         <!-- image -->
-        <ion-card-content no-padding no-margin style="background-image:url(img/default_logo.png)">
-          <img style="min-width:522px; min-height:266px; max-width:522px; max-height:266px" src="{{site}}{{item.thumbnail}}">
-        </ion-card-content>
-        <!-- secondary text -->
-        <ion-row [ngClass]="{'secondaryText':(isPortrait), 'secondaryTextLand':(!isPortrait)}">
-         <ion-col>
-            <h2 class="secondaryTextDark">Published by {{item.owner}}</h2>
-         </ion-col>
-          <ion-col>
-            <h2 class="secondaryTextDark">237 views</h2>
-          </ion-col>
-          <ion-col>
-            <h2 class="secondaryTextDark">56 likes</h2>
-          </ion-col>
-        </ion-row>
-        
+          <img style="max-width: 100vw; background-image:url(img/default_logo.png); background-repeat: no-repeat; background-position: center; height: 50vw;" src="{{site}}{{item.thumbnail}}" (click)="getPosition(i); openDetail()">
 
-      </ion-card>
-
+        <!-- secondary text [ngClass]="{'secondaryText':(!isPortrait), 'secondaryTextLand':(isPortrait)}-->
+        <!-- <div class="secondaryTextContainer">
+               <h2 class="secondaryText">Published by {{item.owner}}</h2>
+               <h2 class="secondaryText">237 views</h2>
+               <h2 class="secondaryText">56 likes</h2>
+         </div>  -->
+         
+         <button style="margin:auto;" ion-button clear (click)="getPosition(i); openAuthor()">
+            <h5 class="textColor"><b>Author: {{item.owner}}</b></h5> 
+          </button> 
+      </ion-card> 
+ 
       <!-- buttons -->
-      <button id="leftButton" class="buttonsColor buttonsPositioning" ion-button icon-left clear large>
+      <div style="max-width:100%; position:relative; text-align:center; padding-left: 0.5em; padding-right: 0.5em;"> 
+
+          
+
+      <button class="buttonsColor buttonsPositioning" style="height:35px" ion-button icon-left clear >
               <ion-icon ios="ios-download-outline" md="ios-download-outline"></ion-icon>
               Save
       </button>
-      <button class="buttonsColor buttonsPositioning" ion-button icon-left clear large>
+      <button class="buttonsColor buttonsPositioning" style="height:35px" ion-button icon-left clear >
             <ion-icon ios="md-share" md="md-share"></ion-icon>
             Share
       </button>
-      <button id="rightButton" class="buttonsColor buttonsPositioning" ion-button icon-left clear large>
+      <button class="buttonsColor buttonsPositioning" style="height:35px" ion-button icon-left clear >
               <ion-icon ios="ios-heart-outline" md="md-heart-outline"></ion-icon>
-              Like
+              Like 
       </button>
+    </div> 
     </ion-item>
   </ion-list>
 </ion-content>

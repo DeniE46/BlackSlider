@@ -3,9 +3,9 @@ page-work-spaces {
         background: map-get($colors, slidleGrayBackground);
      }
      .logoSize{
-         max-width: 150px;
-         max-height: 100px;
-     }
+        width: 110px;
+        height: auto;
+    }
      .searchIcon {
         font-size: 32px;
         color : black;

@@ -20,9 +20,11 @@ export class WorkspaceIdProvider {
 
   setWorkspaceId(workspaceId){
     this.workspaceId = workspaceId;
+    console.log('workspaceID set in provider: ' + this.workspaceId);
   }
 
   getWorkspaceId(){
+    console.log('workspaceID get in provider: ' + this.workspaceId);
     return this.workspaceId;
   }
 }

@@ -155,4 +155,8 @@ toggleFlyOutIn(){
     
      }
 
+returnToHome(){
+  this.navCtrl.pop();
+}
+
 }
