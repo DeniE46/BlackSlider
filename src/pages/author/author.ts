@@ -7,6 +7,7 @@ import { PresentationIdProvider } from '../../providers/presentation-id/presenta
 import { DetailPage } from '../detail/detail';
 import { AuthorProvider } from '../../providers/author/author';
 import { Component, trigger, state, style, transition, animate, keyframes, ViewChild } from '@angular/core';
+import { HomePage } from '../home/home';
 
 /**
  * Generated class for the AuthorPage page.
@@ -168,6 +169,10 @@ export class AuthorPage {
          this.flyOutInState = 'out';
        }, 100);
     
-	 }
+   }
+   
+   returnToHome(){
+     this.navCtrl.push(HomePage);
+   }
 
 }
