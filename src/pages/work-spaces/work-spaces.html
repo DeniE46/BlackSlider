@@ -7,7 +7,7 @@
 <ion-header  class="headerBackground">
 
   <ion-navbar hideBackButton>  
-    <img [@flyOutIn]="flyInOutState" *ngIf="!isSearchBarVisible" class="logoSize" src="img/slidle_logo.png" (click)="returnToHome()"/>
+    <img [@flyOutIn]="flyInOutState" *ngIf="!isSearchBarVisible" class="logoSize" src="img/slidle_logo.png" (click)="openHomePage(true)"/>
     <ion-buttons [@flyInOut]="flyInOutState" *ngIf="isSearchBarVisible" left>
     <button ion-button clear (click)="showSearchBar()">
         <ion-icon class="searchIcon" name="search"></ion-icon> 
@@ -27,9 +27,9 @@
     
     
       
-      <button ion-button item-right clear (click)="openHomePage(true)">
+      <!-- <button ion-button item-right clear (click)="openHomePage(true)">
         <ion-icon class="allIcon" name="menu"></ion-icon>
-      </button>
+      </button> -->
      
     </ion-buttons>
     

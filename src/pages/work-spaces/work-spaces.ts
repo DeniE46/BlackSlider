@@ -1,4 +1,4 @@
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController } from 'ionic-angular';
 import { WorkSpacesProvider } from '../../providers/work-spaces-service/work-spaces-service';
 import { HomePage } from '../home/home';
 import { FormControl } from '@angular/forms';
@@ -56,7 +56,7 @@ export class WorkSpacesPage {
   flyOutInState: String = 'out';
 
  
-  constructor(public navCtrl: NavController, public navParams: NavParams, public workspacesProvider:WorkSpacesProvider, public http:Http) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public workspacesProvider:WorkSpacesProvider, public http:Http, public loadingCtrl: LoadingController) {
     this.searchControl = new FormControl();
     
     //this.loadProjects();
@@ -72,7 +72,20 @@ export class WorkSpacesPage {
 			this.setFilteredItems();
     })
     this.isSearchBarVisible = false;
+    this.presentLoadingDefault();
   }
+
+  presentLoadingDefault() {
+  let loading = this.loadingCtrl.create({
+    content: 'Please wait...'
+  });
+
+  loading.present();
+
+  setTimeout(() => {
+    loading.dismiss();
+  }, 5000);
+}
 
   setFilteredItems(){
 		this.filterData(this.searchTerm);

@@ -49059,15 +49059,51 @@ ion-navbar.toolbar {
 page-author .home-container {
   display: -webkit-flex;
   -webkit-flex-direction: column;
-  height: 17%;
 }
 
 page-author .home-container > .row {
   -webkit-flex: 1;
 }
 
-page-author .parentbackground {
-  background: #808080;
+page-author .background {
+  background: #eaeaea;
+}
+
+page-author .logoSize {
+  width: 110px;
+  height: auto;
+}
+
+page-author .searchIcon {
+  font-size: 32px;
+  color: black;
+  padding-right: 5px;
+}
+
+page-author .allIcon {
+  font-size: 32px;
+  color: black;
+  padding-left: 5px;
+}
+
+page-author .headerBackground {
+  background: white;
+}
+
+page-author .divider {
+  position: absolute;
+  left: 110%;
+  top: 10%;
+  bottom: 10%;
+  border-left: 2px solid #dadada;
+}
+
+page-author .labels {
+  color: #3c3c3b;
+}
+
+page-author .values {
+  color: #f1911f;
 }
 
 page-detail .parentBackground {
@@ -49080,6 +49116,7 @@ page-detail .swiper-pagination .swiper-pagination-bullet {
 
 page-detail .secondaryText {
   color: #3c3c3b;
+  font-size: 1.3rem;
 }
 
 page-detail #leftButton {
@@ -49109,6 +49146,48 @@ page-detail #backButtonColor {
   color: #666666;
 }
 
+page-detail .buttonsColor {
+  color: #666666;
+  background-color: #dadada;
+}
+
+page-detail .buttonsPositioning {
+  width: 32%;
+  border-radius: 10px;
+  margin: auto;
+}
+
+page-detail .center {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  max-width: 100%;
+  max-height: 100%;
+  margin: auto;
+  overflow: auto;
+}
+
+page-detail .container-fs {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+}
+
+.ios page-home .eyeIconPosition {
+  margin-top: -0.82em;
+}
+
+.ios page-home .textColor {
+  color: #3c3c3b;
+  margin-top: 0.65em;
+}
+
+.md page-home .eyeIconPosition {
+  margin-top: -0.65em;
+}
+
 page-home .background {
   background: #eaeaea;
 }
@@ -49133,6 +49212,9 @@ page-home .spinner-container {
 
 page-home .card {
   border-radius: 5px;
+  position: relative;
+  max-width: 100%;
+  overflow: auto;
 }
 
 page-home .listMargin {
@@ -49144,8 +49226,8 @@ page-home .background {
 }
 
 page-home .logoSize {
-  max-width: 150px;
-  max-height: 100px;
+  width: 110px;
+  height: auto;
 }
 
 page-home .searchIcon {
@@ -49176,26 +49258,25 @@ page-home .secondaryText {
   color: #666666;
 }
 
-page-home .secondaryText {
+page-home .card > .secondaryTextContainer {
   position: absolute;
-  width: 93.5%;
+  width: 100%;
   height: 7.2%;
   top: 74.9%;
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(255, 255, 255, 0.8);
+  background-color: rgba(80, 148, 24, 0.5);
   z-index: 2;
   cursor: pointer;
-  margin-left: 10px;
-  padding-left: 20px;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
+  text-align: center;
 }
 
 page-home .secondaryTextLand {
   position: absolute;
-  width: 96.1%;
+  width: 96.1px;
   height: 5.2%;
   top: 82%;
   left: 0;
@@ -49211,10 +49292,9 @@ page-home .secondaryTextLand {
 }
 
 page-home .buttonsPositioning {
-  min-width: 31%;
+  width: 32%;
   border-radius: 10px;
-  height: 2.6em;
-  margin-top: -4px;
+  margin: auto;
 }
 
 page-home .buttonsColumns {
@@ -49239,8 +49319,18 @@ page-home .buttonsColor {
   background-color: #dadada;
 }
 
-page-tiles .parentbackground {
-  background: #808080;
+page-home .textSize {
+  font-size: 0.8rem;
+}
+
+page-home .secondaryText {
+  display: inline-block;
+  font-size: 3vw;
+  width: 30%;
+}
+
+page-tiles .parentBackground {
+  background-color: #eaeaea;
 }
 
 page-work-spaces .background {
@@ -49248,8 +49338,8 @@ page-work-spaces .background {
 }
 
 page-work-spaces .logoSize {
-  max-width: 150px;
-  max-height: 100px;
+  width: 110px;
+  height: auto;
 }
 
 page-work-spaces .searchIcon {

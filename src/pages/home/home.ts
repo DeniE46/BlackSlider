@@ -11,6 +11,7 @@ import { WorkSpacesProvider } from '../../providers/work-spaces-service/work-spa
 import { WorkSpacesPage } from '../work-spaces/work-spaces';
 import { ScreenOrientation } from '@ionic-native/screen-orientation';
 import { AuthorPage } from '../author/author';
+import { Injectable,NgZone  } from '@angular/core';
 
 @Component({
   selector: 'page-home',
@@ -62,9 +63,11 @@ export class HomePage {
 	flyOutInState: String = 'out';
 	  
 	isPortrait:any;
+
+	test:any;
 	
 
-  constructor(public navCtrl: NavController, private platform: Platform, private http:Http, private navParams:NavParams, public events:Events, public workspaceIdProvider:WorkspaceIdProvider, public workspacesProvider:WorkSpacesProvider, public screenOrientation: ScreenOrientation, public presentationIdProvider:PresentationIdProvider) {
+  constructor(public navCtrl: NavController, private platform: Platform, private http:Http, private navParams:NavParams, public events:Events, public workspaceIdProvider:WorkspaceIdProvider, public workspacesProvider:WorkSpacesProvider, public screenOrientation: ScreenOrientation, public presentationIdProvider:PresentationIdProvider, public zone:NgZone) {
 	this.getDeviceOrientation();	
 	this.searchTerm = '';
 		this.site = "http://slidle.com";
@@ -73,6 +76,7 @@ export class HomePage {
 		//this.loadWorkspaces();
 		this.presentations = [];
 		this.getFlat = "?flat=true";
+		this.test = [];
 	}
 	
 	getPosition(i){
@@ -253,6 +257,15 @@ export class HomePage {
 		this.presentationIdProvider.setPresentationId(this.slidesObj.id);
 		this.navCtrl.push(AuthorPage);
 	}
+
+	//empty listView to repopulate the page
+	recyclePresentations(){
+		this.items.splice(0, this.items.length);
+		this.filterPresentations();
+		
+	}
+
+	
 
   }
   
