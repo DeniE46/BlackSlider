@@ -1,5 +1,5 @@
 import { Component, trigger, state, style, transition, animate, keyframes, ViewChild } from '@angular/core';
-import { NavController, Platform, NavParams  } from 'ionic-angular';
+import { NavController, Platform, NavParams, LoadingController } from 'ionic-angular';
 import { DetailPage } from '../detail/detail';
 import { FormControl } from '@angular/forms';
 import 'rxjs/add/operator/debounceTime';
@@ -11,7 +11,8 @@ import { WorkSpacesProvider } from '../../providers/work-spaces-service/work-spa
 import { WorkSpacesPage } from '../work-spaces/work-spaces';
 import { ScreenOrientation } from '@ionic-native/screen-orientation';
 import { AuthorPage } from '../author/author';
-import { Injectable,NgZone  } from '@angular/core';
+import { Injectable } from '@angular/core';
+import { FeaturedServiceProvider } from '../../providers/featured-service/featured-service';
 
 @Component({
   selector: 'page-home',
@@ -57,32 +58,32 @@ export class HomePage {
 	workspaceName:String;
 
 	shouldLoadAll;
-	getFlat:String;
+	getFlat:String = "?flat=true";
 	//animations
 	flyInOutState: String = 'in';
 	flyOutInState: String = 'out';
 	  
 	isPortrait:any;
 
-	test:any;
+	loadingWindow:any;
+
+	showPlaceholder:boolean;
 	
 
-  constructor(public navCtrl: NavController, private platform: Platform, private http:Http, private navParams:NavParams, public events:Events, public workspaceIdProvider:WorkspaceIdProvider, public workspacesProvider:WorkSpacesProvider, public screenOrientation: ScreenOrientation, public presentationIdProvider:PresentationIdProvider, public zone:NgZone) {
+  constructor(public navCtrl: NavController, private platform: Platform, private http:Http, private navParams:NavParams, public events:Events, public workspaceIdProvider:WorkspaceIdProvider, public workspacesProvider:WorkSpacesProvider, public screenOrientation: ScreenOrientation, public presentationIdProvider:PresentationIdProvider, public featuredService:FeaturedServiceProvider, public loadingCtrl: LoadingController) {
 	this.getDeviceOrientation();	
 	this.searchTerm = '';
 		this.site = "http://slidle.com";
 		this.currentPageName = "[home.ts]";
 		this.searchControl = new FormControl();
-		//this.loadWorkspaces();
+		
 		this.presentations = [];
-		this.getFlat = "?flat=true";
-		this.test = [];
+		this.presentLoadingDefault();
 	}
 	
 	getPosition(i){
 		this.slidesObj = this.items[i];
 		this.workspaceIdProvider.setWorkspaceId(this.slidesObj.projectID);
-		//this.publishCurrentWorkspace(this.slidesObj.owner);
 	}
 
 
@@ -109,12 +110,23 @@ export class HomePage {
 		
 		//this.filterPresentations();
 		if(this.shouldLoadAll){
-			this.filterPresentations();
+			//this.filterPresentations();
+			this.loadFeaturedPresentations();
 		}
 		else{
 			this.filterPerUserPresentations();
 		}
 			
+	}
+
+
+	presentLoadingDefault() {
+		this.loadingWindow = this.loadingCtrl.create({
+			content: 'Please wait...'
+		});
+	
+		this.loadingWindow.present();
+	
 	}
 
 	setFilteredItems(){
@@ -155,7 +167,14 @@ export class HomePage {
 			}
 			this.initializeItems();
 		});
-			
+	}
+
+	loadFeaturedPresentations(){
+		this.featuredService.load()
+		.then(data =>{
+			this.presentations = data;
+			this.initializeItems();
+		})
 	}
 	  
 	//TODO: put the filter methods in service and call them depending on shouldshowall logic
@@ -165,12 +184,24 @@ export class HomePage {
      				 .map(res => res.json())
      				 .subscribe(data => {
 						this.presentations = data;
+						console.log("presentations in this space:");
+						console.log(this.presentations);
+						if(this.presentations.length == 0){
+							this.showPlaceholder = true;
+						}
+						else{
+							this.showPlaceholder = false;
+						}
 						this.initializeItems();
 					 }); 
 	}
 
 	initializeItems(){
 		this.items = this.presentations;
+		
+		setTimeout(() => {
+			this.loadingWindow.dismiss().catch();
+		}, 1000);
 	}
 
 	filterData(searchTerm){
@@ -260,8 +291,10 @@ export class HomePage {
 
 	//empty listView to repopulate the page
 	recyclePresentations(){
-		this.items.splice(0, this.items.length);
-		this.filterPresentations();
+		this.showPlaceholder = false;
+		this.loadFeaturedPresentations();
+		console.log("data in items:");
+		console.log(this.items);
 		
 	}
 

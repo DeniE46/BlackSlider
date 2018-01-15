@@ -55,12 +55,15 @@ export class WorkSpacesPage {
   flyInOutState: String = 'in';
   flyOutInState: String = 'out';
 
+  loadingWindow:any;
+
  
   constructor(public navCtrl: NavController, public navParams: NavParams, public workspacesProvider:WorkSpacesProvider, public http:Http, public loadingCtrl: LoadingController) {
     this.searchControl = new FormControl();
     
     //this.loadProjects();
     this.currentPageName = "[work-spaces.ts]";
+    //this.presentLoadingDefault();
   }
 
   ionViewDidLoad() {
@@ -72,19 +75,15 @@ export class WorkSpacesPage {
 			this.setFilteredItems();
     })
     this.isSearchBarVisible = false;
-    this.presentLoadingDefault();
+    
   }
 
   presentLoadingDefault() {
-  let loading = this.loadingCtrl.create({
+    this.loadingWindow = this.loadingCtrl.create({
     content: 'Please wait...'
   });
 
-  loading.present();
-
-  setTimeout(() => {
-    loading.dismiss();
-  }, 5000);
+  this.loadingWindow.present();
 }
 
   setFilteredItems(){
@@ -112,6 +111,7 @@ export class WorkSpacesPage {
 
   initializeItems(){
     this.items = this.workspacesArr;
+    //this.loadingWindow.dismiss();
   }
 
   filterData(searchTerm){

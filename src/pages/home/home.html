@@ -23,6 +23,8 @@
 
 <ion-content class="background">
 
+  <!-- testing placeholder image -->
+  <img *ngIf="showPlaceholder" src="img/no_data.png" style="display:block; margin-left:auto; margin-right:auto;">
   
   <ion-list class="listMargin background" [virtualScroll]="items"> 
     <ion-item no-lines style="padding-left:0px;" *virtualItem="let item; let i = index" class="background">

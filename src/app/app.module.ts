@@ -19,6 +19,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { trigger, state, style, transition, animate, keyframes } from '@angular/core';
 import { PresentationIdProvider } from '../providers/presentation-id/presentation-id';
 import { AuthorProvider } from '../providers/author/author';
+import { FeaturedServiceProvider } from '../providers/featured-service/featured-service';
 
 @NgModule({
   declarations: [
@@ -56,6 +57,7 @@ import { AuthorProvider } from '../providers/author/author';
     WorkspaceIdProvider,
     PresentationIdProvider,
     AuthorProvider,
+    FeaturedServiceProvider,
   ]
 })
 export class AppModule {}

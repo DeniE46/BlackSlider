@@ -70,6 +70,8 @@ export class DetailPage {
     this.loadDetails();
   }
 
+ 
+
   loadDetails(){
  
     this.presentationTitle = this.presentationIdProvider.getPresentationName();
@@ -92,6 +94,8 @@ export class DetailPage {
     this.onOrientationChanged();
     this.loadDetails();
   }
+
+
 
 
   onOrientationChanged(){
@@ -134,6 +138,8 @@ export class DetailPage {
    this.navCtrl.pop();
  }
 
+
+
  goToSlide(i) { 
     this.slider.slideTo(i, 500);  
   }
@@ -142,8 +148,8 @@ export class DetailPage {
     this.navCtrl.push(AuthorPage);
   }
 
+  //not used for now
   showOptions(){
-    
     if(this.optionBarIsVisible){
         this.optionBarIsVisible = false;
     }

@@ -34,7 +34,8 @@
 
     <ion-slides #mySlider loop="false" speed="150" (ionSlideDidChange)="slideChanged()" (click)="showOptions()">
       <ion-slide  *ngFor="let slide of slides; let i = index">
-  
+        
+        <!-- portrait mode -->
         <div *ngIf="isPortrait" style="padding:10px;">
             
           <img src="{{site}}{{slide.imageFullLink}}" style="height:auto; background-image:url(img/default_logo.png); background-repeat: no-repeat; background-position: center;" (click)='openTiles()'/> 
@@ -51,9 +52,10 @@
             </ion-col> 
           </ion-row>    
         </div>
+
         <!-- landscape mode -->
-        <div *ngIf="!isPortrait" class="container-fs">
-          <img src="{{site}}{{slide.imageFullLink}}" style="background-image:url(img/default_logo.png);" class="center" (click)='openTiles()'/>  
+        <div *ngIf="!isPortrait" class="container-fs" >
+          <img src="{{site}}{{slide.imageFullLink}}" style="background-image:url(img/default_logo.png); background-repeat: no-repeat; background-position: center;" class="center" (click)='openTiles()'/>  
         </div> 
         
       </ion-slide>
