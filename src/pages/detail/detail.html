@@ -6,7 +6,7 @@
 
 
    
-  <ion-header class="toolbar-background" [hidden]="!isPortrait">
+  <ion-header [hidden]="!isPortrait">
     <ion-navbar class="toolbar-background" hideBackButton>
        <!-- <button style="padding-right: 0.5em; background-color:#3EEC90;" item-right clear (click)='openAuthor()'>
         <ion-title>{{presentationTitle}}</ion-title>
@@ -36,9 +36,9 @@
       <ion-slide  *ngFor="let slide of slides; let i = index">
         
         <!-- portrait mode -->
-        <div *ngIf="isPortrait" style="padding:10px;">
+        <div *ngIf="isPortrait" style="padding:10px;"> 
             
-          <img src="{{site}}{{slide.imageFullLink}}" style="height:auto; background-image:url(img/default_logo.png); background-repeat: no-repeat; background-position: center;" (click)='openTiles()'/> 
+          <img src="{{site}}{{slide.imageFullLink}}" style="height:55vw; width:100%; background-image:url(img/default_logo.png); background-repeat: no-repeat; background-position: center;" (click)='openTiles()'/> 
             
           <ion-row style="margin-top: -15px;"> 
             <ion-col>
