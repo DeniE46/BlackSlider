@@ -2,11 +2,7 @@ page-detail {
  .parentBackground{
    background-color: map-get($colors, slidleGrayBackground);
  }
-.swiper-pagination {
-				.swiper-pagination-bullet {
-					background: #3EEC90;
-				}
-			}
+
 .secondaryText{
     color: map-get($colors, slidleTextDark);
     font-size: 1.3rem;
@@ -27,7 +23,7 @@ page-detail {
     border-radius: 10px;
     height:2.6em;
 }
-	.toolbar-background {
+.toolbar-background {
   background-color: map-get($colors, slidleGrayBackground);
 }
 
