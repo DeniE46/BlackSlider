@@ -25,9 +25,12 @@
 
   <!-- testing placeholder image -->
   <img *ngIf="showPlaceholder" src="img/no_data.png" style="display:block; margin-left:auto; margin-right:auto;">
-  
-  <ion-list class="listMargin background" [virtualScroll]="items"> 
-    <ion-item no-lines style="padding-left:0px;" *virtualItem="let item; let i = index" class="background">
+
+  <!-- reverting to ngIf, virtual scroll causes margin issues when orientation is changed -->
+  <!-- [virtualScroll]="items" -->
+  <!-- *virtualItem="let item; let i = index" -->
+  <ion-list class="listMargin background" > 
+    <ion-item no-lines style="padding-left:0px;" *ngFor="let item of items; let i = index" class="background">
       <ion-card class="card">
         <!-- title -->
         <ion-row style="max-height:2em;">

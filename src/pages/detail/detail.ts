@@ -97,7 +97,7 @@ export class DetailPage {
 
 
 
-
+//TODO reduce code by putting the two orientation methods in separate provider so that every page can access it
   onOrientationChanged(){
     this.screenOrientation.onChange().subscribe(
       () => {

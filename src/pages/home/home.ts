@@ -78,7 +78,7 @@ export class HomePage {
 		this.searchControl = new FormControl();
 		
 		this.presentations = [];
-		this.presentLoadingDefault();
+		//this.presentLoadingDefault();
 	}
 	
 	getPosition(i){
@@ -147,27 +147,27 @@ export class HomePage {
 	  	this.navCtrl.push(DetailPage);
     }
 	  
-	filterPresentations(){
-		this.workspacesProvider.load()
-    	.then(data => {
-			this.workspaces = data;
-			for (let i of this.workspaces) {
-				if(i.name != null){
-    				this.http.get('http://slidle.com/content/getpages/' + i.id + this.getFlat)
-     				 .map(res => res.json())
-     				 .subscribe(data => {	  
-							for(let j of data){
-								if(j.title != null){   
-									this.presentations.push(j);
-								}
-							}
-					 }); 
+	// filterPresentations(){
+	// 	this.workspacesProvider.load()
+  //   	.then(data => {
+	// 		this.workspaces = data;
+	// 		for (let i of this.workspaces) {
+	// 			if(i.name != null){
+  //   				this.http.get('http://slidle.com/content/getpages/' + i.id + this.getFlat)
+  //    				 .map(res => res.json())
+  //    				 .subscribe(data => {	  
+	// 						for(let j of data){
+	// 							if(j.title != null){   
+	// 								this.presentations.push(j);
+	// 							}
+	// 						}
+	// 				 }); 
 					
-				}	
-			}
-			this.initializeItems();
-		});
-	}
+	// 			}	
+	// 		}
+	// 		this.initializeItems();
+	// 	});
+	// }
 
 	loadFeaturedPresentations(){
 		this.featuredService.load()
@@ -199,9 +199,9 @@ export class HomePage {
 	initializeItems(){
 		this.items = this.presentations;
 		
-		setTimeout(() => {
-			this.loadingWindow.dismiss().catch();
-		}, 1000);
+		// setTimeout(() => {
+		// 	this.loadingWindow.dismiss().catch(); 
+		// }, 1000);
 	}
 
 	filterData(searchTerm){
@@ -214,8 +214,6 @@ export class HomePage {
 	}
 
 	publishCurrentWorkspace(currentWorkspace){
-		//rule is: if the data will be passed to more than one page use event emitter instead of push by page.
-		//doesn't apply when the newly-opened page needs the data to be passed by push()
 	}
 
 	searchBar(clearSearchbar:boolean){
