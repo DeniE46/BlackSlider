@@ -16,7 +16,7 @@
       <div [@flyInOut]="flyInOutState" class="divider"></div>
     </ion-buttons>
     
-      <ion-searchbar [@flyInOut]="flyInOutState" *ngIf="isSearchBarVisible" animated="true" placeholder="Search all Slidle Workspaces" class="activated" showCancelButton="true" [(ngModel)]="searchTerm" [formControl]="searchControl" (ionInput)="onSearchInput()" ></ion-searchbar>
+      <ion-searchbar #searchbarSpace [@flyInOut]="flyInOutState" *ngIf="isSearchBarVisible" placeholder="Search all Slidle Workspaces" class="activated" showCancelButton="true" [(ngModel)]="searchTerm" [formControl]="searchControl" (ionInput)="onSearchInput()" ></ion-searchbar>
       
         <ion-buttons end>
 

@@ -20,6 +20,7 @@ import { trigger, state, style, transition, animate, keyframes } from '@angular/
 import { PresentationIdProvider } from '../providers/presentation-id/presentation-id';
 import { AuthorProvider } from '../providers/author/author';
 import { FeaturedServiceProvider } from '../providers/featured-service/featured-service';
+import { OrientationServiceProvider } from '../providers/orientation-service/orientation-service';
 
 @NgModule({
   declarations: [
@@ -58,6 +59,7 @@ import { FeaturedServiceProvider } from '../providers/featured-service/featured-
     PresentationIdProvider,
     AuthorProvider,
     FeaturedServiceProvider,
+    OrientationServiceProvider,
   ]
 })
 export class AppModule {}

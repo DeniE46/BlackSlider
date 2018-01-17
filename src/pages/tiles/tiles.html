@@ -22,7 +22,7 @@
    <ion-row *ngFor="let i of rows; let j = index">
      <ion-col *ngFor="let tile of tiles  | slice:(i*2):(i+1)*2; let i = index" width-50="">
         <ion-card (click)="calculatePos(i, j)">
-         <img src="{{site}}{{tile.imageFullLink}}" />
+         <img src="{{site}}{{tile.imageFullLink}}" style="background-image:url(img/default_logo.png);" />
         </ion-card>
      </ion-col>
    </ion-row> 

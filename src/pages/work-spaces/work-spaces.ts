@@ -1,9 +1,9 @@
-import { IonicPage, NavController, NavParams, LoadingController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController, Searchbar } from 'ionic-angular';
 import { WorkSpacesProvider } from '../../providers/work-spaces-service/work-spaces-service';
 import { HomePage } from '../home/home';
 import { FormControl } from '@angular/forms';
 import { Http } from '@angular/http';
-import { Component, trigger, state, style, transition, animate, keyframes } from '@angular/core';
+import { Component, trigger, state, style, transition, animate, keyframes, ViewChild, NgZone } from '@angular/core';
 
 /**
  * Generated class for the WorkSpacesPage page.
@@ -46,6 +46,7 @@ export class WorkSpacesPage {
   searchControl:FormControl;
   searching:any = false;
   isSearchBarVisible:boolean; 
+  @ViewChild('searchbarSpace')searchbar:Searchbar;
   
   workspaceId:any;
   workspacesArr:any;
@@ -58,7 +59,7 @@ export class WorkSpacesPage {
   loadingWindow:any;
 
  
-  constructor(public navCtrl: NavController, public navParams: NavParams, public workspacesProvider:WorkSpacesProvider, public http:Http, public loadingCtrl: LoadingController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public workspacesProvider:WorkSpacesProvider, public http:Http, public loadingCtrl: LoadingController, public zone:NgZone) {
     this.searchControl = new FormControl();
     
     //this.loadProjects();
@@ -140,12 +141,27 @@ export class WorkSpacesPage {
   showSearchBar(){
     this.toggleFlyInOut();
     if(this.isSearchBarVisible){
-      this.isSearchBarVisible = false;
+			this.isSearchBarVisible = false;
+			console.log("called 2");
+			this.clearSearchBar();
     }
     else{
-      this.isSearchBarVisible = true;
-    }
-  }
+			this.isSearchBarVisible = true;
+			console.log("called 3");
+			setTimeout(() => {
+        if(this.searchbar != null){
+        this.searchbar.setFocus();
+        }
+   		});
+    	}
+		}
+		
+		clearSearchBar(){
+			this.zone.run(() => {
+				this.searchTerm='';
+			 });
+			 this.setFilteredItems();
+		}
 
 
   toggleFlyInOut(){
@@ -170,6 +186,13 @@ toggleFlyOutIn(){
 
 returnToHome(){
   this.navCtrl.pop();
+}
+
+ionViewWillLeave(){
+  console.log("page will close");
+  this.clearSearchBar();
+  this.toggleFlyInOut();
+  this.isSearchBarVisible = false;
 }
 
 }

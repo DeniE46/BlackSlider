@@ -1,5 +1,5 @@
 import { Component, trigger, state, style, transition, animate, keyframes, ViewChild } from '@angular/core';
-import { NavController, Platform, NavParams, LoadingController } from 'ionic-angular';
+import { NavController, Platform, NavParams, LoadingController, Searchbar } from 'ionic-angular';
 import { DetailPage } from '../detail/detail';
 import { FormControl } from '@angular/forms';
 import 'rxjs/add/operator/debounceTime';
@@ -11,7 +11,7 @@ import { WorkSpacesProvider } from '../../providers/work-spaces-service/work-spa
 import { WorkSpacesPage } from '../work-spaces/work-spaces';
 import { ScreenOrientation } from '@ionic-native/screen-orientation';
 import { AuthorPage } from '../author/author';
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { FeaturedServiceProvider } from '../../providers/featured-service/featured-service';
 
 @Component({
@@ -46,6 +46,7 @@ export class HomePage {
 	searchControl:FormControl;
 	searching:any = false; 
 	isSearchBarVisible:boolean; 
+	@ViewChild('searchbarHome') searchbar:Searchbar;
 
 	site:string;
 	currentPageName:String;
@@ -70,7 +71,7 @@ export class HomePage {
 	showPlaceholder:boolean;
 	
 
-  constructor(public navCtrl: NavController, private platform: Platform, private http:Http, private navParams:NavParams, public events:Events, public workspaceIdProvider:WorkspaceIdProvider, public workspacesProvider:WorkSpacesProvider, public screenOrientation: ScreenOrientation, public presentationIdProvider:PresentationIdProvider, public featuredService:FeaturedServiceProvider, public loadingCtrl: LoadingController) {
+  constructor(public navCtrl: NavController, private platform: Platform, private http:Http, private navParams:NavParams, public events:Events, public workspaceIdProvider:WorkspaceIdProvider, public workspacesProvider:WorkSpacesProvider, public screenOrientation: ScreenOrientation, public presentationIdProvider:PresentationIdProvider, public featuredService:FeaturedServiceProvider, public loadingCtrl: LoadingController, public zone: NgZone) {
 	this.getDeviceOrientation();	
 	this.searchTerm = '';
 		this.site = "http://slidle.com";
@@ -144,8 +145,8 @@ export class HomePage {
 		this.presentationIdProvider.setPresentationName(this.slidesObj.title);
 		this.presentationIdProvider.setPresentationOwner(this.slidesObj.owner); 
 		this.presentationIdProvider.setPresentationId(this.slidesObj.id);
-	  	this.navCtrl.push(DetailPage);
-    }
+		this.navCtrl.push(DetailPage);
+  }
 	  
 	// filterPresentations(){
 	// 	this.workspacesProvider.load()
@@ -216,19 +217,28 @@ export class HomePage {
 	publishCurrentWorkspace(currentWorkspace){
 	}
 
-	searchBar(clearSearchbar:boolean){
-		if(clearSearchbar){
-			this.searchTerm='';
-			
-		}
+	showSearchBar(){
     this.toggleFlyInOut();
     if(this.isSearchBarVisible){
-      this.isSearchBarVisible = false;
+			this.isSearchBarVisible = false;
+			console.log("called 2");
+			this.clearSearchBar();
     }
     else{
-      this.isSearchBarVisible = true;
-    }
-  	}
+			this.isSearchBarVisible = true;
+			console.log("called 3");
+			setTimeout(() => {
+        this.searchbar.setFocus();
+   		});
+    	}
+		}
+		
+		clearSearchBar(){
+			this.zone.run(() => {
+				this.searchTerm='';
+			 });
+			 this.setFilteredItems();
+		}
 
 	 toggleFlyInOut(){
     
@@ -278,6 +288,7 @@ export class HomePage {
 	
 	openWorkSpacesPage(){
 		this.navCtrl.push(WorkSpacesPage);
+		
 	}
 
 	openAuthor(){
@@ -294,9 +305,15 @@ export class HomePage {
 		console.log("data in items:");
 		console.log(this.items);
 		
+		
 	}
 
-	
+	ionViewWillLeave(){
+		console.log("page will close");
+		this.clearSearchBar();
+		this.toggleFlyInOut();
+    this.isSearchBarVisible = false;
+	}
 
   }
   

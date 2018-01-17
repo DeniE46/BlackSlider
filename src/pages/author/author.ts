@@ -1,4 +1,4 @@
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Searchbar } from 'ionic-angular';
 import { Events } from 'ionic-angular';
 import { WorkspaceIdProvider } from '../../providers/workspace-id/workspace-id';
 import { FormControl } from '@angular/forms';
@@ -6,7 +6,7 @@ import { Http } from '@angular/http';
 import { PresentationIdProvider } from '../../providers/presentation-id/presentation-id';
 import { DetailPage } from '../detail/detail';
 import { AuthorProvider } from '../../providers/author/author';
-import { Component, trigger, state, style, transition, animate, keyframes, ViewChild } from '@angular/core';
+import { Component, trigger, state, style, transition, animate, keyframes, ViewChild, NgZone } from '@angular/core';
 import { HomePage } from '../home/home';
 
 /**
@@ -50,6 +50,7 @@ export class AuthorPage {
 	searchControl:FormControl;
   searching:any = false; 
   isSearchBarVisible:boolean;
+  @ViewChild('searchbarAuthor')searchbar:Searchbar;
   
   site:any;
   userPresentations:any;
@@ -66,7 +67,7 @@ export class AuthorPage {
 	flyInOutState: String = 'in';
 	flyOutInState: String = 'out';
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public events:Events, public workspaceIdProvider:WorkspaceIdProvider, public http:Http, public presentationIdProvider:PresentationIdProvider, public authorProvider:AuthorProvider) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public events:Events, public workspaceIdProvider:WorkspaceIdProvider, public http:Http, public presentationIdProvider:PresentationIdProvider, public authorProvider:AuthorProvider, public zone:NgZone) {
     this.site = "http://slidle.com";
     this.currentPageName = "[Author.ts]";
     this.searchControl = new FormControl();
@@ -136,21 +137,33 @@ export class AuthorPage {
     this.navCtrl.push(DetailPage);
   }
 
-  //animations
-  searchBar(clearSearchbar:boolean){
-		if(clearSearchbar){
-			this.searchTerm='';
-			
-		}
+  
+  showSearchBar(){
     this.toggleFlyInOut();
     if(this.isSearchBarVisible){
-      this.isSearchBarVisible = false;
+			this.isSearchBarVisible = false;
+			console.log("called 2");
+			this.clearSearchBar();
     }
     else{
-      this.isSearchBarVisible = true;
-    }
-  	}
+			this.isSearchBarVisible = true;
+			console.log("called 3");
+			setTimeout(() => {
+        if(this.searchbar != null){
+        this.searchbar.setFocus();
+        }
+   		});
+    	}
+		}
+		
+		clearSearchBar(){
+			this.zone.run(() => {
+				this.searchTerm='';
+			 });
+			 this.setFilteredItems();
+		}
 
+    //animations
 	 toggleFlyInOut(){
     
        this.flyInOutState = 'out';
@@ -174,5 +187,12 @@ export class AuthorPage {
    returnToHome(){
      this.navCtrl.push(HomePage);
    }
+
+   ionViewWillLeave(){
+    console.log("page will close");
+    this.clearSearchBar();
+    this.toggleFlyInOut();
+    this.isSearchBarVisible = false;
+  }
 
 }
