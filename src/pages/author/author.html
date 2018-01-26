@@ -10,14 +10,14 @@
       <img *ngIf="!isSearchBarVisible" class="logoSize" src="img/slidle_logo.png" (click)="returnToHome()"/>
       <ion-buttons *ngIf="isSearchBarVisible" left>
         <button ion-button clear (click)="showSearchBar()">
-          <ion-icon class="searchIcon" name="search"></ion-icon> 
+          <ion-icon class="searchIcon buttonSize" name="search"></ion-icon> 
         </button>  
         <div class="divider"></div>
       </ion-buttons>
         <ion-searchbar #searchbarAuthor *ngIf="isSearchBarVisible" animated="true" placeholder="Search all Slidle Workspaces" class="activated" showCancelButton="true" [(ngModel)]="searchTerm" [formControl]="searchControl" (ionInput)="onSearchInput()" ></ion-searchbar>
       <ion-buttons end>
         <button *ngIf="!isSearchBarVisible" ion-button clear (click)="showSearchBar()">
-          <ion-icon class="searchIcon" name="search"></ion-icon> 
+          <ion-icon class="searchIcon buttonSize" name="search"></ion-icon> 
         </button>
       </ion-buttons>
 

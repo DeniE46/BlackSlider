@@ -32,7 +32,7 @@
         <p>{{presentationOwner}}</p>
       </ion-item> 
 
-    <ion-slides #mySlider loop="false" speed="150" (ionSlideDidChange)="slideChanged()" (click)="showOptions()">
+    <ion-slides #mySlider loop="false" speed="150" (ionSlideDidChange)="slideChanged()">
       <ion-slide  *ngFor="let slide of slides; let i = index">
         
         <!-- portrait mode -->
@@ -54,8 +54,8 @@
         </div>
 
         <!-- landscape mode -->
-        <div *ngIf="!isPortrait" class="container-fs" >
-          <img src="{{site}}{{slide.imageFullLink}}" style="background-image:url(img/default_logo.png); background-repeat: no-repeat; background-position: center;" class="center" (click)='openTiles()'/>  
+        <div *ngIf="!isPortrait" class="container-fs">
+          <img src="{{site}}{{slide.imageFullLink}}" style="background-image:url(img/default_logo.png); background-repeat: no-repeat; background-position: center;" class="center" (click)='showOptions()'/>
         </div> 
         
       </ion-slide>
@@ -78,7 +78,7 @@
     </div>
   </ion-content>
     
-    <!-- <div *ngIf="isPortrait">
+    <!-- <div *ngIf="!isPortrait">
     <ion-footer >
       <ion-toolbar>
       <div align="center">
@@ -88,12 +88,21 @@
     </ion-footer>
     </div> -->
 
-    <!-- <div *ngIf="!isPortrait && optionBarIsVisible">
-        <ion-footer >
-          <ion-toolbar>
-          <div align="center">
-          <img src="img/tile_button.png" ion-button clear item-right (click)='openTiles()'/> 
-          </div>
-          </ion-toolbar>
+    <div *ngIf="!isPortrait && optionBarIsVisible">
+    
+        <ion-footer class="navbar" text-center>
+          <ion-buttons clear>
+              <button class="clearButtons" style="padding-right: 0.5em;" clear>
+                  <img src="img/slidle_logo.png" ion-button clear (click)='return()' />
+              </button>
+              <button class="clearButtons" style="padding-right: 0.5em;" clear>
+                  <img src="img/tile_button.png" ion-button clear (click)='openTiles()'/> 
+              </button>
+              <button class="clearButtons" style="padding-right: 0.5em;" clear>
+                  <ion-icon class="values author" name="contact" style="font-size:40px;" ion-button clear (click)='openAuthor()'></ion-icon>
+              </button>
+            </ion-buttons>
         </ion-footer>
-        </div> -->
+      
+    </div>
+        

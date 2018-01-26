@@ -4,24 +4,24 @@
   See http://ionicframework.com/docs/components/#navigation for more info on
   Ionic pages and navigation.
 -->
-<ion-header  class="headerBackground">
+<ion-header class="headerBackground">
 
-  <ion-navbar hideBackButton>  
-    <img [@flyOutIn]="flyInOutState" *ngIf="!isSearchBarVisible" class="logoSize" src="img/slidle_logo.png" (click)="openHomePage(true)"/>
-    <ion-buttons [@flyInOut]="flyInOutState" *ngIf="isSearchBarVisible" left>
+  <ion-navbar [@flyOutIn]="flyInOutState" hideBackButton>  
+    <img *ngIf="!isSearchBarVisible" class="logoSize" src="img/slidle_logo.png" (click)="openHomePage(true)"/>
+    <ion-buttons *ngIf="isSearchBarVisible" left>
     <button ion-button clear (click)="showSearchBar()">
-        <ion-icon class="searchIcon" name="search"></ion-icon> 
+        <ion-icon class="searchIcon buttonSize" name="search"></ion-icon> 
         
       </button>  
-      <div [@flyInOut]="flyInOutState" class="divider"></div>
+      <div class="divider"></div>
     </ion-buttons>
     
-      <ion-searchbar #searchbarSpace [@flyInOut]="flyInOutState" *ngIf="isSearchBarVisible" placeholder="Search all Slidle Workspaces" class="activated" showCancelButton="true" [(ngModel)]="searchTerm" [formControl]="searchControl" (ionInput)="onSearchInput()" ></ion-searchbar>
+      <ion-searchbar #searchbarSpace *ngIf="isSearchBarVisible" placeholder="Search all Slidle Workspaces" class="activated" showCancelButton="true" [(ngModel)]="searchTerm" [formControl]="searchControl" (ionInput)="onSearchInput()" ></ion-searchbar>
       
         <ion-buttons end>
-
-        <button [@flyOutIn]="flyInOutState" *ngIf="!isSearchBarVisible" ion-button clear (click)="showSearchBar()">
-            <ion-icon class="searchIcon" name="search"></ion-icon> 
+ 
+        <button *ngIf="!isSearchBarVisible" ion-button clear (click)="showSearchBar()">
+            <ion-icon class="searchIcon buttonSize" name="search"></ion-icon> 
           </button>
        
     

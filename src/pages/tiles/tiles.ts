@@ -5,6 +5,7 @@ import { DetailPage } from '../detail/detail';
 import { Events } from 'ionic-angular';
 import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
+import {AuthorPage} from '../author/author';
 
 /**
  * Generated class for the TilesPage page.
@@ -55,6 +56,10 @@ indexPos:any;
     console.log("position is:" + this.indexPos);
     this.events.publish('tileID:set', this.indexPos);
     this.navCtrl.pop();
+  }
+
+  openAuthor(){
+    this.navCtrl.push(AuthorPage);
   }
 
 }

@@ -1,5 +1,5 @@
 import { Component, trigger, state, style, transition, animate, keyframes, ViewChild } from '@angular/core';
-import { NavController, Platform, NavParams, LoadingController, Searchbar } from 'ionic-angular';
+import { NavController, Platform, NavParams, LoadingController, Loading, Searchbar } from 'ionic-angular';
 import { DetailPage } from '../detail/detail';
 import { FormControl } from '@angular/forms';
 import 'rxjs/add/operator/debounceTime';
@@ -67,6 +67,7 @@ export class HomePage {
 	isPortrait:any;
 
 	loadingWindow:any;
+	loading:Loading;
 
 	showPlaceholder:boolean;
 	
@@ -79,7 +80,7 @@ export class HomePage {
 		this.searchControl = new FormControl();
 		
 		this.presentations = [];
-		//this.presentLoadingDefault();
+		this.presentLoadingDefault();
 	}
 	
 	getPosition(i){
@@ -122,11 +123,11 @@ export class HomePage {
 
 
 	presentLoadingDefault() {
-		this.loadingWindow = this.loadingCtrl.create({
+		this.loading = this.loadingCtrl.create({
 			content: 'Please wait...'
 		});
 	
-		this.loadingWindow.present();
+		this.loading.present();
 	
 	}
 
@@ -171,11 +172,17 @@ export class HomePage {
 	// }
 
 	loadFeaturedPresentations(){
+	
 		this.featuredService.load()
 		.then(data =>{
 			this.presentations = data;
 			this.initializeItems();
-		})
+			this.zone.run(()=>{
+				setTimeout(() => {
+					this.loading.dismiss();
+				}, 1000);
+			})
+			})
 	}
 	  
 	//TODO: put the filter methods in service and call them depending on shouldshowall logic
@@ -193,16 +200,14 @@ export class HomePage {
 						else{
 							this.showPlaceholder = false;
 						}
-						this.initializeItems();
+						this.initializeItems(); 
 					 }); 
 	}
 
 	initializeItems(){
 		this.items = this.presentations;
 		
-		// setTimeout(() => {
-		// 	this.loadingWindow.dismiss().catch(); 
-		// }, 1000);
+		
 	}
 
 	filterData(searchTerm){
@@ -302,10 +307,7 @@ export class HomePage {
 	recyclePresentations(){
 		this.showPlaceholder = false;
 		this.loadFeaturedPresentations();
-		console.log("data in items:");
-		console.log(this.items);
-		
-		
+		this.presentLoadingDefault();
 	}
 
 	ionViewWillLeave(){

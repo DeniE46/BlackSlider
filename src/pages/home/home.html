@@ -3,18 +3,18 @@
   <ion-navbar [@flyOutIn]="flyInOutState" hideBackButton>  
     <img *ngIf="!isSearchBarVisible" class="logoSize" src="img/slidle_logo.png" (click)="recyclePresentations()"/>
     <ion-buttons *ngIf="isSearchBarVisible" left>
-      <button ion-button clear (click)="showSearchBar()">
-        <ion-icon class="searchIcon" name="search"></ion-icon> 
+      <button  ion-button clear (click)="showSearchBar()">
+        <ion-icon class="searchIcon buttonSize" style="font-size:40px;" name="search"></ion-icon> 
       </button>  
       <div  class="divider"></div>
     </ion-buttons>
       <ion-searchbar #searchbarHome *ngIf="isSearchBarVisible" placeholder="Search all Slidle Workspaces" class="activated" showCancelButton="true" [(ngModel)]="searchTerm" [formControl]="searchControl" (ionInput)="onSearchInput()" ></ion-searchbar>
     <ion-buttons end>
       <button *ngIf="!isSearchBarVisible" ion-button clear (click)="showSearchBar()">
-        <ion-icon class="searchIcon" name="search"></ion-icon> 
+        <ion-icon class="searchIcon buttonSize" name="search"></ion-icon> 
       </button>
       <button ion-button item-right clear (click)="openWorkSpacesPage()">
-        <ion-icon class="allIcon" name="menu"></ion-icon>
+        <ion-icon class="menuIcon buttonSize" name="menu"></ion-icon>
       </button>
     </ion-buttons>
   </ion-navbar>
@@ -38,11 +38,11 @@
             <h5><b>{{item.title}}</b></h5> 
           </ion-col>
           <ion-col style="vertical-align:middle;"> 
-            <ion-buttons class="eyeIconPosition" end>
+            <!-- <ion-buttons class="eyeIconPosition" end>
               <button style="margin:auto;" ion-button clear (click)="showSearchBar()">
                 <img style="max-width:36px; max-height:36px" src="img/eye.png">
               </button>  
-            </ion-buttons>
+            </ion-buttons> -->
           </ion-col> 
         </ion-row>
         <!-- image -->

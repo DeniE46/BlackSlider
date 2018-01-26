@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, trigger, state, style, transition, animate, keyframes } from '@angular/core';
 import { IonicPage, NavController, NavParams, Platform } from 'ionic-angular';
 import { PopoverController } from 'ionic-angular';
 import { TilesPage } from '../tiles/tiles';
@@ -23,7 +23,29 @@ import { Subscription } from 'rxjs';
 @Component({
   selector: 'page-detail',
   templateUrl: 'detail.html',
-  providers: [DetailsProvider, ScreenOrientation]
+  providers: [DetailsProvider, ScreenOrientation],
+  animations:[
+    trigger('flyInOut', [
+      state('in', style({
+        transform: 'translate3d(0, 0, 0)'
+      })),
+      state('out', style({
+        transform: 'translate3d(150%, 0, 0)'
+      })),
+      transition('in => out', animate('100ms ease-in')),
+      transition('out => in', animate('100ms ease-out'))
+    ]),
+    trigger('flyOutIn', [
+      state('in', style({
+        transform: 'translate3d(0, 0, 0)'
+      })),
+      state('out', style({
+        transform: 'translate3d(-150%, 0, 0)'
+      })),
+      transition('in => out', animate('100ms ease-in')),
+      transition('out => in', animate('100ms ease-out'))
+    ]),
+   ],
 })
 
 export class DetailPage {
@@ -51,6 +73,10 @@ export class DetailPage {
   test:any;
   rows:any;
   projectID:any;
+
+  //animations
+	flyInOutState: String = 'in';
+	flyOutInState: String = 'out';
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public popoverCtrl: PopoverController, public detailsProvider:DetailsProvider, public http:Http, public platform:Platform, public events:Events, public screenOrientation: ScreenOrientation, public presentationIdProvider:PresentationIdProvider) {
     this.getDeviceOrientation();
@@ -97,7 +123,6 @@ export class DetailPage {
 
 
 
-//TODO reduce code by putting the two orientation methods in separate provider so that every page can access it
   onOrientationChanged(){
     this.screenOrientation.onChange().subscribe(
       () => {
@@ -150,12 +175,15 @@ export class DetailPage {
 
   //not used for now
   showOptions(){
-    if(this.optionBarIsVisible){
-        this.optionBarIsVisible = false;
+    if(!this.optionBarIsVisible){
+        this.optionBarIsVisible = true;
+        console.log("barr is: " + this.optionBarIsVisible);
     }
     else{
-        this.optionBarIsVisible = true;
+        this.optionBarIsVisible = false;
+        console.log("bar is: " + this.optionBarIsVisible);
     }
+    
   } 
 
   resetView(){
@@ -163,6 +191,33 @@ export class DetailPage {
     this.slides=[];
     this.slider.update();
   }
+
+
+  //animations
+  toggleFlyInOut(){
+    
+        this.flyInOutState = 'out';
+    
+        setInterval(() => {
+          this.flyInOutState = 'in';
+        }, 100);
+    
+      }
+
+  toggleFlyOutIn(){
+    
+        this.flyOutInState = 'in';
+    
+        setInterval(() => {
+          this.flyOutInState = 'out';
+        }, 100);
+    
+    }
+
+  
+  ionViewWillLeave(){
+		this.optionBarIsVisible = false;
+	}
   
 }
 

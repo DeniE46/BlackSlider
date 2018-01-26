@@ -54,20 +54,13 @@ page-home {
             background: map-get($colors, slidleGrayBackground);
         }
 
-     .logoSize{
-         width: 110px;
-         height: auto;
-     }
      .searchIcon {
-        font-size: 32px;
-        color : black;
         padding-right: 5px;
       }
-      .allIcon { 
-        font-size: 32px;
-        color: black;
+      .menuIcon { 
         padding-left: 5px;
       }
+
       .headerBackground{
           background: white;  
       } 

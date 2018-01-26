@@ -22,20 +22,20 @@ import { Component, trigger, state, style, transition, animate, keyframes, ViewC
         transform: 'translate3d(0, 0, 0)'
       })),
       state('out', style({
-        transform: 'translate3d(150%, 0, 0)'
+        transform: 'translate3d(100%, 0, 0)'
       })),
-      transition('in => out', animate('100ms ease-in')),
-      transition('out => in', animate('100ms ease-out'))
+      transition('in => out', animate('150ms ease-in')),
+      transition('out => in', animate('150ms ease-out'))
     ]),
     trigger('flyOutIn', [
       state('in', style({
         transform: 'translate3d(0, 0, 0)'
       })),
       state('out', style({
-        transform: 'translate3d(-150%, 0, 0)'
+        transform: 'translate3d(-100%, 0, 0)'
       })),
-      transition('in => out', animate('100ms ease-in')),
-      transition('out => in', animate('100ms ease-out'))
+      transition('in => out', animate('150ms ease-in')),
+      transition('out => in', animate('150ms ease-out'))
     ]),
    ]
 })
