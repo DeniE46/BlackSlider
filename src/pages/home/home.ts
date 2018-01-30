@@ -70,6 +70,7 @@ export class HomePage {
 	loading:Loading;
 
 	showPlaceholder:boolean;
+	listIsLatest:boolean;
 	
 
   constructor(public navCtrl: NavController, private platform: Platform, private http:Http, private navParams:NavParams, public events:Events, public workspaceIdProvider:WorkspaceIdProvider, public workspacesProvider:WorkSpacesProvider, public screenOrientation: ScreenOrientation, public presentationIdProvider:PresentationIdProvider, public featuredService:FeaturedServiceProvider, public loadingCtrl: LoadingController, public zone: NgZone) {
@@ -182,6 +183,7 @@ export class HomePage {
 					this.loading.dismiss();
 				}, 1000);
 			})
+			this.listIsLatest = true;
 			})
 	}
 	  
@@ -201,6 +203,11 @@ export class HomePage {
 							this.showPlaceholder = false;
 						}
 						this.initializeItems(); 
+						this.zone.run(()=>{
+							setTimeout(() => {
+								this.loading.dismiss();
+							}, 1000);
+						})
 					 }); 
 	}
 
@@ -305,9 +312,12 @@ export class HomePage {
 
 	//empty listView to repopulate the page
 	recyclePresentations(){
+		if(!this.listIsLatest){
 		this.showPlaceholder = false;
 		this.loadFeaturedPresentations();
 		this.presentLoadingDefault();
+		this.listIsLatest = true;
+		}
 	}
 
 	ionViewWillLeave(){

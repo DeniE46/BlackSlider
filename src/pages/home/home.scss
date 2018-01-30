@@ -5,7 +5,13 @@
         }
         .textColor{
             color: map-get($colors, slidleTextDark);
-            margin-top: 0.65em;
+            //margin-top: 4.35em;
+        }
+        .cardAuthorSize{
+            font-size: 0.90em;
+        }
+        .cardAuthorButtonSize{
+            max-height: 7vw !important;
         }
 	}	
 }
@@ -14,8 +20,19 @@
 	page-home {
 		.eyeIconPosition{
 			margin-top: -0.65em;
-		}
-	}
+        }
+        .cardAuthorSize{
+            font-size: 0.9em;
+        }
+        .textColor{
+            color: map-get($colors, slidleTextDark);
+            //margin-top: 0.55em;
+        }
+        .cardAuthorButtonSize{
+            max-height: 6vw !important;
+        }
+    }
+    
 }
 
 

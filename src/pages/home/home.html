@@ -24,7 +24,10 @@
 <ion-content class="background">
 
   <!-- testing placeholder image -->
-  <img *ngIf="showPlaceholder" src="img/no_data.png" style="display:block; margin-left:auto; margin-right:auto;">
+  <div *ngIf="showPlaceholder" style="display:block; margin-left:auto; margin-right:auto; text-align: center; margin-top:50vw ">
+  <h5 style="color: gray">No Presentations yet</h5>
+  <img src="img/no_data.png">
+  </div> 
 
   <!-- reverting to ngIf, virtual scroll causes margin issues when orientation is changed -->
   <!-- [virtualScroll]="items" -->
@@ -54,10 +57,11 @@
                <h2 class="secondaryText">237 views</h2>
                <h2 class="secondaryText">56 likes</h2>
          </div>  -->
-         
-         <button style="margin:auto;" ion-button clear (click)="getPosition(i); openAuthor()">
-            <h5 class="textColor"><b>Author: {{item.owner}}</b></h5> 
+         <ion-footer style="z-index: 2; background-color: rgba(255, 255, 255, 0.62)">
+         <button class="cardAuthorButtonSize" style="margin:auto;" ion-button clear (click)="getPosition(i); openAuthor()">
+            <h5 class="textColor cardAuthorSize"><b>Author: {{item.owner}}</b></h5> 
           </button> 
+        </ion-footer>
       </ion-card> 
  
       <!-- buttons -->

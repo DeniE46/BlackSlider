@@ -11,6 +11,7 @@ import { ScreenOrientation } from '@ionic-native/screen-orientation';
 import 'rxjs/add/operator/map';
 import { PresentationIdProvider } from '../../providers/presentation-id/presentation-id';
 import { Subscription } from 'rxjs';
+import { HomePage } from '../home/home';
 
 /**
  * Generated class for the DetailPage page.
@@ -217,7 +218,11 @@ export class DetailPage {
   
   ionViewWillLeave(){
 		this.optionBarIsVisible = false;
-	}
+  }
+  
+  openHome(){
+    this.navCtrl.push(HomePage);
+  }
   
 }
 

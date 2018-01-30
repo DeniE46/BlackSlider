@@ -58,7 +58,8 @@
         <ion-col *ngFor="let item of items | slice:(i*2):(i+1)*2; let i = index" width-50="">
          <ion-card (click)="getPosition(i, j)">
             <img src="{{site}}{{item.thumbnail}}" style="width: 100%; background-image:url(img/default_logo.png); background-repeat: no-repeat; background-position: center; height: auto;"/>
-            <h1 class="namecolor">{{item.title}}</h1>
+            <h5 style="margin-left: 1.5vw;" class="namecolor textSize">{{item.title}}</h5>
+            <!-- TODO set padding to the left -->
          </ion-card>
       </ion-col>
     </ion-row> 
