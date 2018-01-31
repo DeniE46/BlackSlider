@@ -1,14 +1,15 @@
 
-<ion-header  class="headerBackground">
-  <ion-navbar [@flyOutIn]="flyInOutState" hideBackButton>  
+<ion-header  class="headerBackground" >
+  <ion-navbar [@flyOutIn]="flyInOutState" hideBackButton class="actionbar">  
     <img *ngIf="!isSearchBarVisible" class="logoSize" src="img/slidle_logo.png" (click)="recyclePresentations()"/>
     <ion-buttons *ngIf="isSearchBarVisible" left>
       <button  ion-button clear (click)="showSearchBar()">
-        <ion-icon class="searchIcon buttonSize" style="font-size:40px;" name="search"></ion-icon> 
+        <ion-icon class="searchIcon buttonSize" name="close"></ion-icon> 
       </button>  
       <div  class="divider"></div>
     </ion-buttons>
-      <ion-searchbar #searchbarHome *ngIf="isSearchBarVisible" placeholder="Search all Slidle Workspaces" class="activated" showCancelButton="true" [(ngModel)]="searchTerm" [formControl]="searchControl" (ionInput)="onSearchInput()" ></ion-searchbar>
+
+      <ion-searchbar #searchbarHome *ngIf="isSearchBarVisible" placeholder="Search all Slidle Workspaces" class="activated" [(ngModel)]="searchTerm" [formControl]="searchControl" (ionInput)="onSearchInput()" ></ion-searchbar>
     <ion-buttons end>
       <button *ngIf="!isSearchBarVisible" ion-button clear (click)="showSearchBar()">
         <ion-icon class="searchIcon buttonSize" name="search"></ion-icon> 
@@ -57,7 +58,7 @@
                <h2 class="secondaryText">237 views</h2>
                <h2 class="secondaryText">56 likes</h2>
          </div>  -->
-         <ion-footer style="z-index: 2; background-color: rgba(255, 255, 255, 0.62)">
+         <ion-footer class="bottombarColor">
          <button class="cardAuthorButtonSize" style="margin:auto;" ion-button clear (click)="getPosition(i); openAuthor()">
             <h5 class="textColor cardAuthorSize"><b>Author: {{item.owner}}</b></h5> 
           </button> 

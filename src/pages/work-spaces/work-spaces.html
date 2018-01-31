@@ -6,7 +6,7 @@
 -->
 <ion-header class="headerBackground">
 
-  <ion-navbar [@flyOutIn]="flyInOutState" hideBackButton>  
+  <ion-navbar [@flyOutIn]="flyInOutState" hideBackButton class="actionbar">  
     <img *ngIf="!isSearchBarVisible" class="logoSize" src="img/slidle_logo.png" (click)="openHomePage(true)"/>
     <ion-buttons *ngIf="isSearchBarVisible" left>
     <button ion-button clear (click)="showSearchBar()">
@@ -16,7 +16,7 @@
       <div class="divider"></div>
     </ion-buttons>
     
-      <ion-searchbar #searchbarSpace *ngIf="isSearchBarVisible" placeholder="Search all Slidle Workspaces" class="activated" showCancelButton="true" [(ngModel)]="searchTerm" [formControl]="searchControl" (ionInput)="onSearchInput()" ></ion-searchbar>
+      <ion-searchbar #searchbarSpace *ngIf="isSearchBarVisible" placeholder="Search all Slidle Workspaces" class="activated" [(ngModel)]="searchTerm" [formControl]="searchControl" (ionInput)="onSearchInput()" ></ion-searchbar>
       
         <ion-buttons end>
  

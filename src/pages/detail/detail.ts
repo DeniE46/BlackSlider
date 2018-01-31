@@ -12,6 +12,7 @@ import 'rxjs/add/operator/map';
 import { PresentationIdProvider } from '../../providers/presentation-id/presentation-id';
 import { Subscription } from 'rxjs';
 import { HomePage } from '../home/home';
+import { AndroidFullScreen } from '@ionic-native/android-full-screen';
 
 /**
  * Generated class for the DetailPage page.
@@ -24,7 +25,7 @@ import { HomePage } from '../home/home';
 @Component({
   selector: 'page-detail',
   templateUrl: 'detail.html',
-  providers: [DetailsProvider, ScreenOrientation],
+  providers: [DetailsProvider, ScreenOrientation, AndroidFullScreen],
   animations:[
     trigger('flyInOut', [
       state('in', style({
@@ -79,8 +80,8 @@ export class DetailPage {
 	flyInOutState: String = 'in';
 	flyOutInState: String = 'out';
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public popoverCtrl: PopoverController, public detailsProvider:DetailsProvider, public http:Http, public platform:Platform, public events:Events, public screenOrientation: ScreenOrientation, public presentationIdProvider:PresentationIdProvider) {
-    this.getDeviceOrientation();
+  constructor(public navCtrl: NavController, public navParams: NavParams, public popoverCtrl: PopoverController, public detailsProvider:DetailsProvider, public http:Http, public platform:Platform, public events:Events, public screenOrientation: ScreenOrientation, public presentationIdProvider:PresentationIdProvider, private androidFullScreen: AndroidFullScreen) {
+    
     this.currentPageName = "[detail.ts]";
     this.slides = [];
     this.childrenSlides = [];
@@ -95,6 +96,7 @@ export class DetailPage {
   ionViewWillEnter(){
     this.resetView();
     this.loadDetails();
+    this.getDeviceOrientation();
   }
 
  
@@ -129,11 +131,16 @@ export class DetailPage {
       () => {
           if((this.screenOrientation.type == "portrait-primary") || (this.screenOrientation.type == "portrait-secondary") || (this.screenOrientation.type == "portrait")){
             this.isPortrait = true;
+            this.androidFullScreen.isImmersiveModeSupported()
+            .then(() => this.androidFullScreen.showSystemUI())
+            .catch((error: any) => console.log(error));
           }
           if((this.screenOrientation.type == "landscape-primary") || (this.screenOrientation.type == "landscape-secondary") || (this.screenOrientation.type == "landscape")){
             this.isPortrait = false;
+            this.androidFullScreen.isImmersiveModeSupported()
+            .then(() => this.androidFullScreen.immersiveMode())
+            .catch((error: any) => console.log(error));
           }
-
       }
    );
   }
@@ -141,9 +148,15 @@ export class DetailPage {
   getDeviceOrientation(){       
           if((this.screenOrientation.type == "portrait-primary") || (this.screenOrientation.type == "portrait-secondary") || (this.screenOrientation.type == "portrait")){
             this.isPortrait = true;
+            this.androidFullScreen.isImmersiveModeSupported()
+            .then(() => this.androidFullScreen.showSystemUI())
+            .catch((error: any) => console.log(error));
           }
           if((this.screenOrientation.type == "landscape-primary") || (this.screenOrientation.type == "landscape-secondary") || (this.screenOrientation.type == "landscape")){
             this.isPortrait = false;
+            this.androidFullScreen.isImmersiveModeSupported()
+            .then(() => this.androidFullScreen.immersiveMode())
+            .catch((error: any) => console.log(error));
           }
 
    
@@ -217,7 +230,10 @@ export class DetailPage {
 
   
   ionViewWillLeave(){
-		this.optionBarIsVisible = false;
+    this.optionBarIsVisible = false;
+    this.androidFullScreen.isImmersiveModeSupported()
+    .then(() => this.androidFullScreen.showSystemUI())
+    .catch((error: any) => console.log(error));
   }
   
   openHome(){
