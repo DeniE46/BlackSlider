@@ -1,3 +1,15 @@
+.ios{
+    page-detail{
+        .bottombar{
+            height: 27vw;
+        }
+        // .bottombarIconsSize{
+        //     max-height:auto;
+        //     max-width: 15vw;
+        // }
+    }
+}
+
 page-detail {
  .parentBackground{
    background-color: map-get($colors, slidleGrayBackground);

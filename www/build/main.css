@@ -45250,6 +45250,10 @@ page-author .values {
   color: #f1911f;
 }
 
+.ios page-detail .bottombar {
+  height: 27vw;
+}
+
 page-detail .parentBackground {
   background-color: #eaeaea;
 }

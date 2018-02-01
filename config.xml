@@ -96,4 +96,5 @@
     <plugin name="cordova-plugin-navigationbar" spec="^1.0.31" />
     <plugin name="cordova-plugin-fullscreen" spec="^1.2.0" />
     <engine name="android" spec="^6.2.3" />
+    <allow-navigation href="http://192.168.235.134:8101" />
 </widget>

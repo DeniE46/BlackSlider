@@ -90,13 +90,13 @@
 
     <div *ngIf="!isPortrait && optionBarIsVisible">
     
-        <ion-footer class="bottombarColor" text-center>
+        <ion-footer class="bottombarColor bottombar" text-center>
           <ion-buttons clear>
               <button class="clearButtons" style="padding-right: 0.5em;" clear>
                   <img src="img/slidle_logo.png" ion-button clear (click)='openHome()' />
               </button>
               <button class="clearButtons" style="padding-right: 0.5em;" clear>
-                  <img src="img/tile_button.png" ion-button clear (click)='openTiles()'/> 
+                  <img src="img/tile_button.png" ion-button clear (click)='openTiles()' /> 
               </button>
               <button class="clearButtons" style="padding-right: 0.5em;" clear>
                   <ion-icon class="values author" name="contact" style="font-size:40px;" ion-button clear (click)='openAuthor()'></ion-icon>

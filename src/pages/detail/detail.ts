@@ -14,6 +14,7 @@ import { Subscription } from 'rxjs';
 import { HomePage } from '../home/home';
 import { AndroidFullScreen } from '@ionic-native/android-full-screen';
 
+
 /**
  * Generated class for the DetailPage page.
  *
@@ -75,13 +76,12 @@ export class DetailPage {
   test:any;
   rows:any;
   projectID:any;
-
   //animations
 	flyInOutState: String = 'in';
 	flyOutInState: String = 'out';
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public popoverCtrl: PopoverController, public detailsProvider:DetailsProvider, public http:Http, public platform:Platform, public events:Events, public screenOrientation: ScreenOrientation, public presentationIdProvider:PresentationIdProvider, private androidFullScreen: AndroidFullScreen) {
-    
+    this.getDeviceOrientation();
     this.currentPageName = "[detail.ts]";
     this.slides = [];
     this.childrenSlides = [];
@@ -95,14 +95,12 @@ export class DetailPage {
 
   ionViewWillEnter(){
     this.resetView();
-    this.loadDetails();
-    this.getDeviceOrientation();
+    this.loadDetails(); 
+    
   }
 
- 
 
   loadDetails(){
- 
     this.presentationTitle = this.presentationIdProvider.getPresentationName();
     console.log(this.currentPageName + this.presentationTitle);
     this.presentationId = this.presentationIdProvider.getPresentationId();
@@ -115,6 +113,9 @@ export class DetailPage {
       this.slides = data;
       this.rows = Array.from(Array(Math.ceil(this.slides.length / 2)).keys());
       this.slidesLength = this.slides.length;
+      if(!this.isPortrait){
+        this.androidFullScreen.immersiveMode();
+      }
     });
     
   } 
@@ -127,20 +128,23 @@ export class DetailPage {
 
 
   onOrientationChanged(){
+    
     this.screenOrientation.onChange().subscribe(
       () => {
           if((this.screenOrientation.type == "portrait-primary") || (this.screenOrientation.type == "portrait-secondary") || (this.screenOrientation.type == "portrait")){
             this.isPortrait = true;
-            this.androidFullScreen.isImmersiveModeSupported()
-            .then(() => this.androidFullScreen.showSystemUI())
-            .catch((error: any) => console.log(error));
+            if(this.navCtrl.getActive().component === DetailPage){
+              this.androidFullScreen.showSystemUI();
+            }
+            
           }
           if((this.screenOrientation.type == "landscape-primary") || (this.screenOrientation.type == "landscape-secondary") || (this.screenOrientation.type == "landscape")){
             this.isPortrait = false;
-            this.androidFullScreen.isImmersiveModeSupported()
-            .then(() => this.androidFullScreen.immersiveMode())
-            .catch((error: any) => console.log(error));
+            if(this.navCtrl.getActive().component === DetailPage){
+              this.androidFullScreen.immersiveMode();
+            }
           }
+          
       }
    );
   }
@@ -148,23 +152,22 @@ export class DetailPage {
   getDeviceOrientation(){       
           if((this.screenOrientation.type == "portrait-primary") || (this.screenOrientation.type == "portrait-secondary") || (this.screenOrientation.type == "portrait")){
             this.isPortrait = true;
-            this.androidFullScreen.isImmersiveModeSupported()
-            .then(() => this.androidFullScreen.showSystemUI())
-            .catch((error: any) => console.log(error));
+            if(this.navCtrl.getActive().component === DetailPage){
+              this.androidFullScreen.showSystemUI();
+            }
           }
           if((this.screenOrientation.type == "landscape-primary") || (this.screenOrientation.type == "landscape-secondary") || (this.screenOrientation.type == "landscape")){
             this.isPortrait = false;
-            this.androidFullScreen.isImmersiveModeSupported()
-            .then(() => this.androidFullScreen.immersiveMode())
-            .catch((error: any) => console.log(error));
+            if(this.navCtrl.getActive().component === DetailPage){
+              this.androidFullScreen.immersiveMode();
+            }
           }
-
-   
   }
 
   openTiles(){
      let data = {tiles:this.slides, rows:this.rows} 
-	  this.navCtrl.push(TilesPage, data);
+     this.androidFullScreen.showSystemUI();
+    this.navCtrl.push(TilesPage, data);
   }
 
 
@@ -174,20 +177,20 @@ export class DetailPage {
  }
     
  return(){
+  this.androidFullScreen.showSystemUI();
    this.navCtrl.pop();
  }
-
-
 
  goToSlide(i) { 
     this.slider.slideTo(i, 500);  
   }
 
   openAuthor(){
+    this.androidFullScreen.showSystemUI();
     this.navCtrl.push(AuthorPage);
+    
   }
 
-  //not used for now
   showOptions(){
     if(!this.optionBarIsVisible){
         this.optionBarIsVisible = true;
@@ -197,7 +200,6 @@ export class DetailPage {
         this.optionBarIsVisible = false;
         console.log("bar is: " + this.optionBarIsVisible);
     }
-    
   } 
 
   resetView(){
@@ -206,37 +208,30 @@ export class DetailPage {
     this.slider.update();
   }
 
-
   //animations
   toggleFlyInOut(){
-    
         this.flyInOutState = 'out';
-    
         setInterval(() => {
           this.flyInOutState = 'in';
         }, 100);
-    
       }
 
   toggleFlyOutIn(){
-    
         this.flyOutInState = 'in';
-    
         setInterval(() => {
           this.flyOutInState = 'out';
         }, 100);
-    
     }
 
   
   ionViewWillLeave(){
     this.optionBarIsVisible = false;
-    this.androidFullScreen.isImmersiveModeSupported()
-    .then(() => this.androidFullScreen.showSystemUI())
-    .catch((error: any) => console.log(error));
   }
+
+
   
   openHome(){
+    this.androidFullScreen.showSystemUI();
     this.navCtrl.push(HomePage);
   }
   

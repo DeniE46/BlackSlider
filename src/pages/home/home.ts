@@ -14,6 +14,7 @@ import { AuthorPage } from '../author/author';
 import { Injectable, NgZone } from '@angular/core';
 import { FeaturedServiceProvider } from '../../providers/featured-service/featured-service';
 
+
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html',
