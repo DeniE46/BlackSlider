@@ -1,18 +1,19 @@
-import { Component, trigger, state, style, transition, animate, keyframes, ViewChild } from '@angular/core';
-import { NavController, Platform, NavParams, LoadingController, Loading, Searchbar } from 'ionic-angular';
-import { DetailPage } from '../detail/detail';
+import { Component, trigger, state, style, transition, animate, keyframes, ViewChild, Injectable, NgZone } from '@angular/core';
+import { NavController, Platform, NavParams, LoadingController, Loading, Searchbar, Events, AlertController } from 'ionic-angular';
 import { FormControl } from '@angular/forms';
 import 'rxjs/add/operator/debounceTime';
 import { Http } from '@angular/http';
-import { Events } from 'ionic-angular';
+import { ScreenOrientation } from '@ionic-native/screen-orientation';
+
 import { WorkspaceIdProvider } from '../../providers/workspace-id/workspace-id';
 import { PresentationIdProvider } from '../../providers/presentation-id/presentation-id';
 import { WorkSpacesProvider } from '../../providers/work-spaces-service/work-spaces-service';
-import { WorkSpacesPage } from '../work-spaces/work-spaces';
-import { ScreenOrientation } from '@ionic-native/screen-orientation';
-import { AuthorPage } from '../author/author';
-import { Injectable, NgZone } from '@angular/core';
 import { FeaturedServiceProvider } from '../../providers/featured-service/featured-service';
+
+import { DetailPage } from '../detail/detail';
+import { WorkSpacesPage } from '../work-spaces/work-spaces';
+import { AuthorPage } from '../author/author';
+
 
 
 @Component({
@@ -42,6 +43,8 @@ import { FeaturedServiceProvider } from '../../providers/featured-service/featur
    ],
 providers: [ScreenOrientation]
 })
+
+
 export class HomePage { 
 	searchTerm:string;
 	searchControl:FormControl;
@@ -51,7 +54,6 @@ export class HomePage {
 
 	site:string;
 	currentPageName:String;
- 
 	presentations: any;
 	workspaceId:any; 
 	slidesObj:any; 
@@ -72,17 +74,28 @@ export class HomePage {
 
 	showPlaceholder:boolean;
 	listIsLatest:boolean;
-	
 
-  constructor(public navCtrl: NavController, private platform: Platform, private http:Http, private navParams:NavParams, public events:Events, public workspaceIdProvider:WorkspaceIdProvider, public workspacesProvider:WorkSpacesProvider, public screenOrientation: ScreenOrientation, public presentationIdProvider:PresentationIdProvider, public featuredService:FeaturedServiceProvider, public loadingCtrl: LoadingController, public zone: NgZone) {
+  constructor(
+		public navCtrl: NavController, 
+		private platform: Platform, 
+		private http:Http, 
+		private navParams:NavParams, 
+		public events:Events, 
+		public workspaceIdProvider:WorkspaceIdProvider, 
+		public workspacesProvider:WorkSpacesProvider, 
+		public screenOrientation: ScreenOrientation, 
+		public presentationIdProvider:PresentationIdProvider, 
+		public featuredService:FeaturedServiceProvider, 
+		public loadingCtrl: LoadingController, 
+		public zone: NgZone, 
+		private alertCtrl: AlertController) {
 	this.getDeviceOrientation();	
 	this.searchTerm = '';
-		this.site = "http://slidle.com";
-		this.currentPageName = "[home.ts]";
-		this.searchControl = new FormControl();
-		
-		this.presentations = [];
-		this.presentLoadingDefault();
+	this.site = "http://slidle.com";
+	this.currentPageName = "[home.ts]";
+	this.searchControl = new FormControl();
+	this.presentations = [];
+	this.presentLoadingDefault();
 	}
 	
 	getPosition(i){
@@ -97,7 +110,6 @@ export class HomePage {
 		if(this.navParams.get('id') != null){
 		this.workspaceIdProvider.setWorkspaceId(this.navParams.get('id'));
 		}
-	
 		if(this.navParams.get('display') != null){
 			this.shouldLoadAll = this.navParams.get('display');
 		}
@@ -111,26 +123,19 @@ export class HomePage {
 			this.searching = false;
 			this.setFilteredItems();
 		})
-		
-		//this.filterPresentations();
 		if(this.shouldLoadAll){
-			//this.filterPresentations();
 			this.loadFeaturedPresentations();
 		}
 		else{
 			this.filterPerUserPresentations();
 		}
-			
 	}
-
 
 	presentLoadingDefault() {
 		this.loading = this.loadingCtrl.create({
 			content: 'Please wait...'
 		});
-	
 		this.loading.present();
-	
 	}
 
 	setFilteredItems(){
@@ -142,9 +147,6 @@ export class HomePage {
 	}
 
 	openDetail(){
-		//let data = {id:this.slidesObj.id, title:this.slidesObj.title, owner:this.slidesObj.owner, projectID:this.slidesObj.projectID};
-		// this.events.publish('presentationID:set', this.slidesObj.id);
-		// console.log("publishing id from Home:" + this.slidesObj.id);
 		this.presentationIdProvider.setPresentationName(this.slidesObj.title);
 		this.presentationIdProvider.setPresentationOwner(this.slidesObj.owner); 
 		this.presentationIdProvider.setPresentationId(this.slidesObj.id);
@@ -188,8 +190,7 @@ export class HomePage {
 			})
 	}
 	  
-	//TODO: put the filter methods in service and call them depending on shouldshowall logic
-
+	//TODO: put getpages in separate service
 	filterPerUserPresentations(){
 			this.http.get('http://slidle.com/content/getpages/' + this.workspaceId + this.getFlat)
      				 .map(res => res.json())
@@ -294,9 +295,7 @@ export class HomePage {
           }
           if((this.screenOrientation.type == "landscape-primary") || (this.screenOrientation.type == "landscape-secondary") || (this.screenOrientation.type == "landscape")){
             this.isPortrait = false;
-          }
-
-   
+					}
 	}
 	
 	openWorkSpacesPage(){
@@ -326,6 +325,28 @@ export class HomePage {
 		this.clearSearchBar();
 		this.toggleFlyInOut();
     this.isSearchBarVisible = false;
+	}
+
+	appExit() {
+		let alert = this.alertCtrl.create({
+			title: 'Confirm exit',
+			message: 'Would you like to exit the app?',
+			buttons: [
+				{
+					text: 'No',
+					role: 'cancel',
+					handler: () => {
+					}
+				},
+				{
+					text: 'Yes',
+					handler: () => {
+						this.platform.exitApp();
+					}
+				}
+			]
+		});
+		alert.present();
 	}
 
   }

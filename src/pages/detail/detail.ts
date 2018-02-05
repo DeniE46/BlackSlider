@@ -1,4 +1,4 @@
-import { Component, ViewChild, trigger, state, style, transition, animate, keyframes } from '@angular/core';
+import { Component, ViewChild, trigger, state, style, transition, animate, keyframes, ElementRef } from '@angular/core';
 import { IonicPage, NavController, NavParams, Platform } from 'ionic-angular';
 import { PopoverController } from 'ionic-angular';
 import { TilesPage } from '../tiles/tiles';
@@ -54,6 +54,7 @@ import { AndroidFullScreen } from '@ionic-native/android-full-screen';
 export class DetailPage {
   private onResumeSubscription: Subscription;
   @ViewChild('mySlider') slider: Slides;
+  @ViewChild('currentSlide') currentSlide:ElementRef;
   
   site:string; 
   isPortrait:any;
@@ -78,7 +79,8 @@ export class DetailPage {
   projectID:any;
   //animations
 	flyInOutState: String = 'in';
-	flyOutInState: String = 'out';
+  flyOutInState: String = 'out';
+  slideCount:any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public popoverCtrl: PopoverController, public detailsProvider:DetailsProvider, public http:Http, public platform:Platform, public events:Events, public screenOrientation: ScreenOrientation, public presentationIdProvider:PresentationIdProvider, private androidFullScreen: AndroidFullScreen) {
     this.getDeviceOrientation();
@@ -90,12 +92,16 @@ export class DetailPage {
       this.goToSlide(i); 
       }); 
     this.site = "http://slidle.com";    
-
+    this.slideCount = 1;
+    
+    
   }
 
   ionViewWillEnter(){
     this.resetView();
-    this.loadDetails(); 
+    this.loadDetails();
+    
+    this.slideCount = this.slider.getActiveIndex() + 1;
     
   }
 
@@ -128,7 +134,6 @@ export class DetailPage {
 
 
   onOrientationChanged(){
-    
     this.screenOrientation.onChange().subscribe(
       () => {
           if((this.screenOrientation.type == "portrait-primary") || (this.screenOrientation.type == "portrait-secondary") || (this.screenOrientation.type == "portrait")){
@@ -165,19 +170,29 @@ export class DetailPage {
   }
 
   openTiles(){
+    this.prepareLeaving();
      let data = {tiles:this.slides, rows:this.rows} 
-     this.androidFullScreen.showSystemUI();
     this.navCtrl.push(TilesPage, data);
   }
 
 
  slideChanged(){
-   let currentIndex = this.slider.getActiveIndex();
-    this.slideName = this.slides[currentIndex];
+  let currentIndex = this.slider.getActiveIndex();
+  console.log("actual slide:" + currentIndex);
+  
+  
+    console.log("testing:" + this.currentSlide.nativeElement.innerText());
+  this.slideName = this.slides[currentIndex];
+  if(this.slideCount > this.slidesLength){
+    this.slideCount  = this.slideCount - 1;
+  }
+  else{
+    this.slideCount = this.slider.getActiveIndex()+1;
+  }
  }
     
  return(){
-  this.androidFullScreen.showSystemUI();
+  this.prepareLeaving();
    this.navCtrl.pop();
  }
 
@@ -186,7 +201,7 @@ export class DetailPage {
   }
 
   openAuthor(){
-    this.androidFullScreen.showSystemUI();
+    this.prepareLeaving();
     this.navCtrl.push(AuthorPage);
     
   }
@@ -223,17 +238,18 @@ export class DetailPage {
         }, 100);
     }
 
-  
-  ionViewWillLeave(){
-    this.optionBarIsVisible = false;
-  }
 
-
-  
   openHome(){
-    this.androidFullScreen.showSystemUI();
+    this.prepareLeaving();
     this.navCtrl.push(HomePage);
   }
+
+  prepareLeaving(){
+    this.optionBarIsVisible = false;
+    this.androidFullScreen.showSystemUI();
+  }
+
+  
   
 }
 
