@@ -327,6 +327,7 @@ export class HomePage {
     this.isSearchBarVisible = false;
 	}
 
+	//TODO: hide exit button on ios
 	appExit() {
 		let alert = this.alertCtrl.create({
 			title: 'Confirm exit',

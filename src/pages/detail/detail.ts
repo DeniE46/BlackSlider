@@ -181,7 +181,7 @@ export class DetailPage {
   console.log("actual slide:" + currentIndex);
   
   
-    console.log("testing:" + this.currentSlide.nativeElement.innerText());
+    //console.log("testing:" + this.currentSlide.nativeElement.innerText());
   this.slideName = this.slides[currentIndex];
   if(this.slideCount > this.slidesLength){
     this.slideCount  = this.slideCount - 1;

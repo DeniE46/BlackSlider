@@ -37,23 +37,19 @@
   <!-- [virtualScroll]="items" -->
   <!-- *virtualItem="let item; let i = index" -->
   <ion-list class="listMargin background" > 
-    <ion-item no-lines style="padding-left:0px;" *ngFor="let item of items; let i = index" class="background">
-      <ion-card class="card">
+    <ion-item class="item-inner background" style="margin-top: 2vw; margin-bottom:4vw;" no-lines *ngFor="let item of items; let i = index">
+      <!-- <ion-card class="card"> -->
+          <!-- style="margin-left: 2vw; margin-right:2vw; padding-left:0px; margin-top:0px; margin-bottom: 0px; width:90%;" class="label" -->
+        <ion-item class=" background  cardStyler" style="margin-bottom:1vw; padding:0%;"> 
         <!-- title -->
-        <ion-row style="max-height:2em;">
+        <ion-row style="max-height:2em; background-color:white;">
           <ion-col>
             <h5><b>{{item.title}}</b></h5> 
           </ion-col>
-          <ion-col style="vertical-align:middle;"> 
-            <!-- <ion-buttons class="eyeIconPosition" end>
-              <button style="margin:auto;" ion-button clear (click)="showSearchBar()">
-                <img style="max-width:36px; max-height:36px" src="img/eye.png">
-              </button>  
-            </ion-buttons> -->
-          </ion-col> 
+
         </ion-row>
         <!-- image -->
-          <img style="max-width: 100vw; background-image:url(img/default_logo.png); background-repeat: no-repeat; background-position: center; height: 50vw;" src="{{site}}{{item.thumbnail}}" (click)="getPosition(i); openDetail()">
+          <img style="border-radius: 0px 0px 4px 4px;  margin-bottom: -1.3vw; height:auto; max-width:100%; background-image:url(img/default_logo.png); background-repeat: no-repeat; background-position: center;" src="{{site}}{{item.thumbnail}}" (click)="getPosition(i); openDetail()">
 
         <!-- secondary text [ngClass]="{'secondaryText':(!isPortrait), 'secondaryTextLand':(isPortrait)}-->
         <!-- <div class="secondaryTextContainer">
@@ -61,12 +57,14 @@
                <h2 class="secondaryText">237 views</h2>
                <h2 class="secondaryText">56 likes</h2>
          </div>  -->
-         <ion-footer class="bottombarColor">
+        
+         <ion-footer class="bottombarColor bottombarPosition"> 
          <button class="cardAuthorButtonSize" style="margin:auto;" ion-button clear (click)="getPosition(i); openAuthor()">
             <h5 class="textColor cardAuthorSize"><b>Author: {{item.owner}}</b></h5> 
           </button> 
         </ion-footer>
-      </ion-card> 
+      </ion-item>
+      <!-- </ion-card>  -->
  
       <!-- buttons -->
       <div style="max-width:100%; position:relative; text-align:center; padding-left: 0.5em; padding-right: 0.5em;"> 
