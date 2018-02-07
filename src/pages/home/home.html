@@ -17,9 +17,6 @@
       <button ion-button item-right clear (click)="openWorkSpacesPage()">
         <ion-icon class="menuIcon buttonSize" name="menu"></ion-icon>
       </button>
-      <button ion-button item-right clear (click)="appExit()">
-        <ion-icon class="menuIcon buttonSize" name="exit"></ion-icon>
-      </button>
     </ion-buttons>
   </ion-navbar>
 </ion-header>
@@ -58,7 +55,7 @@
                <h2 class="secondaryText">56 likes</h2>
          </div>  -->
         
-         <ion-footer class="bottombarColor bottombarPosition"> 
+         <ion-footer class="bottombarColor"> 
          <button class="cardAuthorButtonSize" style="margin:auto;" ion-button clear (click)="getPosition(i); openAuthor()">
             <h5 class="textColor cardAuthorSize"><b>Author: {{item.owner}}</b></h5> 
           </button> 

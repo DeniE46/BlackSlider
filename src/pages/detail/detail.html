@@ -89,8 +89,8 @@
     </div> -->
 
     <div *ngIf="!isPortrait && optionBarIsVisible">
-    
         <ion-footer class="bottombarColor bottombar" text-center>
+          <ion-navbar>
           <ion-buttons clear>
               <button class="clearButtons" style="padding-right: 0.5em;" clear (click)='openHome()'>
                   <img src="img/slidle_logo.png" ion-button clear  />
@@ -105,7 +105,7 @@
                   <h3 ion-button clear class="author">{{slideCount}} of {{slidesLength}}</h3>
               </button>
             </ion-buttons>
+          </ion-navbar> 
         </ion-footer>
-      
     </div>
         

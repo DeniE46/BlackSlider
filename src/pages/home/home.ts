@@ -1,5 +1,5 @@
 import { Component, trigger, state, style, transition, animate, keyframes, ViewChild, Injectable, NgZone } from '@angular/core';
-import { NavController, Platform, NavParams, LoadingController, Loading, Searchbar, Events, AlertController } from 'ionic-angular';
+import { NavController, Platform, NavParams, LoadingController, Loading, Searchbar, Events } from 'ionic-angular';
 import { FormControl } from '@angular/forms';
 import 'rxjs/add/operator/debounceTime';
 import { Http } from '@angular/http';
@@ -87,8 +87,7 @@ export class HomePage {
 		public presentationIdProvider:PresentationIdProvider, 
 		public featuredService:FeaturedServiceProvider, 
 		public loadingCtrl: LoadingController, 
-		public zone: NgZone, 
-		private alertCtrl: AlertController) {
+		public zone: NgZone) {
 	this.getDeviceOrientation();	
 	this.searchTerm = '';
 	this.site = "http://slidle.com";
@@ -325,29 +324,6 @@ export class HomePage {
 		this.clearSearchBar();
 		this.toggleFlyInOut();
     this.isSearchBarVisible = false;
-	}
-
-	//TODO: hide exit button on ios
-	appExit() {
-		let alert = this.alertCtrl.create({
-			title: 'Confirm exit',
-			message: 'Would you like to exit the app?',
-			buttons: [
-				{
-					text: 'No',
-					role: 'cancel',
-					handler: () => {
-					}
-				},
-				{
-					text: 'Yes',
-					handler: () => {
-						this.platform.exitApp();
-					}
-				}
-			]
-		});
-		alert.present();
 	}
 
   }
