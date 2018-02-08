@@ -1,12 +1,8 @@
 .ios{
     page-detail{
-        .bottombar{
-            height: 27vw;
+        .bottom{
+            height:12%;
         }
-        // .bottombarIconsSize{
-        //     max-height:auto;
-        //     max-width: 15vw;
-        // }
     }
 }
 
@@ -36,8 +32,10 @@ page-detail {
     height:2.6em;
 }
 .toolbar-background {
-  background-color: map-get($colors, slidleGrayBackground);
+    background-color: rgba(255, 255, 255, 0.77);
 }
+
+
 
 #backButtonColor{
 	color: map-get($colors, slidleSecondaryTextDark);
@@ -68,11 +66,12 @@ page-detail {
 
 .container-fs { position: relative; width: 100vw; height: 100vh; }
 
-.clearButtons{
+.fullTransparency{
     background-color: rgba(255, 255, 255, 0);
 }
 
 .author{
     color: map-get($colors, slidleOrange);
 }
+
 }

@@ -6,22 +6,28 @@
 
 
    
-  <ion-header [hidden]="!isPortrait">
-    <ion-navbar class="toolbar-background" hideBackButton>
+  <!-- <ion-header style="border-color: red" [hidden]="!isPortrait"> -->
+    <!-- <ion-navbar class="toolbar-background" hideBackButton> -->
        <!-- <button style="padding-right: 0.5em; background-color:#3EEC90;" item-right clear (click)='openAuthor()'>
         <ion-title>{{presentationTitle}}</ion-title>
       </button> -->
       <!-- <h6>{{slideName?.name}}</h6>   -->
-      <ion-buttons end>
+      <!-- <ion-buttons  end>
         <button style="padding-right: 0.5em;" class="parentBackground" item-right clear (click)='return()'>
           <ion-icon name="close" style="font-size:40px;" id="backButtonColor"></ion-icon>
         </button>
-      </ion-buttons>
-    </ion-navbar>   
-  </ion-header>  
+      </ion-buttons> -->
+    <!-- </ion-navbar>    -->
+  <!-- </ion-header>   -->
 
   <ion-content class="parentBackground" >
-      
+
+    <ion-buttons [hidden]="!isPortrait" style="margin-top: 2%; margin-right: 2%;" end>
+      <button style="padding-right: 0.5em;" class="parentBackground" item-right clear (click)='return()'>
+        <ion-icon name="close" style="font-size:40px;" id="backButtonColor"></ion-icon>
+      </button>
+    </ion-buttons>
+
     <div>
 
       <ion-item *ngIf="isPortrait" no-lines class="parentBackground" style="margin-top: 20%; margin-bottom:5%;" (click)='openAuthor()'>
@@ -89,23 +95,23 @@
     </div> -->
 
     <div *ngIf="!isPortrait && optionBarIsVisible">
-        <ion-footer class="bottombarColor bottombar" text-center>
-          <ion-navbar>
+        <ion-footer class="bottom fullTransparency" text-center>
+          <ion-toolbar #toolbarFooter>
           <ion-buttons clear>
-              <button class="clearButtons" style="padding-right: 0.5em;" clear (click)='openHome()'>
+              <button class="fullTransparency" style="padding-right: 0.6em;" clear (click)='openHome()'>
                   <img src="img/slidle_logo.png" ion-button clear  />
               </button>
-              <button class="clearButtons" style="padding-right: 0.5em;" clear (click)='openTiles()'>
+              <button class="fullTransparency" style="padding-right: 0.6em;" clear (click)='openTiles()'>
                   <img src="img/tile_button.png" ion-button clear  /> 
               </button>
-              <button class="clearButtons" style="padding-right: 0.5em;" clear (click)='openAuthor()'>
-                  <ion-icon class="values author" name="contact" style="font-size:40px;" ion-button clear></ion-icon>
+              <button class="fullTransparency" style="padding-right: 0.6em;" clear (click)='openAuthor()'>
+                  <ion-icon class="values author" name="contact" style="font-size:35px;" ion-button clear></ion-icon>
               </button>
-              <button class="clearButtons" style="padding-right: 0.5em;" clear>
+              <button class="fullTransparency" style="padding-right: 0.6em;" clear>
                   <h3 ion-button clear class="author">{{slideCount}} of {{slidesLength}}</h3>
               </button>
             </ion-buttons>
-          </ion-navbar> 
+          </ion-toolbar>
         </ion-footer>
     </div>
         
