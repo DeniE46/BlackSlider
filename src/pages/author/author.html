@@ -1,16 +1,13 @@
 <!--
-  Generated template for the AuthorPage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
+  Author page with information about presentations, and the author. Shows all presentations that the user owns
 -->
 
 <ion-header class="home-container" style="background-color:white">
-  <ion-navbar [@flyOutIn]="flyInOutState" hideBackButton class="actionbar">
-      <img *ngIf="!isSearchBarVisible" class="logoSize" src="img/slidle_logo.png" (click)="returnToHome()"/>
+  <ion-navbar [@flyOutIn]="flyInOutState" hideBackButton> 
+      <img *ngIf="!isSearchBarVisible" class="logoSize" src="img/slidle_logo.png" (click)="return()"/>
       <ion-buttons *ngIf="isSearchBarVisible" left>
         <button ion-button clear (click)="showSearchBar()">
-          <ion-icon class="searchIcon buttonSize" name="search"></ion-icon> 
+          <ion-icon class="searchIcon buttonSize" name="close"></ion-icon> 
         </button>  
         <div class="divider"></div>
       </ion-buttons>
@@ -20,9 +17,6 @@
           <ion-icon class="searchIcon buttonSize" name="search"></ion-icon> 
         </button>
       </ion-buttons>
-
-      
-        
   </ion-navbar>
 
   <ion-item>
@@ -47,7 +41,12 @@
 
 
  <ion-content scroll="false" class="background">
-    <!-- <ion-searchbar [(ngModel)]="searchTerm" [formControl]="searchControl" (ionInput)="onSearchInput()" ></ion-searchbar> -->
+
+  <!-- testing placeholder image -->
+  <div *ngIf="showPlaceholder" style="display:block; margin-left:auto; margin-right:auto; text-align: center; margin-top:50vw ">
+    <h5 style="color: gray">No Presentations yet</h5>
+    <img src="img/no_data.png">
+    </div>
 
    <div *ngIf="searching" class="spinner-container">
      <ion-spinner></ion-spinner>

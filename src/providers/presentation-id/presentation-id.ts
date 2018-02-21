@@ -15,6 +15,7 @@ export class PresentationIdProvider {
   presentationOwner:any;
   presentationName:any;
 
+
   constructor(public http: Http) {
     console.log('Hello PresentationIdProvider Provider');
     this.presentationID = '';
@@ -44,4 +45,5 @@ export class PresentationIdProvider {
   getPresentationName(){
     return this.presentationName;
   }
+
 }

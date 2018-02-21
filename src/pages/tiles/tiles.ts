@@ -58,8 +58,8 @@ indexPos:any;
     this.navCtrl.pop();
   }
 
-  openAuthor(){
-    this.navCtrl.push(AuthorPage);
+  return(){
+    this.navCtrl.pop();
   }
 
 }

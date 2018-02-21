@@ -21,11 +21,15 @@ import { PresentationIdProvider } from '../providers/presentation-id/presentatio
 import { AuthorProvider } from '../providers/author/author';
 import { FeaturedServiceProvider } from '../providers/featured-service/featured-service';
 import { OrientationServiceProvider } from '../providers/orientation-service/orientation-service';
+import { SuperTabsModule } from 'ionic2-super-tabs';
+import { TabsPage } from '../pages/tabs/tabs';
+
 
 @NgModule({
   declarations: [
     MyApp, 
     HomePage,
+    TabsPage,
   ],
   imports: [
     BrowserModule,
@@ -37,11 +41,15 @@ import { OrientationServiceProvider } from '../providers/orientation-service/ori
     LogInPageModule,
     TilesPageModule,
     WorkSpacesPageModule,
+    SuperTabsModule,
+    SuperTabsModule.forRoot(),
+
   ],
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
     HomePage,
+    TabsPage,
   ],
   providers: [ 
     StatusBar,

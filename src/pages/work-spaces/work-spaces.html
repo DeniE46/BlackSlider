@@ -1,16 +1,13 @@
 <!--
-  Generated template for the WorkSpacesPage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
+  Workspaces page with Featured spaces
 -->
 <ion-header class="headerBackground">
 
-  <ion-navbar [@flyOutIn]="flyInOutState" hideBackButton class="actionbar">  
-    <img *ngIf="!isSearchBarVisible" class="logoSize" src="img/slidle_logo.png" (click)="openHomePage(true)"/>
+  <ion-navbar [@flyOutIn]="flyInOutState" hideBackButton>  
+    <img *ngIf="!isSearchBarVisible" class="logoSize" src="img/slidle_logo.png"/>
     <ion-buttons *ngIf="isSearchBarVisible" left>
     <button ion-button clear (click)="showSearchBar()">
-        <ion-icon class="searchIcon buttonSize" name="search"></ion-icon> 
+        <ion-icon class="searchIcon buttonSize" name="close"></ion-icon> 
         
       </button>  
       <div class="divider"></div>

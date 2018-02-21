@@ -26,8 +26,6 @@ return new Promise(resolve => {
     .map(res => res.json())
     .subscribe(data => {
       this.data = data;
-      console.log(this.currentPageName + "sending:");
-      console.log(data);
       resolve(this.data);
       this.data = [];
     }); 

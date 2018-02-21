@@ -8,6 +8,9 @@ import { DetailPage } from '../detail/detail';
 import { AuthorProvider } from '../../providers/author/author';
 import { Component, trigger, state, style, transition, animate, keyframes, ViewChild, NgZone } from '@angular/core';
 import { HomePage } from '../home/home';
+import { SuperTabsController, SuperTabs } from 'ionic2-super-tabs';
+import { TabsPage } from '../tabs/tabs';
+  
 
 /**
  * Generated class for the AuthorPage page.
@@ -15,6 +18,7 @@ import { HomePage } from '../home/home';
  * See http://ionicframework.com/docs/components/#navigation for more info
  * on Ionic pages and navigation.
  */
+
 @IonicPage()
 @Component({
   selector: 'page-author',
@@ -42,6 +46,7 @@ import { HomePage } from '../home/home';
     ]),
    ],
 })
+
 export class AuthorPage {
   currentPageName:any;
   workspaceId:any;
@@ -51,7 +56,9 @@ export class AuthorPage {
   searching:any = false; 
   isSearchBarVisible:boolean;
   @ViewChild('searchbarAuthor')searchbar:Searchbar;
-  
+  @ViewChild('SuperTabs')superTabs: SuperTabs; 
+
+
   site:any;
   userPresentations:any;
   presentationsCount:any;
@@ -62,20 +69,61 @@ export class AuthorPage {
   items:any;
   singleObj:any;
   indexPos:any;
+  showPlaceholder:any;
+  tabsPage:TabsPage;
+  isUserConfig:boolean;
 
   //animations
 	flyInOutState: String = 'in';
 	flyOutInState: String = 'out';
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public events:Events, public workspaceIdProvider:WorkspaceIdProvider, public http:Http, public presentationIdProvider:PresentationIdProvider, public authorProvider:AuthorProvider, public zone:NgZone) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public events:Events, private workspaceIdProvider:WorkspaceIdProvider, public http:Http, public presentationIdProvider:PresentationIdProvider, public authorProvider:AuthorProvider, public zone:NgZone, public superTabsCtrl:SuperTabsController) {
     this.site = "http://slidle.com";
+    //this.initializeReusables();
     this.currentPageName = "[Author.ts]";
     this.searchControl = new FormControl();
     this.getFlat = "?flat=true";
-    //this.workspaceId = this.navParams.get('workspaceId');
-    //console.log(this.currentPageName + "received from [detail.ts]" + this.workspaceId);
-     //console.log(this.currentPageName + ": " + this.workspaceIdProvider.getWorkspaceId());
-     this.workspaceId = this.workspaceIdProvider.getWorkspaceId();
+    this.workspaceId = this.workspaceIdProvider.getWorkspaceId();
+    //this.isUserConfig = false;
+    this.events.subscribe('tab:selected', (tab) => {
+      if(tab == 2){
+        this.isUserConfig = true;
+        console.log('in constructor, you');
+        this.presentationOwner = "you";
+      }
+      else{
+        this.isUserConfig = false;
+         
+        console.log('in constructor, not you');
+      }
+    }); 
+    
+    if(this.isUserConfig){
+      console.log('in lifecycle, you');
+     
+        this.presentationOwner = "you";
+    }
+    else{
+      console.log('in lifecycle, not you');
+      this.loadPresentations();
+    }
+  }
+
+  
+
+
+  initializeReusables(){
+    this.presentationsCount = 0;
+    this.presentationOwner = "You";
+    this.userPresentations = [];
+  }
+
+  ionViewWillEnter(){
+    console.log("ionViewWillEnter");
+    
+
+    
+    
   }
 
   ionViewDidLoad() {
@@ -83,8 +131,7 @@ export class AuthorPage {
 		this.searchControl.valueChanges.debounceTime(700).subscribe(search => {
 			this.searching = false;
 			this.setFilteredItems();
-		})
-    this.loadPresentations();    
+    })
   }
 
   setFilteredItems(){
@@ -96,6 +143,7 @@ export class AuthorPage {
 	}
 
   loadPresentations(){
+    console.log('called, start loading');
     this.authorProvider.load(this.workspaceId)
     .then(data =>{
       this.userPresentations = data;
@@ -107,6 +155,15 @@ export class AuthorPage {
       this.singlePresentationgObj = this.userPresentations[0];
       this.presentationOwner = this.presentationIdProvider.getPresentationOwner();
       //
+      if(this.userPresentations.length == 0){
+        this.showPlaceholder = true;
+      }
+      else{
+        this.showPlaceholder = false;
+      }
+
+      
+
       this.initializeItems();
     })
   }
@@ -114,8 +171,6 @@ export class AuthorPage {
 
   initializeItems(){
     this.items = this.userPresentations; 
-    console.log("in initializeItems(): ");
-    console.log(this.items);
   }
 
   filterData(searchTerm){
@@ -133,8 +188,8 @@ export class AuthorPage {
     // this.events.publish('presentationID:set', this.singleObj.id);
     console.log("publishing ID: " + this.singleObj.id);
     this.presentationIdProvider.setPresentationId(this.singleObj.id);
-    //this.navCtrl.push(DetailPage);
-    this.navCtrl.push(DetailPage);
+    this.return();
+
   }
 
   
@@ -184,8 +239,10 @@ export class AuthorPage {
     
    }
    
-   returnToHome(){
-     this.navCtrl.push(HomePage);
+   return(){
+     if(!this.isUserConfig){
+      this.navCtrl.pop();
+     }
    }
 
    ionViewWillLeave(){
@@ -193,6 +250,10 @@ export class AuthorPage {
     this.clearSearchBar();
     this.toggleFlyInOut();
     this.isSearchBarVisible = false;
+    this.superTabsCtrl.showToolbar(true);
+    //this.initializeReusables();
+    this.userPresentations = [];
+    this.items = [];
   }
 
 }

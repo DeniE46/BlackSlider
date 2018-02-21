@@ -13,6 +13,8 @@ import { PresentationIdProvider } from '../../providers/presentation-id/presenta
 import { Subscription } from 'rxjs';
 import { HomePage } from '../home/home';
 import { AndroidFullScreen } from '@ionic-native/android-full-screen';
+import { SuperTabsController, SuperTabs } from 'ionic2-super-tabs';
+
 
 
 /**
@@ -56,6 +58,7 @@ export class DetailPage {
   @ViewChild('mySlider') slider: Slides;
   @ViewChild('currentSlide') currentSlide:ElementRef;
   
+
   site:string; 
   isPortrait:any;
   currentPageName:String;
@@ -81,8 +84,10 @@ export class DetailPage {
 	flyInOutState: String = 'in';
   flyOutInState: String = 'out';
   slideCount:any;
+ 
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public popoverCtrl: PopoverController, public detailsProvider:DetailsProvider, public http:Http, public platform:Platform, public events:Events, public screenOrientation: ScreenOrientation, public presentationIdProvider:PresentationIdProvider, private androidFullScreen: AndroidFullScreen) {
+
+  constructor(public navCtrl: NavController, public navParams: NavParams, public popoverCtrl: PopoverController, public detailsProvider:DetailsProvider, public http:Http, public platform:Platform, public events:Events, public screenOrientation: ScreenOrientation, public presentationIdProvider:PresentationIdProvider, private androidFullScreen: AndroidFullScreen, public superTabsCtrl:SuperTabsController) {
     this.getDeviceOrientation();
     this.currentPageName = "[detail.ts]";
     this.slides = [];
@@ -95,14 +100,15 @@ export class DetailPage {
     this.slideCount = 1;
     
     
+    
   }
 
   ionViewWillEnter(){
     this.resetView();
     this.loadDetails();
-    
+    this.superTabsCtrl.showToolbar(false);
     this.slideCount = this.slider.getActiveIndex() + 1;
-    
+    this.superTabsCtrl.enableTabSwipe("home", false, "superTabs");
   }
 
 
@@ -114,15 +120,15 @@ export class DetailPage {
     //loading data
     this.detailsProvider.load(this.presentationId) 
     .then(data => {
-      console.log(this.currentPageName + "receiving:");
-      console.log(data);
+      
       this.slides = data;
       this.rows = Array.from(Array(Math.ceil(this.slides.length / 2)).keys());
       this.slidesLength = this.slides.length;
       if(!this.isPortrait){
         this.androidFullScreen.immersiveMode();
       }
-    });
+      
+    }); 
     
   } 
 
@@ -131,7 +137,7 @@ export class DetailPage {
     this.loadDetails();
   }
 
-
+  
 
   onOrientationChanged(){
     this.screenOrientation.onChange().subscribe(
@@ -141,6 +147,8 @@ export class DetailPage {
             if(this.navCtrl.getActive().component === DetailPage){
               this.androidFullScreen.showSystemUI();
             }
+           
+          
             
           }
           if((this.screenOrientation.type == "landscape-primary") || (this.screenOrientation.type == "landscape-secondary") || (this.screenOrientation.type == "landscape")){
@@ -148,6 +156,7 @@ export class DetailPage {
             if(this.navCtrl.getActive().component === DetailPage){
               this.androidFullScreen.immersiveMode();
             }
+            
           }
           
       }
@@ -160,12 +169,15 @@ export class DetailPage {
             if(this.navCtrl.getActive().component === DetailPage){
               this.androidFullScreen.showSystemUI();
             }
+            
+           // this.superTabsCtrl.showToolbar(false);
           }
           if((this.screenOrientation.type == "landscape-primary") || (this.screenOrientation.type == "landscape-secondary") || (this.screenOrientation.type == "landscape")){
             this.isPortrait = false;
             if(this.navCtrl.getActive().component === DetailPage){
-              this.androidFullScreen.immersiveMode();
+              this.androidFullScreen.immersiveMode(); 
             }
+          
           }
   }
 
@@ -193,6 +205,7 @@ export class DetailPage {
     
  return(){
   this.prepareLeaving();
+  
    this.navCtrl.pop();
  }
 
@@ -203,17 +216,15 @@ export class DetailPage {
   openAuthor(){
     this.prepareLeaving();
     this.navCtrl.push(AuthorPage);
-    
+    //this.superTabsCtrl.slideTo(2);
   }
 
   showOptions(){
     if(!this.optionBarIsVisible){
         this.optionBarIsVisible = true;
-        console.log("barr is: " + this.optionBarIsVisible);
     }
     else{
         this.optionBarIsVisible = false;
-        console.log("bar is: " + this.optionBarIsVisible);
     }
   } 
 
@@ -247,6 +258,7 @@ export class DetailPage {
   prepareLeaving(){
     this.optionBarIsVisible = false;
     this.androidFullScreen.showSystemUI();
+    this.slider.slideTo(0);
   }
 
   

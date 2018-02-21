@@ -14,6 +14,7 @@ import { DetailPage } from '../detail/detail';
 import { WorkSpacesPage } from '../work-spaces/work-spaces';
 import { AuthorPage } from '../author/author';
 
+import { SuperTabsController } from 'ionic2-super-tabs';
 
 
 @Component({
@@ -52,6 +53,7 @@ export class HomePage {
 	isSearchBarVisible:boolean; 
 	@ViewChild('searchbarHome') searchbar:Searchbar;
 
+
 	site:string;
 	currentPageName:String;
 	presentations: any;
@@ -61,7 +63,7 @@ export class HomePage {
 	items:any;
 	workspaceName:String;
 
-	shouldLoadAll;
+	isConfiguredToLoadAll;
 	getFlat:String = "?flat=true";
 	//animations
 	flyInOutState: String = 'in';
@@ -87,7 +89,8 @@ export class HomePage {
 		public presentationIdProvider:PresentationIdProvider, 
 		public featuredService:FeaturedServiceProvider, 
 		public loadingCtrl: LoadingController, 
-		public zone: NgZone) {
+		public zone: NgZone, 
+		public superTabsCtrl:SuperTabsController) {
 	this.getDeviceOrientation();	
 	this.searchTerm = '';
 	this.site = "http://slidle.com";
@@ -95,6 +98,13 @@ export class HomePage {
 	this.searchControl = new FormControl();
 	this.presentations = [];
 	this.presentLoadingDefault();
+	// if(this.navParams.get('display') == false){
+	// 		this.isConfiguredToLoadAll = this.navParams.get('display');
+	// 	}
+	// 	else{
+	// 		this.isConfiguredToLoadAll = true;
+	// 	}
+
 	}
 	
 	getPosition(i){
@@ -102,19 +112,41 @@ export class HomePage {
 		this.workspaceIdProvider.setWorkspaceId(this.slidesObj.projectID);
 	}
 
+	ionViewWillEnter(){
+		//this.isConfiguredToLoadAll = this.navParams.get("returnConfig");
+		//this.superTabsCtrl.enableTabSwipe("home", true, "superTabs");
+		//this.superTabsCtrl.showToolbar(true);
+		if((this.navParams.get('id') != '') && (this.navParams.get('id') != null)){
+			//TODO: delete id getters
+			this.workspaceId = this.navParams.get('id');
+			this.workspaceIdProvider.setWorkspaceId(this.navParams.get('id'));
+			this.isConfiguredToLoadAll = false;
+			}
+		else{
+			this.isConfiguredToLoadAll = true;
+			this.superTabsCtrl.enableTabSwipe("home", true, "superTabs");
+			this.superTabsCtrl.showToolbar(true);
+			
+			
+			
+		}
+	}
 
 	ionViewDidLoad(){ 
 		this.onOrientationChanged();
-		this.workspaceId = this.navParams.get('id');
-		if(this.navParams.get('id') != null){
-		this.workspaceIdProvider.setWorkspaceId(this.navParams.get('id'));
-		}
-		if(this.navParams.get('display') != null){
-			this.shouldLoadAll = this.navParams.get('display');
-		}
+		
+		if((this.navParams.get('id') != '') && (this.navParams.get('id') != null)){
+			//TODO: delete id getters
+			this.workspaceId = this.navParams.get('id');
+			this.workspaceIdProvider.setWorkspaceId(this.navParams.get('id'));
+			this.isConfiguredToLoadAll = false;
+			
+			}
 		else{
-			this.shouldLoadAll = true;
+			this.isConfiguredToLoadAll = true;
+			this.superTabsCtrl.showToolbar(true);
 		}
+		
 		this.workspaceName = this.navParams.get('workspaceName');
 		//filtering
 		this.setFilteredItems();
@@ -122,12 +154,19 @@ export class HomePage {
 			this.searching = false;
 			this.setFilteredItems();
 		})
-		if(this.shouldLoadAll){
+		if(this.isConfiguredToLoadAll){
 			this.loadFeaturedPresentations();
+			this.superTabsCtrl.showToolbar(true);
+			this.superTabsCtrl.enableTabSwipe("spaces", true, "superTabs");
+			this.superTabsCtrl.enableTabSwipe("home", true, "superTabs");
+			
 		}
 		else{
 			this.filterPerUserPresentations();
+			this.superTabsCtrl.showToolbar(false);
+			this.superTabsCtrl.enableTabSwipe("spaces", false, "superTabs");
 		}
+		this.superTabsCtrl.setBadge('you', 5);
 	}
 
 	presentLoadingDefault() {
@@ -178,10 +217,12 @@ export class HomePage {
 	
 		this.featuredService.load()
 		.then(data =>{
+			
 			this.presentations = data;
 			this.initializeItems();
 			this.zone.run(()=>{
 				setTimeout(() => {
+					
 					this.loading.dismiss();
 				}, 1000);
 			})
@@ -324,6 +365,10 @@ export class HomePage {
 		this.clearSearchBar();
 		this.toggleFlyInOut();
     this.isSearchBarVisible = false;
+	}
+
+	return(){
+		this.navCtrl.pop();
 	}
 
   }

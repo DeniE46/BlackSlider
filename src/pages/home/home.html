@@ -1,7 +1,13 @@
+<!--
+  Home page, covering Featured presentations
+-->
 
 <ion-header  class="headerBackground" >
-  <ion-navbar [@flyOutIn]="flyInOutState" hideBackButton class="actionbar">  
-    <img *ngIf="!isSearchBarVisible" class="logoSize" src="img/slidle_logo.png" (click)="recyclePresentations()"/>
+  <ion-navbar [@flyOutIn]="flyInOutState" hideBackButton>  
+    <div *ngIf="!isSearchBarVisible">
+      <img *ngIf="isConfiguredToLoadAll" class="logoSize" src="img/slidle_logo.png" (click)="recyclePresentations()"/>
+      <h4 style="margin-left:1em;" class="accentColor" *ngIf="!isConfiguredToLoadAll" (click)="return()">{{workspaceName}}</h4>
+  </div>
     <ion-buttons *ngIf="isSearchBarVisible" left>
       <button  ion-button clear (click)="showSearchBar()">
         <ion-icon class="searchIcon buttonSize" name="close"></ion-icon> 
@@ -14,9 +20,9 @@
       <button *ngIf="!isSearchBarVisible" ion-button clear (click)="showSearchBar()">
         <ion-icon class="searchIcon buttonSize" name="search"></ion-icon> 
       </button>
-      <button ion-button item-right clear (click)="openWorkSpacesPage()">
+      <!-- <button ion-button item-right clear (click)="openWorkSpacesPage()">
         <ion-icon class="menuIcon buttonSize" name="menu"></ion-icon>
-      </button>
+      </button> -->
     </ion-buttons>
   </ion-navbar>
 </ion-header>

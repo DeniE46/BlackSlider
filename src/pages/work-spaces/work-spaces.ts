@@ -5,6 +5,8 @@ import { FormControl } from '@angular/forms';
 import { Http } from '@angular/http';
 import { Component, trigger, state, style, transition, animate, keyframes, ViewChild, NgZone } from '@angular/core';
 
+import { SuperTabsController } from 'ionic2-super-tabs';
+
 /**
  * Generated class for the WorkSpacesPage page.
  *
@@ -59,13 +61,20 @@ export class WorkSpacesPage {
   loadingWindow:any;
 
  
-  constructor(public navCtrl: NavController, public navParams: NavParams, public workspacesProvider:WorkSpacesProvider, public http:Http, public loadingCtrl: LoadingController, public zone:NgZone) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public workspacesProvider:WorkSpacesProvider, public http:Http, public loadingCtrl: LoadingController, public zone:NgZone, public superTabsCtrl:SuperTabsController) {
     this.searchControl = new FormControl();
     
     //this.loadProjects();
     this.currentPageName = "[work-spaces.ts]";
     //this.presentLoadingDefault();
   }
+
+  ionViewWillEnter(){
+    this.superTabsCtrl.showToolbar(true);
+    this.superTabsCtrl.enableTabSwipe("spaces", true, "superTabs");
+    this.superTabsCtrl.enableTabSwipe("home", true, "superTabs");
+  }
+
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad WorkSpacesPage');
@@ -99,7 +108,7 @@ export class WorkSpacesPage {
     console.log(this.currentPageName + "position is: " + i);
     this.workspaceId = this.items[i];
     console.log(this.currentPageName + "id passed to [home.ts]: " + this.workspaceId.id);
-    this.openHomePage(false);
+    this.openHomePage();
 	}
 
   loadProjects(){
@@ -125,17 +134,9 @@ export class WorkSpacesPage {
     }
   }
 
-  openHomePage(all){
-    if(all){
-      let data = { id:1, display:all, workspaceName:"All presentations"};
+  openHomePage(){
+      let data = { id:this.workspaceId.id, display:false, workspaceName: this.workspaceId.name};
       this.navCtrl.push(HomePage, data);
-    }
-    else{
-      let data = { id:this.workspaceId.id, display:all, workspaceName: this.workspaceId.name};
-      this.navCtrl.push(HomePage, data);
-    }
-   
-    
   }
 
   showSearchBar(){

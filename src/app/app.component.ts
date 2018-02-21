@@ -10,13 +10,14 @@ import { WorkSpacesPage } from '../pages/work-spaces/work-spaces';
 import { LogInServiceProvider } from '../providers/log-in-service/log-in-service';
 import { LoadingController } from 'ionic-angular';
 import { WorkspaceIdProvider } from '../providers/workspace-id/workspace-id';
+import { TabsPage } from '../pages/tabs/tabs';
 
 @Component({
   templateUrl: 'app.html',
   providers: [WorkspaceIdProvider]
 })
 export class MyApp {
-  rootPage:any = HomePage;
+  rootPage:any = TabsPage;
   loader:any;
 
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, public logIn:LogInServiceProvider, public loadingCtrl:LoadingController) {

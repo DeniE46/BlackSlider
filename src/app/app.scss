@@ -14,25 +14,21 @@
 // To declare rules for a specific mode, create a child rule
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
+
 .header {
      -webkit-flex: 1.5 !important;
      -webkit-align-items: center;
      background-color: map-get($colors, slidleGrayBackground);
 }
+
 .buttonSize{
     font-size: 35px;
     color: #474747;
 }
+
 .logoSize{
     width: 135px;
     height: auto;
-}
-
-.ios{
-    .actionbar{
-        height: 23vw;
-    }
-    //TODO: set the correct height
 }
 
 .searchbar-clear-icon {
@@ -42,6 +38,10 @@
 .searchbar-search-icon {
     display: none !important;
     }
+
 .bottombarColor{
     background-color: rgba(255, 255, 255, 0.77)
+}
+.accentColor{
+    color: map-get($colors, slidleOrange);
 }
