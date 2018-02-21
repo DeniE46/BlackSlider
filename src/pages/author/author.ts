@@ -10,6 +10,7 @@ import { Component, trigger, state, style, transition, animate, keyframes, ViewC
 import { HomePage } from '../home/home';
 import { SuperTabsController, SuperTabs } from 'ionic2-super-tabs';
 import { TabsPage } from '../tabs/tabs';
+import { LogInPage } from '../log-in/log-in';
   
 
 /**
@@ -72,6 +73,7 @@ export class AuthorPage {
   showPlaceholder:any;
   tabsPage:TabsPage;
   isUserConfig:boolean;
+  loginTest:boolean;
 
   //animations
 	flyInOutState: String = 'in';
@@ -85,8 +87,10 @@ export class AuthorPage {
     this.getFlat = "?flat=true";
     this.workspaceId = this.workspaceIdProvider.getWorkspaceId();
     //this.isUserConfig = false;
+    
     this.events.subscribe('tab:selected', (tab) => {
       if(tab == 2){
+        
         this.isUserConfig = true;
         console.log('in constructor, you');
         this.presentationOwner = "you";
@@ -100,8 +104,7 @@ export class AuthorPage {
     
     if(this.isUserConfig){
       console.log('in lifecycle, you');
-     
-        this.presentationOwner = "you";
+        //this.presentationOwner = "you";
     }
     else{
       console.log('in lifecycle, not you');

@@ -171,7 +171,7 @@ export class HomePage {
 
 	presentLoadingDefault() {
 		this.loading = this.loadingCtrl.create({
-			content: 'Please wait...'
+			content: 'Loading presentations...'
 		});
 		this.loading.present();
 	}

@@ -12,7 +12,6 @@ import { WorkSpacesPageModule } from '../pages/work-spaces/work-spaces.module';
 import { LogInPageModule } from '../pages/log-in/log-in.module';
 import { DetailsProvider } from '../providers/details-service/details-service';
 import { WorkSpacesProvider } from '../providers/work-spaces-service/work-spaces-service';
-import { LogInServiceProvider } from '../providers/log-in-service/log-in-service';
 import { AuthorPageModule } from'../pages/author/author.module';
 import { WorkspaceIdProvider } from '../providers/workspace-id/workspace-id';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -23,6 +22,7 @@ import { FeaturedServiceProvider } from '../providers/featured-service/featured-
 import { OrientationServiceProvider } from '../providers/orientation-service/orientation-service';
 import { SuperTabsModule } from 'ionic2-super-tabs';
 import { TabsPage } from '../pages/tabs/tabs';
+import { AuthProvider } from '../providers/auth/auth';
 
 
 @NgModule({
@@ -57,12 +57,12 @@ import { TabsPage } from '../pages/tabs/tabs';
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     DetailsProvider,
     WorkSpacesProvider,
-    LogInServiceProvider,
     WorkspaceIdProvider,
     PresentationIdProvider,
     AuthorProvider,
     FeaturedServiceProvider,
     OrientationServiceProvider,
+    AuthProvider,
   ]
 })
 export class AppModule {}
